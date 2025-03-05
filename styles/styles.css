@@ -1,0 +1,112 @@
+@import url( ./favorites.css );
+@import url( ./landing.css );
+@import url( ./recommendations.css );
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-weight: 400;  
+  src: url( '/fonts/Plex/Sans/IBMPlexSans-Regular.woff2' ) format( 'woff2' );
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-weight: 600;  
+  src: url( '/fonts/Plex/Sans/IBMPlexSans-SemiBold.woff2' ) format( 'woff2' );
+}
+
+@font-face {
+  font-family: 'Material Symbols';
+  src: url( '/fonts/Material Symbols/MaterialSymbolsOutlined-VariableFont_FILL,GRAD,opsz,wght.ttf' );
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: #f4f4f4;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 16px 16px 16px;
+}
+
+h1 {
+  box-sizing: border-box;
+  cursor: default;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 30px;
+  margin: 0;
+  padding: 0 16px 0 16px;
+  text-rendering: optimizeLegibility;
+  width: 100%;
+}
+
+h1:has( br ) {
+  padding: 10px 16px 8px 16px;
+}
+
+h3 {
+  box-sizing: border-box;
+  cursor: default;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;            
+  margin: 0;
+  padding: 16px;
+  text-rendering: optimizeLegibility;
+  width: 100%;      
+}
+
+header {
+  padding: 16px 0 0 0;
+}
+
+header p {
+  font-size: 18px;
+  line-height: 22px;
+  padding: 0 16px 0 16px;
+}
+
+header p span {
+  background: 
+    radial-gradient( circle farthest-corner at top left, #0096fa -25%, #0096fa00 55% ),
+    radial-gradient( circle farthest-corner at top right, #d8b2ff -10%, #7300e5 50% );
+  background-clip: text;
+  color: transparent;
+}
+
+header h1 ~ p {
+  padding: 0 16px 0 16px;
+}
+
+p {
+  color: #161616;
+  cursor: default;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0;
+  padding: 0;
+  text-rendering: optimizeLegibility;
+}
+
+sa-button.round-left::part( button ) {
+  border-bottom-left-radius: 4px;
+}
+
+sa-button.round-right::part( button ) {
+  border-bottom-right-radius: 4px;
+}

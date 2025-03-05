@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Stogie Awesome</title>
+
+  <style>
+    @font-face {
+      font-family: 'IBM Plex Sans';
+      font-weight: 400;  
+      src: url( '/fonts/Plex/Sans/IBMPlexSans-Regular.woff2' ) format( 'woff2' );
+    }
+
+    @font-face {
+      font-family: 'IBM Plex Sans';
+      font-weight: 600;  
+      src: url( '/fonts/Plex/Sans/IBMPlexSans-SemiBold.woff2' ) format( 'woff2' );
+    }
+
+    @font-face {
+      font-family: 'Material Symbols';
+      src: url( '/fonts/Material Symbols/MaterialSymbolsOutlined-VariableFont_FILL,GRAD,opsz,wght.ttf' );
+    }
+
+    html {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      height: 100%;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 298px;
+    }
+
+    ul {
+      box-sizing: border-box;
+      overflow: hidden;
+      width: 298px;
+    }
+
+    li {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    :popover-open {
+      margin: 0;
+      width: 298px;
+    }
+
+    [concealed] {
+      visibility: hidden;
+    }
+
+    [hidden] {
+      display: none;
+    }
+  </style>
+
+</head>
+<body>
+
+  <input type="text">
+  <ul popover></ul>
+
+  <script>
+    // Search
+    const list = document.querySelector( 'ul' );
+    const input = document.querySelector( 'input' );
+    input.addEventListener( 'input', () => {
+      if( input.value.trim().length === 0 ) return;
+
+      cigars = full.filter( ( value ) => value.toLowerCase().indexOf( input.value ) >= 0 ).slice( 0, 5 );
+
+      if( cigars.length === 0 ) {
+        list.hidePopover();
+        return;
+      }
+
+      while( list.children.length > cigars.length ) {
+        list.children[0].remove();
+      }
+
+      while( list.children.length < cigars.length ) {
+        const item = document.createElement( 'li' );
+        list.appendChild( item );
+      }
+
+      for( let c = 0; c < list.children.length; c++ ) {
+        list.children[c].textContent = cigars[c];
+      }
+
+      const bounds = input.getBoundingClientRect();
+      console.log( bounds );     
+      list.style.insetBlockStart = Math.round( bounds.top + bounds.height ) + 'px';
+      list.style.insetInlineStart = Math.round( bounds.left ) + 'px';
+      // list.style.width = list.style.minWidth = list.style.maxWidth = bounds.width + 'px';
+      list.showPopover();
+    } );
+
+    // Consolidate cigars
+    const files = [
+      'cigars-1.json',
+      'cigars-2.json',
+      'cigars-3.json',
+      'cigars-4.json',
+      'cigars-5.json',
+      'cigars-6.json',
+      'cigars-7.json'
+    ];
+    let full = [];
+
+    load();
+
+    async function load() {
+      for( let f = 0; f < files.length; f++ ) {
+        const partial = await loadCigars( files[f] );
+        full = full.concat( partial );
+      }
+
+      full = full.filter( ( value ) => value.toLowerCase().indexOf( 'all brands' ) === -1 );
+      full = [... new Set( full )];      
+      full.sort();
+      console.log( full );
+      console.log( JSON.stringify( full ) );
+    }
+
+    async function loadCigars( file ) {
+      return fetch( file ).then( ( response ) => response.json() );
+    }
+  </script>
+
+</body>
+</html> 

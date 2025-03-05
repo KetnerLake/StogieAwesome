@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+
+  <title>Stogie Awesome</title>
+
+  <link href="/img/fire.svg" rel="icon" type="image/svg+xml" />
+  <link href="/styles/styles.css" rel="stylesheet">
+
+  <style>
+    /*
+    dialog {
+      border: none;
+      border-radius: 4px;
+      box-shadow:
+        0 0 40px -10px rgba( 0, 0, 0, 0.70 ),
+        0 0 25px -15px rgba( 0, 0, 0, 0.80 );      
+      box-sizing: border-box;
+      flex-direction: column;
+      max-width: calc( 33% - 32px );
+      outline: none;
+      padding: 0;
+      width: 100%;                                 
+    }
+
+    dialog::backdrop {
+      backdrop-filter: blur( 10px ); 
+      background-color: rgba( 8, 8, 8, 0.30 );
+      -webkit-backdrop-filter: blur( 10px );      
+    }
+
+    dialog sa-box.splash {
+      background-image: url( '/img/smokey.jpg' );
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      padding: 16px 0 0 0;
+    }
+
+    dialog sa-box.splash img {
+      border-radius: 80px;
+      border: solid 2px #525252;
+      height: 80px;
+      width: 80px;
+    }
+    */
+
+    /*
+    sa-box[carded] {
+      margin: 0 16px 0 16px;      
+    }
+
+    sa-box[carded] p {
+      padding: 0 16px 0 16px;
+    }
+
+    sa-box[carded] sa-box {
+      padding: 16px 0 0 0;
+    }
+
+    sa-box[carded] sa-box sa-button {
+      flex-basis: 0;
+      flex-grow: 1;
+      --icon-color: #ffffff;
+    }    
+    */
+
+    /*
+    ul {
+      border-radius: 4px;
+      box-sizing: border-box;
+      flex-basis: 0;
+      flex-grow: 1;
+      list-style: none;
+      margin: 0;
+      padding: 0 16px 0 16px;
+    }
+
+    ul li {
+      background-color: #ffffff;   
+      border-bottom: solid 1px #e0e0e0; 
+      border-left: solid 1px #e0e0e0;
+      border-right: solid 1px #e0e0e0;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    ul li:first-of-type {
+      border-top: solid 1px #e0e0e0;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;  
+    }
+
+    ul li:last-of-type {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;  
+    }
+    */
+  </style>
+
+</head>
+<body>
+
+  <sa-favorites>
+    <header>
+      <sa-box style="justify-content: flex-end;">
+        <sa-button kind="ghost" label="Recommendations" size="m">
+          <sa-icon name="chevron_forward" weight="200"></sa-icon>
+        </sa-button>
+      </sa-box>
+      <h1>Favorites</h1>      
+    </header>    
+    <sa-list>
+      <sa-catalog-item slot="empty"></sa-catalog-item>
+    </sa-list>
+    <footer>
+      <sa-multi-select label="Cigar catalog" placeholder="Search"></sa-multi-select>
+    </footer>
+  </sa-favorites>
+
+  <sa-landing>
+    <header>
+      <h1>Welcome to<br>Stogie Awesome</h1>
+      <p>
+        <span>AI-powered</span> cigar recommendations.
+      </p>
+    </header>
+    <sa-list>
+      <img slot="empty" src="/img/cigar.svg">
+      <p slot="empty">
+        Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
+      </p>
+    </sa-list>
+    <footer>
+      <sa-multi-select label="Cigar catalog" placeholder="Search"></sa-multi-select>
+      <sa-button disabled label="Recommend cigars">
+        <sa-icon name="arrow_forward" weight="200"></sa-icon>
+      </sa-button>
+    </footer>
+  </sa-landing>
+
+  <sa-recommendations>
+    <header>
+      <sa-box>
+        <sa-button kind="ghost" label="Favorites" size="m">
+          <sa-icon name="chevron_backward" slot="prefix" weight="200"></sa-icon>          
+        </sa-button>
+      </sa-box>
+      <h1>Recommendations</h1>
+    </header>
+    <sa-box carded>
+      <h3>Keep going!</h3>
+      <p>When you change your favorites - add to them, remove from them, tell me more about why you like them - I will automatically refresh these recommendations.</p>
+      <sa-box>
+        <sa-button class="round-left" kind="secondary" label="Got it"></sa-button>
+        <sa-button class="round-right" label="View favorites">
+          <sa-icon name="favorite" weight="200"></sa-icon>
+        </sa-button>
+      </sa-box>
+    </sa-box>
+    <sa-list>
+      <sa-recommended-item slot="empty"></sa-recommended-item>
+    </sa-list>
+    <aside>
+      <p>Made with 🔥 by <sa-link>Kevin Hoyt</sa-link>.</p>
+    </aside>
+  </sa-recommendations>  
+
+  <dialog>
+    <sa-box class="splash" centered direction="column" gap="l" justified>
+      <img src="/img/krhoyt.jpg">
+      <sa-box>
+        <button style="cursor: pointer; box-sizing: border-box; border: none; background: none; color: #f4f4f4; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 16px; height: 40px; padding: 0 16px 0 16px; margin: 0; border-bottom: solid 2px #4589ff; outline: none;">Sponsor</button>
+        <button style="cursor: pointer; box-sizing: border-box; border: none; background: none; color: #f4f4f4; font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; font-size: 16px; height: 40px; padding: 0 16px 0 16px; margin: 0; border-bottom: solid 2px #525252;">Contact</button>        
+      </sa-box>
+    </sa-box>
+    <p style="padding: 16px;">Just like cigars, AI is not free. You can keep this full bodied blend burning with the purchase of another smoke.</p>
+    <sa-button kind="secondary" label="Buy me a cigar" style="margin: 0 16px 0 16px;">
+      <sa-icon name="celebration" weight="200"></sa-icon>
+    </sa-button>
+    <p style="padding: 16px;">Find yourself returning regularly? Becoming a sponsor gets you monthly face time to bend my ear for feature requests and more.</p>
+    <sa-button label="Sponsor awesome software" style="margin: 0 16px 16px 16px;">
+      <sa-icon name="local_fire_department" weight="200"></sa-icon>
+    </sa-button>    
+  </dialog>
+
+  <script src="/components/components.js" type="module"></script>
+  <script src="/components/view/landing.js" type="module"></script>  
+
+  <script>
+    // const dialog = document.querySelector( 'dialog' );
+    // dialog.showModal();
+
+    const landing = document.querySelector( 'sa-landing' );
+    landing.addEventListener( 'sa-recommend', ( evt ) => {
+      console.log( evt.detail.cigars );
+    } );
+
+    fetch( '/data/cigars.json' )
+    .then( ( response ) => response.json() )
+    .then( ( data ) => {
+      landing.catalog = data.map( ( value, index ) => {
+        return {
+          index: index,
+          name: value,
+          checked: false
+        };
+      } );
+    } );
+  </script>
+
+</body>
+</html> 
