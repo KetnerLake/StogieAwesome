@@ -5,6 +5,24 @@ export default class StogieButton extends HTMLElement {
     const template = document.createElement( 'template' );
     template.innerHTML = /* template */ `
       <style>
+        @keyframes loading {
+          from {
+            stroke-dashoffset: 0;
+          }
+          to {
+            stroke-dashoffset: 143.759616;
+          }
+        }
+
+        @keyframes spinning {
+          from {
+            rotate: 0;
+          }
+          to {
+            rotate: 360deg;
+          }
+        }        
+
         :host {
           box-sizing: border-box;
           display: inline-block;
@@ -69,6 +87,39 @@ export default class StogieButton extends HTMLElement {
           flex-grow: 1;
         }
 
+        svg {
+          animation-duration: 1s;
+          animation-fill-mode: forwards;
+          animation-iteration-count: infinite;                    
+          animation-name: spinning;
+          animation-timing-function: linear;          
+          height: 16px;
+          stroke: #ffffff;          
+          fill: rgba( 0, 0, 0, 0 );          
+          width: 16px;          
+        }
+
+        svg circle {
+          animation-direction: alternate;
+          animation-duration: 1s;
+          animation-fill-mode: forwards;
+          animation-iteration-count: infinite;          
+          animation-name: loading;
+          animation-timing-function: linear;          
+          stroke-dasharray: 276.4608;          
+          stroke-linecap: butt;          
+          stroke-width: 16px;
+          transform-origin: center;
+        }
+
+        :host( :not( [loading] ) ) svg {
+          display: none;
+        }
+
+        :host( [disabled] ) svg {
+          stroke: #8d8d8d;                              
+        }
+
         :host( [kind=ghost] ) button {
           background-color: transparent;
           border: solid 1px transparent;
@@ -119,6 +170,9 @@ export default class StogieButton extends HTMLElement {
         <slot name="prefix"></slot>
         <span part="label"></span>
         <slot></slot>
+        <svg viewBox="0 0 100 100">
+          <circle cx="50%" cy="50%" r="42"></circle>        
+        </svg>
       </button>
     `;
     
@@ -156,6 +210,7 @@ export default class StogieButton extends HTMLElement {
     this._upgrade( 'hidden' );          
     this._upgrade( 'kind' );            
     this._upgrade( 'label' );                
+    this._upgrade( 'loading' );                    
     this._upgrade( 'size' );                  
     this._render();
   }
@@ -170,6 +225,7 @@ export default class StogieButton extends HTMLElement {
       'hidden',
       'kind',
       'label',
+      'loading',
       'size'
     ];
   }
@@ -254,6 +310,26 @@ export default class StogieButton extends HTMLElement {
       this.removeAttribute( 'label' );
     }
   }    
+
+  get loading() {
+    return this.hasAttribute( 'loading' );
+  }
+
+  set loading( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'loading' );
+      } else {
+        this.setAttribute( 'loading', '' );
+      }
+    } else {
+      this.removeAttribute( 'loading' );
+    }
+  }   
 
   get size() {
     if( this.hasAttribute( 'size' ) ) {

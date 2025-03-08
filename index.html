@@ -129,12 +129,14 @@
         <span>AI-powered</span> cigar recommendations.
       </p>
     </header>
-    <sa-list>
-      <img slot="empty" src="/img/cigar.svg">
-      <p slot="empty">
-        Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
-      </p>
-    </sa-list>
+    <article>
+      <sa-list item-renderer="sa-catalog-item">
+        <img slot="empty" src="/img/cigar.svg">
+        <p slot="empty">
+          Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
+        </p>
+      </sa-list>
+    </article>
     <footer>
       <sa-multi-select label="Cigar catalog" placeholder="Search"></sa-multi-select>
       <sa-button disabled label="Recommend cigars">
@@ -156,7 +158,9 @@
       <h3>Keep going!</h3>
       <p>When you change your favorites - add to them, remove from them, tell me more about why you like them - I will automatically refresh these recommendations.</p>
       <sa-box>
-        <sa-button class="round-left" kind="secondary" label="Got it"></sa-button>
+        <sa-button class="round-left" kind="secondary" label="Got it">
+          <sa-icon name="thumb_up" weight="200"></sa-icon>
+        </sa-button>
         <sa-button class="round-right" label="View favorites">
           <sa-icon name="favorite" weight="200"></sa-icon>
         </sa-button>
@@ -203,6 +207,11 @@
     fetch( '/data/cigars.json' )
     .then( ( response ) => response.json() )
     .then( ( data ) => {
+      data.sort( ( a, b ) => {
+        if( a.name > b.name ) return 1;
+        if( a.name < b.name ) return -1;
+        return 0;
+      } );
       landing.catalog = data.map( ( value, index ) => {
         return {
           index: index,

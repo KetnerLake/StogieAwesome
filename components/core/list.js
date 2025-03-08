@@ -31,6 +31,7 @@ export default class StogieList extends HTMLElement {
           margin: 0;
           overflow: auto;
           padding: 0;
+          width: 100%;
         }
 
         ul:empty {

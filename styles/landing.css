@@ -8,15 +8,23 @@ sa-landing {
   position: relative;
 }
 
+sa-landing article {
+  flex-basis: 0;
+  flex-grow: 1;
+  padding: 0 16px 0 16px;
+}
+
 sa-landing img[slot=empty] {
   width: 48px;
   height: 48px;
 }
 
 sa-landing sa-list {
-  flex-basis: 0;
-  flex-grow: 1;
-  padding: 0 16px 0 16px;
+  width: 100%;
+}
+
+sa-landing sa-list::part( list ) {
+  border-radius: 4px;
 }
 
 sa-landing sa-list::part( empty ) {

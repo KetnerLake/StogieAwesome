@@ -33,6 +33,7 @@ export default class StogieMultiSelect extends HTMLElement {
           margin: 0;
           padding: 0;
           width: 39px;
+          --icon-cursor: pointer;
         }
 
         button[part=remove] {
@@ -41,6 +42,8 @@ export default class StogieMultiSelect extends HTMLElement {
           display: flex;
           height: 24px;
           width: 24px;
+          --icon-color: #ffffff;
+          --icon-cursor: pointer;
         }
 
         button[part=clear],
@@ -140,7 +143,7 @@ export default class StogieMultiSelect extends HTMLElement {
 
         ul {
           background-color: #ffffff;
-          bottom: 57px;
+          bottom: 121px;
           box-shadow: 
             0 -2px 6px rgba( 0, 0, 0, 0.20 ), 
             0 -6px 24px rgba( 0, 0, 0, 0.05 );          
@@ -154,6 +157,17 @@ export default class StogieMultiSelect extends HTMLElement {
           position: absolute;
           right: 16px;
           z-index: 100;
+        }
+
+        ul li {
+          box-sizing: border-box;
+          border-bottom: solid 1px #e0e0e0;
+          margin: 0;
+          padding: 0;
+        }
+
+        ul li:last-of-type {
+          border-bottom: solid 1px transparent;
         }
 
         :host( :not( [count] ) ) p[part=count] {
@@ -192,14 +206,16 @@ export default class StogieMultiSelect extends HTMLElement {
           <sa-icon name="keyboard_arrow_down" weight="200"></sa-icon>
         </button>
       </label>
-      <ul part="menu">
-        <li>Stuff</li>
-      </ul>              
+      <ul part="menu"></ul>              
     `;
 
     // Private
     this._items = [];
+    this._selected = [];
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';    
+
+    // Events
+    this.doItemChange = this.doItemChange.bind( this );
 
     // Root
     this.attachShadow( {mode: 'open'} );
@@ -212,25 +228,99 @@ export default class StogieMultiSelect extends HTMLElement {
     this.$input = this.shadowRoot.querySelector( 'input' );
     this.$input.addEventListener( 'input', () => {
       this.value = this.$input.value.trim().length === 0 ? null : this.$input.value;
-      this.dispatchEvent( new CustomEvent( 'sa-change', {
-        detail: {
-          value: this.value
-        }
-      } ) );
+
+      if( this.value === null ) {
+        this.open = false;
+        return;
+      }
+
+      const matches = this._items.filter( ( value ) => {
+        return value.name.toLowerCase().indexOf( this.value.toLowerCase() ) >= 0 ? true : false;
+      } ).slice( 0, 5 );
+
+      while( this.$menu.children.length > matches.length ) {
+        this.$menu.children[0].children[0].removeEventListener( 'sa-change', this.doItemChange );
+        this.$menu.children[0].remove();
+      }
+
+      while( this.$menu.children.length < matches.length ) {
+        const item = document.createElement( 'li' );
+        const match = document.createElement( 'sa-menu-item' );
+        match.addEventListener( 'sa-change', this.doItemChange );        
+        item.appendChild( match );
+        this.$menu.appendChild( item );
+      }
+
+      for( let c = 0; c < this.$menu.children.length; c++ ) {
+        this.$menu.children[c].setAttribute( 'data-index', c );
+        this.$menu.children[c].children[0].data = matches[c];
+      }
+      
+      this.open = matches.length > 0 ? true : false;
     } );    
     this.$label = this.shadowRoot.querySelector( 'p[part=label]' );    
     this.$menu = this.shadowRoot.querySelector( 'ul' );
     this.$remove = this.shadowRoot.querySelector( 'p[part=count] button' );
-    this.$remove.addEventListener( this._touch, () => this.clear() );
+    this.$remove.addEventListener( this._touch, () => {
+      this.count = null;      
+      this._favorites = [];
+
+      for( let i = 0; i < this._items.length; i++ ) {
+        this._items.checked = false;
+      }
+
+      const matches = this._items.filter( ( value ) => {
+        return value.name.toLowerCase().indexOf( this.value.toLowerCase() ) >= 0 ? true : false;
+      } ).slice( 0, 5 );
+
+      for( let c = 0; c < this.$menu.children.length; c++ ) {
+        this.$menu.children[c].children[0].data = matches[c];
+      }
+
+      this.$input.focus();
+
+      this.dispatchEvent( new CustomEvent( 'sa-change', {
+        detail: {
+          count: null,
+          favorites: null
+        }
+      } ) );
+    } );
+    this.$toggle = this.shadowRoot.querySelector( 'button[part=toggle]' );
+    this.$toggle.addEventListener( this._touch, () => {
+      if( this.value !== null ) {
+        this.open = !this.open;
+      }
+    } );
   }
 
   clear( focus = true ) {
-    this.count = null;
+    this.open = false;    
     this.value = null;
 
     if( focus ) {
       this.$input.focus()
     }
+  }
+
+  doItemChange( evt ) {
+    const index = parseInt( evt.target.parentElement.getAttribute( 'data-index' ) );
+    this._items[index].checked = evt.detail.checked;
+
+    this._favorites = this._items.filter( ( value ) => value.checked ? true : false );
+    this._favorites.sort( ( a, b ) => {
+      if( a.name > b.name ) return 1;
+      if( a.name < b.name ) return -1;
+      return 0;
+    } );
+
+    this.count = this._favorites.length === 0 ? null : this._favorites.length;
+    this.dispatchEvent( new CustomEvent( 'sa-change', {
+      detail: {
+        count: this.count,
+        favorites: this._favorites
+      }
+    } ) );
   }
 
    // When attributes change

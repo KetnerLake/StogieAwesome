@@ -103,6 +103,10 @@ p {
   text-rendering: optimizeLegibility;
 }
 
+sa-button[loading] sa-icon {
+  display: none;
+}
+
 sa-button.round-left::part( button ) {
   border-bottom-left-radius: 4px;
 }

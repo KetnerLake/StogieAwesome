@@ -1,4 +1,6 @@
-export default class StogieFavoriteItem extends HTMLElement {
+import StogieIcon from "../core/icon.js";
+
+export default class StogieMenuItem extends HTMLElement {
   constructor() {
     super();
 
@@ -6,78 +8,90 @@ export default class StogieFavoriteItem extends HTMLElement {
     template.innerHTML = /* template */ `
       <style>
         :host {
-          align-items: center;
           box-sizing: border-box;
-          display: flex;
+          display: block;
           position: relative;
-        }
-
-        button {
-          align-items: center;
-          background: none;
-          border: none;
-          box-sizing: border-box;
-          cursor: pointer;
-          display: flex;
-          height: 40px;
-          justify-content: center;
-          margin: 0 4px 0 0;
-          padding: 0;
-          width: 40px;
         }
 
         div {
           align-items: center;
-          box-sizing: border-box;      
-          display: flex;            
+          box-sizing: border-box;
+          cursor: pointer;
+          display: flex;
           flex-direction: row;
-          padding: 0 0 0 16px;
-          width: 100%;  
-        }    
+          gap: 8px;
+          height: 40px;
+          margin: 0;
+          padding: 0 16px 0 16px;
+          width: 100%;
+        }
+
+        div:hover {
+          background-color: #e8e8e8;
+        }
 
         p {
           box-sizing: border-box;
           color: #161616;
-          cursor: default;
+          cursor: pointer;
+          flex-basis: 0;
+          flex-grow: 1;
           font-family: 'IBM Plex Sans', sans-serif;
           font-size: 16px;
           font-weight: 400;
-          flex-basis: 0;
-          flex-grow: 1;
           margin: 0;
+          overflow: hidden;
           padding: 0;
+          text-overflow: ellipsis;          
           text-rendering: optimizeLegibility;
-        }
+          white-space: nowrap;
+        }        
 
         sa-icon {
-          --icon-color: #8d8d8d;
           --icon-cursor: pointer;
         }
       </style>
       <div>
+        <sa-icon></sa-icon>
         <p></p>
-        <button type="button">
-          <sa-icon name="close" size="s" weight="200"></sa-icon>
-        </button>
       </div>
     `;
     
     // Properties
     this._data = null;
+    this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'mousedown';
 
     // Root
     this.attachShadow( {mode: 'open'} );
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
 
     // Elements
+    this.$button = this.shadowRoot.querySelector( 'div' );
+    this.$button.addEventListener( this._touch, ( evt ) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+
+      this._data.checked = !this._data.checked;
+      this._render();
+
+      this.dispatchEvent( new CustomEvent( 'sa-change', {
+        detail: {
+          checked: this._data.checked,
+          name: this._data.name
+        }
+      } ) );
+    } );
+    this.$icon = this.shadowRoot.querySelector( 'sa-icon' );
     this.$label = this.shadowRoot.querySelector( 'p' );
-    this.$remove = this.shadowRoot.querySelector( 'button' );
   }
 
   // When attributes change
   _render() {
     if( this._data === null ) return;
 
+    this.$icon.name = this._data.checked ? 'check_box' : 'check_box_outline_blank';
+    this.$icon.filled = this._data.checked ? true : false;
+    this.$icon.weight = this._data.checked ? 400 : 200;
     this.$label.textContent = this._data.name;    
   }
 
@@ -124,4 +138,4 @@ export default class StogieFavoriteItem extends HTMLElement {
   }
 }
 
-window.customElements.define( 'sa-favorite-item', StogieFavoriteItem );
+window.customElements.define( 'sa-menu-item', StogieMenuItem );

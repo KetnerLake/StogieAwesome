@@ -9,8 +9,19 @@ customElements.define( 'sa-landing', class extends HTMLElement {
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';
 
     this.$select = this.querySelector( 'sa-multi-select' );
+    this.$select.addEventListener( 'sa-change', ( evt ) => {
+      this.$list.items = evt.detail.favorites === null ? [] : evt.detail.favorites;      
+      if( evt.detail.count === null ) {
+        this.$recommend.disabled = true;
+      } else {
+        this.$recommend.disabled = evt.detail.count >= 3 ? false : true;
+      }
+    } );
     this.$list = this.querySelector( 'sa-list' );
     this.$recommend = this.querySelector( 'sa-button' );
+    this.$recommend.addEventListener( this._touch, () => {
+      this.$select.open = false;
+    } )
   }
 
   /*

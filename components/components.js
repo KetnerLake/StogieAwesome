@@ -6,4 +6,6 @@ import StogieList from "./core/list.js";
 import StogieMultiSelect from "./core/multi-select.js";
 
 import StogieCatalogItem from "./renderer/catalog-item.js";
+import StogieFavoriteItem from "./renderer/favorite-item.js";
+import StogieMenuItem from "./renderer/menu-item.js";
 import StogieRecommendedItem from "./renderer/recommended-item.js";
