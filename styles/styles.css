@@ -73,13 +73,11 @@ header {
   padding: 16px 0 0 0;
 }
 
-header p {
-  font-size: 18px;
-  line-height: 22px;
+header sa-label {
   padding: 0 16px 0 16px;
 }
 
-header p span {
+header sa-label span {
   background: 
     radial-gradient( circle farthest-corner at top left, #0096fa -25%, #0096fa00 55% ),
     radial-gradient( circle farthest-corner at top right, #d8b2ff -10%, #7300e5 50% );

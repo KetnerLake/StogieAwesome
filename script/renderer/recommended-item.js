@@ -1,6 +1,6 @@
-import StogieButton from "../core/button.js";
-import StogieIcon from "../core/icon.js";
-import StogieText from "../text.js";
+import StogieButton from "../component/button.js";
+import StogieIcon from "../component/icon.js";
+import StogieLabel from "../component/label.js";
 
 export default class StogieRecommendedItem extends HTMLElement {
   constructor() {
@@ -87,20 +87,20 @@ export default class StogieRecommendedItem extends HTMLElement {
         }
       </style>
       <div part="item">
-        <sa-text part="name" size="l" weight="bold">Padron 1964 Anniversary Series Maduro</sa-text>
+        <sa-label part="name" size="l" weight="bold">Padron 1964 Anniversary Series Maduro</sa-label>
         <div part="detail">
           <sa-vbox>
-            <sa-text size="s"><span>Body:</span> Medium</sa-text>
-            <sa-text size="s"><span>Wrapper:</span> Connecticut Broadleaf</sa-text>
-            <sa-text size="s"><span>Size:</span> 6 x 60</sa-text>
-            <sa-text size="s"><span>Country:</span> Nicaragua</sa-text>        
+            <sa-label size="s"><span>Body:</span> Medium</sa-label>
+            <sa-label size="s"><span>Wrapper:</span> Connecticut Broadleaf</sa-label>
+            <sa-label size="s"><span>Size:</span> 6 x 60</sa-label>
+            <sa-label size="s"><span>Country:</span> Nicaragua</sa-label>        
           </sa-vbox>
           <sa-vbox>
-            <sa-text size="l">$27</sa-text>
-            <sa-text size="s" weight="bold">Est. price</sa-text>
+            <sa-label size="l">$27</sa-label>
+            <sa-label size="s" weight="bold">Est. price</sa-label>
           </sa-vbox>
         </div>      
-        <sa-text part="description">Considered one of the best cigars in the world, the Padron 1964 Anniversary Series Maduro offers a complex and rich flavor profile. Expect notes of dark chocolate, espresso, and cedar, with a smooth and creamy finish. The maduro wrapper adds a touch of sweetness and depth.</sa-text>
+        <sa-label part="description">Considered one of the best cigars in the world, the Padron 1964 Anniversary Series Maduro offers a complex and rich flavor profile. Expect notes of dark chocolate, espresso, and cedar, with a smooth and creamy finish. The maduro wrapper adds a touch of sweetness and depth.</sa-label>
         <div part="options">
           <sa-button part="more">
             <span>Add to favorites</span>
@@ -134,7 +134,7 @@ export default class StogieRecommendedItem extends HTMLElement {
       } ) );
     } );
     this.$heart = this.shadowRoot.querySelector( 'sa-button sa-icon' );
-    this.$label = this.shadowRoot.querySelector( 'sa-text' );
+    this.$label = this.shadowRoot.querySelector( 'sa-label' );
   }
 
   // When attributes change

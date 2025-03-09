@@ -1,4 +1,5 @@
 import StogieIcon from "./icon.js";
+import StogieMultiOption from "./multi-option.js";
 
 export default class StogieMultiSelect extends HTMLElement {
   constructor() {
@@ -49,6 +50,10 @@ export default class StogieMultiSelect extends HTMLElement {
         button[part=clear],
         button[part=toggle] {
           width: 40px;
+        }
+
+        button[part=toggle] {
+          margin-right: 4px;
         }
 
         button[part=toggle] i {
@@ -235,7 +240,8 @@ export default class StogieMultiSelect extends HTMLElement {
       }
 
       const matches = this._items.filter( ( value ) => {
-        return value.name.toLowerCase().indexOf( this.value.toLowerCase() ) >= 0 ? true : false;
+        const label = this.labelField === null ? 'label' : this.labelField;
+        return value[label].toLowerCase().indexOf( this.value.toLowerCase() ) >= 0 ? true : false;
       } ).slice( 0, 5 );
 
       while( this.$menu.children.length > matches.length ) {
@@ -245,15 +251,20 @@ export default class StogieMultiSelect extends HTMLElement {
 
       while( this.$menu.children.length < matches.length ) {
         const item = document.createElement( 'li' );
-        const match = document.createElement( 'sa-menu-item' );
+        const match = document.createElement( 'sa-multi-option' );
         match.addEventListener( 'sa-change', this.doItemChange );        
         item.appendChild( match );
         this.$menu.appendChild( item );
       }
 
       for( let c = 0; c < this.$menu.children.length; c++ ) {
-        this.$menu.children[c].setAttribute( 'data-index', c );
-        this.$menu.children[c].children[0].data = matches[c];
+        const checked = this.checkedField === null ? matches[c].checked : matches[c][this.checkedField];
+        const label = this.labelField === null ? matches[c].label : matches[c][this.labelField];
+        const value = this.valueField === null ? matches[c].value : matches[c][this.valueField];
+
+        this.$menu.children[c].children[0].checked = checked === undefined ? false : checked;
+        this.$menu.children[c].children[0].label = label === undefined ? null : label;
+        this.$menu.children[c].children[0].value = value === undefined ? null : value;
       }
       
       this.open = matches.length > 0 ? true : false;
@@ -263,14 +274,15 @@ export default class StogieMultiSelect extends HTMLElement {
     this.$remove = this.shadowRoot.querySelector( 'p[part=count] button' );
     this.$remove.addEventListener( this._touch, () => {
       this.count = null;      
-      this._favorites = [];
+      this._selected = [];
 
       for( let i = 0; i < this._items.length; i++ ) {
         this._items.checked = false;
       }
 
+      const field = this.labelField === null ? 'label' : this.labelField;
       const matches = this._items.filter( ( value ) => {
-        return value.name.toLowerCase().indexOf( this.value.toLowerCase() ) >= 0 ? true : false;
+        return value[field].toLowerCase().indexOf( this.value.toLowerCase() ) >= 0 ? true : false;
       } ).slice( 0, 5 );
 
       for( let c = 0; c < this.$menu.children.length; c++ ) {
@@ -282,7 +294,7 @@ export default class StogieMultiSelect extends HTMLElement {
       this.dispatchEvent( new CustomEvent( 'sa-change', {
         detail: {
           count: null,
-          favorites: null
+          selected: null
         }
       } ) );
     } );
@@ -304,21 +316,22 @@ export default class StogieMultiSelect extends HTMLElement {
   }
 
   doItemChange( evt ) {
-    const index = parseInt( evt.target.parentElement.getAttribute( 'data-index' ) );
+    const field = this.labelField === null ? 'label' : this.labelField;
+    const index = this._items.findIndex( ( value ) => value[field] === evt.detail.label );
     this._items[index].checked = evt.detail.checked;
 
-    this._favorites = this._items.filter( ( value ) => value.checked ? true : false );
-    this._favorites.sort( ( a, b ) => {
-      if( a.name > b.name ) return 1;
-      if( a.name < b.name ) return -1;
+    this._selected = this._items.filter( ( value ) => value.checked ? true : false );
+    this._selected.sort( ( a, b ) => {
+      if( a[field] > b[field] ) return 1;
+      if( a[field] < b[field] ) return -1;
       return 0;
     } );
 
-    this.count = this._favorites.length === 0 ? null : this._favorites.length;
+    this.count = this._selected.length === 0 ? null : this._selected.length;
     this.dispatchEvent( new CustomEvent( 'sa-change', {
       detail: {
         count: this.count,
-        favorites: this._favorites
+        selected: this._selected
       }
     } ) );
   }
@@ -343,27 +356,33 @@ export default class StogieMultiSelect extends HTMLElement {
 
   // Setup
   connectedCallback() {
+    this._upgrade( 'checkedField' );  
     this._upgrade( 'concealed' );  
     this._upgrade( 'count' );  
     this._upgrade( 'hidden' );  
     this._upgrade( 'items' );          
     this._upgrade( 'label' );           
+    this._upgrade( 'labelField' );           
     this._upgrade( 'open' );          
     this._upgrade( 'placeholder' );          
     this._upgrade( 'value' );          
+    this._upgrade( 'valueField' );              
     this._render();
   }
 
   // Watched attributes
   static get observedAttributes() {
     return [
+      'checked-field',
       'concealed',
       'count',
       'hidden',
       'label',
+      'label-field',
       'open',
       'placeholder',
-      'value'
+      'value',
+      'value-field'
     ];
   }
 
@@ -387,6 +406,22 @@ export default class StogieMultiSelect extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Number, String, null
+  get checkedField() {
+    if( this.hasAttribute( 'checked-field' ) ) {
+      return this.getAttribute( 'checked-field' );
+    }
+
+    return null;
+  }
+
+  set checkedField( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'checked-field', value );
+    } else {
+      this.removeAttribute( 'checked-field' );
+    }
+  }
+
   get concealed() {
     return this.hasAttribute( 'concealed' );
   }
@@ -459,6 +494,22 @@ export default class StogieMultiSelect extends HTMLElement {
     }
   }
 
+  get labelField() {
+    if( this.hasAttribute( 'label-field' ) ) {
+      return this.getAttribute( 'label-field' );
+    }
+
+    return null;
+  }
+
+  set labelField( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'label-field', value );
+    } else {
+      this.removeAttribute( 'label-field' );
+    }
+  }  
+
   get open() {
     return this.hasAttribute( 'open' );
   }
@@ -510,6 +561,22 @@ export default class StogieMultiSelect extends HTMLElement {
       this.removeAttribute( 'value' );
     }
   }    
+
+  get valueField() {
+    if( this.hasAttribute( 'value-field' ) ) {
+      return this.getAttribute( 'value-field' );
+    }
+
+    return null;
+  }
+
+  set valueField( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'value-field', value );
+    } else {
+      this.removeAttribute( 'value-field' );
+    }
+  }      
 }
 
 window.customElements.define( 'sa-multi-select', StogieMultiSelect );

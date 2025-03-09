@@ -10,7 +10,7 @@ customElements.define( 'sa-landing', class extends HTMLElement {
 
     this.$select = this.querySelector( 'sa-multi-select' );
     this.$select.addEventListener( 'sa-change', ( evt ) => {
-      this.$list.items = evt.detail.favorites === null ? [] : evt.detail.favorites;      
+      this.$list.items = evt.detail.selected === null ? [] : evt.detail.selected;      
       if( evt.detail.count === null ) {
         this.$recommend.disabled = true;
       } else {

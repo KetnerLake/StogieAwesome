@@ -1,4 +1,4 @@
-export default class StogieText extends HTMLElement {
+export default class StogieLabel extends HTMLElement {
   constructor() {
     super();
 
@@ -17,13 +17,13 @@ export default class StogieText extends HTMLElement {
 
         p {
           box-sizing: border-box;
-          color: var( --text-color, #161616 );
-          cursor: var( --text-cursor, default );
+          color: var( --label-color, #161616 );
+          cursor: var( --label-cursor, default );
           font-family: 'IBM Plex Sans', sans-serif;
-          font-size: var( --text-font-size, 16px );
+          font-size: var( --label-font-size, 16px );
           font-style: normal;
-          font-weight: var( --text-font-weight, 400 );
-          line-height: var( --text-line-height, 20px );
+          font-weight: var( --label-font-weight, 400 );
+          line-height: var( --label-line-height, 20px );
           margin: 0;
           padding: 0;
           text-rendering: optimizeLegibility;
@@ -52,11 +52,20 @@ export default class StogieText extends HTMLElement {
           white-space: nowrap;
         }
 
+        :host( :empty ) p[part=composed] {
+          display: none;
+        }
+
+        :host( :not( [text] ) ) p[part=inline] {
+          display: none;
+        }
+
         ::slotted( strong ) {
           font-weight: 600;
         }
       </style>
-      <p part="text">
+      <p part="inline"></p>
+      <p part="composed">
         <slot></slot>
       </p>
     `;
@@ -64,10 +73,15 @@ export default class StogieText extends HTMLElement {
     // Root
     this.attachShadow( {mode: 'open'} );
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
+
+    // Elements
+    this.$inline = this.shadowRoot.querySelector( 'p[part=inline]' );
   }
 
   // When attributes change
-  _render() {;}
+  _render() {
+    this.$inline.textContent = this.text === null ? '' : this.text;
+  }
 
   // Promote properties
   // Values may be set before module load
@@ -83,7 +97,8 @@ export default class StogieText extends HTMLElement {
   connectedCallback() {
     this._upgrade( 'hidden' );    
     this._upgrade( 'size' );  
-    this._upgrade( 'truncate' );          
+    this._upgrade( 'text' );              
+    this._upgrade( 'truncate' );    
     this._upgrade( 'weight' );      
     this._render();
   }
@@ -93,6 +108,7 @@ export default class StogieText extends HTMLElement {
     return [
       'hidden',
       'size',
+      'text',
       'truncate',
       'weight'
     ];
@@ -129,7 +145,7 @@ export default class StogieText extends HTMLElement {
 
   get size() {
     if( this.hasAttribute( 'size' ) ) {
-      return parseInt( this.getAttribute( 'size' ) );
+      return this.getAttribute( 'size' );
     }
 
     return null;
@@ -141,7 +157,23 @@ export default class StogieText extends HTMLElement {
     } else {
       this.removeAttribute( 'size' );
     }
-  }  
+  }         
+  
+  get text() {
+    if( this.hasAttribute( 'text' ) ) {
+      return this.getAttribute( 'text' );
+    }
+
+    return null;
+  }
+
+  set text( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'text', value );
+    } else {
+      this.removeAttribute( 'text' );
+    }
+  }         
 
   get truncate() {
     return this.hasAttribute( 'truncate' );
@@ -180,4 +212,4 @@ export default class StogieText extends HTMLElement {
   }      
 }
 
-window.customElements.define( 'sa-text', StogieText );
+window.customElements.define( 'sa-label', StogieLabel );
