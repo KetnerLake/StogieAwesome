@@ -83,6 +83,10 @@ header sa-label span {
     radial-gradient( circle farthest-corner at top right, #d8b2ff -10%, #7300e5 50% );
   background-clip: text;
   color: transparent;
+
+  /*
+  background-image: linear-gradient( 95.58deg, rgb( 139, 70, 198 ) 0%, rgb( 0, 119, 217 ) 100% );
+  */
 }
 
 header h1 ~ p {
