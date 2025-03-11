@@ -1,5 +1,7 @@
 import StogieIcon from "./icon.js";
+import StogieLabel from "./label.js";
 import StogieMultiOption from "./multi-option.js";
+import StogieTag from "./tag.js";
 
 export default class StogieMultiSelect extends HTMLElement {
   constructor() {
@@ -33,39 +35,12 @@ export default class StogieMultiSelect extends HTMLElement {
           justify-content: center;
           margin: 0;
           padding: 0;
-          width: 39px;
-          --icon-cursor: pointer;
-        }
-
-        button[part=remove] {
-          border-radius: 24px;
-          color: #ffffff;
-          display: flex;
-          height: 24px;
-          width: 24px;
-          --icon-color: #ffffff;
-          --icon-cursor: pointer;
-        }
-
-        button[part=clear],
-        button[part=toggle] {
           width: 40px;
-        }
+          --icon-cursor: pointer;
+        } 
 
         button[part=toggle] {
           margin-right: 4px;
-        }
-
-        button[part=toggle] i {
-          font-size: 20px;  
-          height: 20px;    
-          line-height: 20px; 
-          max-height: 20px;         
-          max-width: 20px;                    
-          min-height: 20px;                               
-          min-width: 20px;      
-          transition: rotate 0.60s;
-          width: 20px;       
         }
 
         div {
@@ -119,31 +94,13 @@ export default class StogieMultiSelect extends HTMLElement {
           display: none;
         }
 
-        p {
-          box-sizing: border-box;
-          color: #8d8d8d;
-          cursor: default;
-          font-family: 'IBM Plex Sans', sans-serif;
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 18px;
-          margin: 0;
+        sa-label {
+          --label-color: #8d8d8d;
           padding: 0 0 6px 0;
-          text-rendering: optimizeLegibility;          
         }
 
-        p[part=count] {
-          align-items: center;
-          background-color: #393939;
-          border-radius: 24px;
-          color: #ffffff;
-          display: flex;
-          flex-direction: row;
-          font-size: 14px;
-          line-height: 14px;
-          height: 24px;
-          margin: 0 8px 0 8px;
-          padding: 0 0 0 8px;
+        sa-tag {
+          margin: 0 8px 0 12px;
         }
 
         ul {
@@ -175,14 +132,15 @@ export default class StogieMultiSelect extends HTMLElement {
           border-bottom: solid 1px transparent;
         }
 
-        :host( :not( [count] ) ) p[part=count] {
+        :host( :not( [count] ) ) sa-tag {
           display: none;
         }
+
         :host( :not( [count] ) ) label {        
           padding: 0 0 0 16px;
         }
 
-        :host( :not( [label] ) ) p[part=label] {
+        :host( :not( [label] ) ) sa-part[part=label] {
           display: none;
         }
 
@@ -194,14 +152,9 @@ export default class StogieMultiSelect extends HTMLElement {
           display: none;
         }
       </style>
-      <p part="label"></p>
+      <sa-label part="label" size="s"></sa-label>
       <label>
-        <p part="count">
-          <span></span>
-          <button part="remove" type="button">
-            <sa-icon name="close" size="s" weight="200"></sa-icon>
-          </button>
-        </p>
+        <sa-tag></sa-tag>
         <input type="text">
         <button part="clear" type="button">
           <sa-icon name="close" size="s" weight="200"></sa-icon>
@@ -227,7 +180,6 @@ export default class StogieMultiSelect extends HTMLElement {
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
 
     // Elements
-    this.$count = this.shadowRoot.querySelector( 'p[part=count] span' );
     this.$clear = this.shadowRoot.querySelector( 'button[part=clear]' );
     this.$clear.addEventListener( this._touch, () => this.clear() );
     this.$input = this.shadowRoot.querySelector( 'input' );
@@ -269,24 +221,19 @@ export default class StogieMultiSelect extends HTMLElement {
       
       this.open = matches.length > 0 ? true : false;
     } );    
-    this.$label = this.shadowRoot.querySelector( 'p[part=label]' );    
+    this.$label = this.shadowRoot.querySelector( 'sa-label[part=label]' );    
     this.$menu = this.shadowRoot.querySelector( 'ul' );
-    this.$remove = this.shadowRoot.querySelector( 'p[part=count] button' );
-    this.$remove.addEventListener( this._touch, () => {
+    this.$tag = this.shadowRoot.querySelector( 'sa-tag' );
+    this.$tag.addEventListener( 'sa-remove', () => {
       this.count = null;      
       this._selected = [];
 
       for( let i = 0; i < this._items.length; i++ ) {
-        this._items.checked = false;
+        this._items[i].checked = false;
       }
 
-      const field = this.labelField === null ? 'label' : this.labelField;
-      const matches = this._items.filter( ( value ) => {
-        return value[field].toLowerCase().indexOf( this.value.toLowerCase() ) >= 0 ? true : false;
-      } ).slice( 0, 5 );
-
       for( let c = 0; c < this.$menu.children.length; c++ ) {
-        this.$menu.children[c].children[0].data = matches[c];
+        this.$menu.children[c].children[0].checked = false;
       }
 
       this.$input.focus();
@@ -338,7 +285,7 @@ export default class StogieMultiSelect extends HTMLElement {
 
    // When attributes change
   _render() {
-    this.$count.textContent = this.count === null ? '' : this.count;
+    this.$tag.textContent = this.count === null ? '' : this.count;
     this.$input.placeholder = this.placeholder === null ? '' : this.placeholder;
     this.$input.value = this.value === null ? '' : this.value;
     this.$label.textContent = this.label === null ? '' : this.label;

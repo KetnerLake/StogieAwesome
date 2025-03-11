@@ -70,15 +70,12 @@ export default class StogieBox extends HTMLElement {
       <slot></slot>
     `;
 
-    // Private
-    this._data = null;
-
     // Root
     this.attachShadow( {mode: 'open'} );
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
   }
 
-   // When attributes change
+  // When attributes change
   _render() {;}
 
   // Promote properties

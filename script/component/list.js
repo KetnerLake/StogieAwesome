@@ -7,7 +7,7 @@ export default class StogieList extends HTMLElement {
       <style>
         :host {
           box-sizing: border-box;
-          display: inline-flex;
+          display: block;
           overflow: hidden;
           position: relative;
         }
@@ -21,6 +21,7 @@ export default class StogieList extends HTMLElement {
           display: flex;
           flex-direction: column;
           gap: 16px;
+          height: 100%;
           justify-content: center;
         }
 

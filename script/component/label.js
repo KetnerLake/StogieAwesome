@@ -26,6 +26,7 @@ export default class StogieLabel extends HTMLElement {
           line-height: var( --label-line-height, 20px );
           margin: 0;
           padding: 0;
+          text-align: var( --label-text-align, left );
           text-rendering: optimizeLegibility;
         }
 
