@@ -2,36 +2,53 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   constructor() {
     super();
 
+    // Properties
+    this._favorites = [];    
+    this._items = [];
+    this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';    
+
+    // Events
+    this.doItemClick = this.doItemClick.bind( this );
+
     // Elements
-    this.$select = this.querySelector( 'sa-multi-select' );
-    this.$select.addEventListener( 'sa-change', ( evt ) => {
-      this.$list.items = evt.detail.selected;
+    this.$field = this.querySelector( 'sa-text-field' );
+    this.$field.addEventListener( 'sa-change', ( evt ) => {
+      if( evt.detail.value === null ) {
+        this.$menu.hidePopover();
+        return;
+      }
 
-      this.dispatchEvent( new CustomEvent( 'sa-change', {
-        detail: {
-          count: evt.detail.selected === null ? null : evt.detail.selected.length
-        }
-      } ) );
-    } );
-    this.$select.addEventListener( 'sa-clear', () => {
-      this.$list.items = null;
-      this.$select.open = false;
+      let matches = this._items.filter( ( value ) => this._favorites.indexOf( value ) >= 0 ? false : true );
+      matches = matches.filter( ( value ) => value.toLowerCase().indexOf( evt.detail.value.toLowerCase() ) >= 0 ? true : false ).slice( 0, 5 );
 
-      this.dispatchEvent( new CustomEvent( 'sa-change', {
-        detail: {
-          count: null
-        }
-      } ) );
+      while( this.$menu.children.length > matches.length ) {
+        this.$menu.children[0].removeEventListener( this._touch, this.doItemClick );
+        this.$menu.children[0].remove();
+      }
+
+      while( this.$menu.children.length < matches.length ) {
+        const item = document.createElement( 'li' );
+        item.addEventListener( this._touch, this.doItemClick );
+        this.$menu.appendChild( item );        
+      }
+
+      for( let c = 0; c < this.$menu.children.length; c++ ) {
+        this.$menu.children[c].textContent = matches[c];
+      }
+
+      this.open = true;
     } );
 
     this.$list = this.querySelector( 'sa-list' );
     this.$list.addEventListener( 'sa-remove', ( evt ) => {
-      const favorites = this.$list.items === null ? [] : [... this.$list.items];
-
-      this.$select.open = false;
+      const index = this._favorites.indexOf( evt.detail.value );
+      this._favorites.splice( index, 1 );
+      this.$list.items = this._favorites;
+      this.open = false;
+      this.$tag.textContent = this._favorites.length === 0 ? '' : this._favorites.length;
 
       if( this.minimum !== null ) {
-        if( favorites.length === this.minimum ) {
+        if( this._favorites.length === this.minimum ) {
           this.dispatchEvent( new CustomEvent( 'sa-catalog-minimum', {
             bubbles: true,
             cancelable: false,
@@ -44,22 +61,45 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
         }
       }
 
-      const index = favorites.findIndex( ( value ) => value === evt.detail.value ? true : false );
-      favorites.splice( index, 1 );
-      this.$list.items = favorites;
-
-      this.$select.selected = favorites;
-
       this.dispatchEvent( new CustomEvent( 'sa-change', {
         detail: {
           count: favorites === null ? null : favorites.length
         }
       } ) );      
     } );
+
+    this.$menu = this.querySelector( 'ul' );
+
+    this.$tag = this.querySelector( 'sa-tag' );
+    this.$tag.addEventListener( 'sa-remove', () => {
+      this.$tag.textContent = '';
+      this._favorites = [];
+      this.$list.items = this._favorites;
+      this.open = false;
+      this.clear( false );
+    } );
+  }
+
+  clear( focus = true ) {
+    this.$field.clear( focus );
   }
 
   focus() {
-    this.$select.focus();
+    this.$field.focus();
+  }
+
+  doItemClick( evt ) {
+    this._favorites.push( evt.currentTarget.textContent );
+    this._favorites.sort( ( a, b ) => {
+      if( a > b ) return 1;
+      if( a < b ) return -1;
+      return 0;
+    } );
+    this.$list.items = this._favorites;
+    this.open = false;
+
+    this.$tag.textContent = this._favorites.length;
+    this.clear();
   }
 
   // Promote properties
@@ -77,12 +117,14 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
     this._upgrade( 'favorites' );
     this._upgrade( 'items' );
     this._upgrade( 'minimum' );    
+    this._upgrade( 'open' );     
   }
 
   // Watched attributes
   static get observedAttributes() {
     return [
-      'minimum'
+      'minimum',
+      'open'
     ];
   }
 
@@ -90,20 +132,19 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   // Not reflected
   // Array, Date, Object, null
   get favorites() {
-    return this.$list.items;
+    return this._favorites;
   }
 
   set favorites( value ) {
-    this.$list.items = value;
-    this.$select.selected = value;
+    this._favorites = value === null ? [] : [... value];
   }    
 
   get items() {
-    return this.$select.items;
+    return this._items;
   }
 
   set items( value ) {
-    this.$select.items = value;
+    this._items = value === null ? [] : [... value];
   }  
 
   // Attributes
@@ -124,4 +165,24 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       this.removeAttribute( 'minimum' );
     }
   }  
+
+  get open() {
+    return this.hasAttribute( 'open' );
+  }
+
+  set open( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'open' );
+      } else {
+        this.setAttribute( 'open', '' );
+      }
+    } else {
+      this.removeAttribute( 'open' );
+    }
+  }     
 } );

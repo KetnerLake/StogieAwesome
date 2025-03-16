@@ -6,11 +6,10 @@ import StogieIcon from "./component/icon.js";
 import StogieLabel from "./component/label.js";
 import StogieLink from "./component/link.js";
 import StogieList from "./component/list.js";
-import StogieMultiOption from "./component/multi-option.js";
-import StogieMultiSelect from "./component/multi-select.js";
 import StogieSpinner from "./component/spinner.js";
 import StogieStatusIndicator from "./component/status-indicator.js";
 import StogieTag from "./component/tag.js";
+import StogieTextField from "./component/text-field.js";
 
 // Renderers
 import StogieCatalogItem from "./renderer/catalog-item.js";

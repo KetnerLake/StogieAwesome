@@ -24,7 +24,9 @@
     </header>
     <sa-catalog minimum="3">
       <sa-list item-renderer="sa-catalog-item"></sa-list>
-      <sa-multi-select label="Cigar catalog" placeholder="Search"></sa-multi-select>      
+      <sa-text-field label="Cigar catalog" placeholder="Search">
+        <sa-tag dismissable slot="prefix"></sa-tag>
+      </sa-text-field>      
     </sa-catalog>
   </sa-favorites>
 
@@ -41,8 +43,12 @@
         <sa-label slot="empty">
           Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
         </sa-label>
+        <sa-button kind="tertiary" label="Just pick something" slot="empty"></sa-button>
       </sa-list>
-      <sa-multi-select label="Cigar catalog" placeholder="Search" removeable></sa-multi-select>
+      <sa-text-field label="Cigar catalog" placeholder="Search">
+        <sa-tag dismissable slot="prefix"></sa-tag>
+      </sa-text-field>      
+      <ul></ul>
     </sa-catalog>
     <footer>
       <sa-button disabled label="Recommend cigars">

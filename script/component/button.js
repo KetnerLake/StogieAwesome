@@ -149,7 +149,27 @@ export default class StogieButton extends HTMLElement {
         }
         :host( [kind=secondary] ) button:hover {
           background-color: #474747;
-        }                                
+        }
+        
+        :host( [kind=tertiary] ) button {
+          background-color: transparent;
+          border: solid 1px #0f62fe;
+          --icon-color: #0f62fe;
+          --label-color: #0f62fe;                    
+        }
+        :host( [kind=tertiary] ) button:focus {
+          background-color: #0f62fe;
+          border-color: #0f62fe;
+          outline-color: #ffffff;
+          --icon-color: #ffffff;
+          --label-color: #ffffff;          
+        }
+        :host( [kind=tertiary] ) button:hover {
+          background-color: #0050e6;
+          border: solid 1px #0050e6;
+          --icon-color: #ffffff;
+          --label-color: #ffffff;
+        }        
 
         :host( [size=s] ) button {
           height: 32px;
