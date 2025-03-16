@@ -43,6 +43,10 @@ body {
   padding: 0;
 }
 
+[hidden] {
+  display: none;
+}
+
 dialog {
   background: none;
   border: none; 
