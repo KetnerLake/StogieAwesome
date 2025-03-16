@@ -117,26 +117,6 @@ header sa-label span {
   color: transparent;
 }
 
-header h1 ~ p {
-  padding: 0 16px 0 16px;
-}
-
-p {
-  color: #161616;
-  cursor: default;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
-  margin: 0;
-  padding: 0;
-  text-rendering: optimizeLegibility;
-}
-
-sa-button[loading] sa-icon {
-  display: none;
-}
-
 sa-button.round-left::part( button ) {
   border-bottom-left-radius: 4px;
 }

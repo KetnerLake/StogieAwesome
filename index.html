@@ -154,7 +154,7 @@
     </header>
     <sa-box carded hidden id="going">
       <h3>Keep going!</h3>
-      <p>When you change your favorites - add to them or remove from them - I will automatically refresh these recommendations.</p>
+      <sa-label>When you change your favorites - add to them or remove from them - I will automatically refresh these recommendations.</sa-label>
       <sa-box>
         <sa-button class="round-left" id="got" kind="secondary" label="Got it">
           <sa-icon name="thumb_up" weight="200"></sa-icon>
@@ -165,7 +165,6 @@
       </sa-box>
     </sa-box>
     <sa-list carded item-renderer="sa-recommended-item">
-      <img slot="empty" src="/img/cigar.svg">
       <!--
       <sa-label slot="empty">&quot;I'll be back.&quot;</sa-label>
       <sa-label slot="empty">&quot;I am C-3PO. Human-cyborg relations.&quot;</sa-label>
@@ -182,14 +181,12 @@
       <sa-label slot="empty">&quot;I may be synthetic, but I'm not stupid.&quot;</sa-label>
       -->      
 
+      <img slot="empty" src="/img/cigar.svg">      
       <sa-label slot="empty">&quot;I am attempting to fill a silent moment<br>with non-relevant conversation.&quot;</sa-label>                                      
-      
-      
-                  
       <sa-status-indicator slot="empty" type="loading">Updating recommendations</sa-status-indicator>
     </sa-list>
     <aside>
-      <p>Made with 🔥 by <sa-link>Kevin Hoyt</sa-link>.</p>
+      <sa-label>Made with 🔥 by <sa-link>Kevin Hoyt</sa-link>.</sa-label>
     </aside>
   </sa-recommendations>  
 
