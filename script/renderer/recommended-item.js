@@ -17,97 +17,63 @@ export default class StogieRecommendedItem extends HTMLElement {
 
         div[part=detail] {
           display: grid;
-          grid-template-columns: auto 1fr;
+          grid-template-columns: auto 120px;
           grid-template-rows: 1fr;
           grid-column-gap: 0px;
           grid-row-gap: 0px;
           padding: 0 16px 0 16px;          
         }
 
-        div[part=detail] sa-text {
-          --text-color: #8d8d8d;
+        div[part=detail] sa-label {
+          --label-color: #8d8d8d;
         }
 
-        div[part=detail] sa-text span:first-of-type {
+        div[part=detail] sa-label span:first-of-type {
           font-weight: 600;
-        }
-
-        div[part=detail] sa-vbox:last-of-type {
-          align-self: center; 
-          justify-self: center;          
-        }        
-
-        div[part=detail] sa-vbox:last-of-type sa-text::part( text ) {
-          text-align: center;
-        }        
-
-        div[part=item] {
-          background-color: #ffffff;
-          border: solid 1px #e0e0e0;          
-          border-radius: 4px;
-          box-sizing: border-box;      
-          display: flex;            
-          flex-direction: column;
-          width: 100%;  
-        }    
-
-        div[part=options] {
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-end;
         }
 
         sa-button {
           min-width: 50%;
-        }
-
-        sa-button::part( button ) {
-          border-bottom-right-radius: 4px;
-          gap: 12px;
-          padding: 0 16px 0 16px;          
-        }
-
-        sa-button sa-icon {
-          --icon-color: #ffffff;
-          --icon-cursor: pointer;
         }        
 
-        sa-text[part=description] {
-          flex-basis: 0;
-          flex-grow: 1;
+        sa-button::part( button ) {        
+          border-bottom-right-radius: 4px;
+        }
+
+        sa-box[part=options] {
+          justify-content: flex-end;
+        }        
+
+        sa-label[part=name] {
           padding: 16px;
         }
 
-        sa-text[part=description]::part( text ) {
-          text-align: justify;
-        }
-
-        sa-text[part=name] {
+        sa-label[part=description] {
           padding: 16px;
-        }
+          --label-text-align: justify;
+        }        
       </style>
-      <div part="item">
+      <sa-box direction="column" part="item">
         <sa-label part="name" size="l" weight="bold">Padron 1964 Anniversary Series Maduro</sa-label>
         <div part="detail">
-          <sa-vbox>
-            <sa-label size="s"><span>Body:</span> Medium</sa-label>
-            <sa-label size="s"><span>Wrapper:</span> Connecticut Broadleaf</sa-label>
-            <sa-label size="s"><span>Size:</span> 6 x 60</sa-label>
-            <sa-label size="s"><span>Country:</span> Nicaragua</sa-label>        
-          </sa-vbox>
-          <sa-vbox>
-            <sa-label size="l">$27</sa-label>
+          <sa-box direction="column">
+            <sa-label part="body" size="s"><span>Body:</span> <span>Medium</span></sa-label>
+            <sa-label part="wrapper" size="s"><span>Wrapper:</span> <span>Connecticut Broadleaf<span></sa-label>
+            <sa-label part="size" size="s"><span>Size:</span> <span>6 x 60</span></sa-label>
+            <sa-label part="country" size="s"><span>Country:</span> <span>Nicaragua</span></sa-label>        
+          </sa-box>
+          <sa-box centered direction="column" justified>
+            <sa-label part="price" size="l">$27</sa-label>
             <sa-label size="s" weight="bold">Est. price</sa-label>
-          </sa-vbox>
+          </sa-box>
         </div>      
         <sa-label part="description">Considered one of the best cigars in the world, the Padron 1964 Anniversary Series Maduro offers a complex and rich flavor profile. Expect notes of dark chocolate, espresso, and cedar, with a smooth and creamy finish. The maduro wrapper adds a touch of sweetness and depth.</sa-label>
-        <div part="options">
-          <sa-button part="more">
-            <span>Add to favorites</span>
-            <sa-icon name="favorite" slot="icon" weight="200">
+        <sa-box part="options">
+          <sa-button label="Add to favorites" part="more">
+            <sa-icon name="favorite" weight="200">
           </sa-button>
-        </div>
-      </div>
+        </sa-box>
+      </sa-box>
     `;
     
     // Properties
@@ -119,8 +85,9 @@ export default class StogieRecommendedItem extends HTMLElement {
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
 
     // Elements
-    this.$description = this.shadowRoot.querySelector( 'sa-text[part=description]' );
-    this.$detail = this.shadowRoot.querySelector( 'sa-vbox[part=detail]' );
+    this.$body = this.shadowRoot.querySelector( 'sa-label[part=body] span:last-of-type' );
+    this.$country = this.shadowRoot.querySelector( 'sa-label[part=country] span:last-of-type' );    
+    this.$description = this.shadowRoot.querySelector( 'sa-label[part=description]' );
     this.$favorite = this.shadowRoot.querySelector( 'sa-button' );
     this.$favorite.addEventListener( this._touch, () => {
       this.favorite = !this.favorite;
@@ -134,7 +101,10 @@ export default class StogieRecommendedItem extends HTMLElement {
       } ) );
     } );
     this.$heart = this.shadowRoot.querySelector( 'sa-button sa-icon' );
-    this.$label = this.shadowRoot.querySelector( 'sa-label' );
+    this.$label = this.shadowRoot.querySelector( 'sa-label[part=name]' );
+    this.$price = this.shadowRoot.querySelector( 'sa-label[part=price]' );        
+    this.$size = this.shadowRoot.querySelector( 'sa-label[part=size] span:last-of-type' );    
+    this.$wrapper = this.shadowRoot.querySelector( 'sa-label[part=wrapper] span:last-of-type' );
   }
 
   // When attributes change
@@ -144,6 +114,12 @@ export default class StogieRecommendedItem extends HTMLElement {
     if( this._data === null ) return;
 
     this.$label.textContent = this._data.name;    
+    this.$body.textContent = this._data.body;
+    this.$wrapper.textContent = this._data.wrapper;
+    this.$size.textContent = `${this._data.length.toFixed( 2 )} x ${this._data.gauge}`;
+    this.$country.textContent = this._data.country;
+    this.$description.textContent = this._data.description + '.';
+    this.$price.textContent = `$${this._data.price.toFixed( 2 )}`;
   }
 
   // Promote properties

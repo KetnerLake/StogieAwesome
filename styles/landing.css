@@ -4,27 +4,38 @@ sa-landing {
   flex-basis: 0;
   flex-direction: column;
   flex-grow: 1;
-  gap: 16px;
   position: relative;
 }
 
-sa-landing img[slot=empty] {
+sa-landing sa-catalog {
+  display: flex;
+  flex-basis: 0;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 16px 0 16px 0;
+}
+
+sa-landing sa-catalog img {
   width: 48px;
   height: 48px;
 }
 
-sa-landing sa-list {
+sa-landing sa-catalog sa-list {
   flex-basis: 0;
   flex-grow: 1;
   padding: 0 16px 0 16px;
 }
 
-sa-landing sa-list::part( list ) {
+sa-landing sa-catalog sa-list::part( list ) {
   border-radius: 4px;
 }
 
-sa-landing sa-list::part( empty ) {
+sa-landing sa-catalog sa-list::part( empty ) {
   padding: 0 10% 0 10%;
+}
+
+sa-landing sa-catalog sa-multi-select {
+  padding: 0 16px 0 16px;
 }
 
 /*

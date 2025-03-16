@@ -51,6 +51,7 @@ export default class StogieCatalogItem extends HTMLElement {
     
     // Properties
     this._data = null;
+    this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';    
 
     // Root
     this.attachShadow( {mode: 'open'} );
@@ -59,13 +60,22 @@ export default class StogieCatalogItem extends HTMLElement {
     // Elements
     this.$label = this.shadowRoot.querySelector( 'sa-label' );
     this.$remove = this.shadowRoot.querySelector( 'button' );
+    this.$remove.addEventListener( this._touch, () => {
+      this.dispatchEvent( new CustomEvent( 'sa-remove', {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: {
+          value: this._data
+        }
+      } ) );
+    } );
   }
 
   // When attributes change
   _render() {
     if( this._data === null ) return;
-
-    this.$label.textContent = this._data.label;    
+    this.$label.textContent = this._data === null ? '' : this._data;    
   }
 
   // Promote properties
@@ -106,7 +116,7 @@ export default class StogieCatalogItem extends HTMLElement {
   }
   
   set data( value ) {
-    this._data = value === null ? null : structuredClone( value );
+    this._data = value === null ? null : value;
     this._render();
   }
 }

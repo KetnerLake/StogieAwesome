@@ -6,9 +6,8 @@ export default class StogieFavoriteItem extends HTMLElement {
     template.innerHTML = /* template */ `
       <style>
         :host {
-          align-items: center;
           box-sizing: border-box;
-          display: flex;
+          display: block;
           position: relative;
         }
 
@@ -19,47 +18,40 @@ export default class StogieFavoriteItem extends HTMLElement {
           box-sizing: border-box;
           cursor: pointer;
           display: flex;
-          height: 40px;
+          height: 47px;
           justify-content: center;
           margin: 0 4px 0 0;
           padding: 0;
-          width: 40px;
+          width: 48px;
         }
 
-        div {
-          align-items: center;
-          box-sizing: border-box;      
-          display: flex;            
-          flex-direction: row;
+        sa-box[centered] {
           padding: 0 0 0 16px;
-          width: 100%;  
-        }    
+          width: 100%;
+        }
 
-        p {
-          box-sizing: border-box;
-          color: #161616;
-          cursor: default;
-          font-family: 'IBM Plex Sans', sans-serif;
-          font-size: 16px;
-          font-weight: 400;
+        sa-box[direction=column] {
           flex-basis: 0;
           flex-grow: 1;
-          margin: 0;
-          padding: 0;
-          text-rendering: optimizeLegibility;
+        }
+
+        sa-label:last-of-type {
+          --label-color: #8d8d8d;
         }
 
         sa-icon {
-          --icon-color: #8d8d8d;
           --icon-cursor: pointer;
         }
       </style>
-      <div>
-        <p></p>
+      <sa-box centered>
+        <sa-box direction="column">
+          <sa-label part="name"></sa-label>
+          <sa-label part="flavors" size="s">Earthy, fruity, spicy</sa-label>
+        </sa-box>
         <button type="button">
-          <sa-icon name="close" size="s" weight="200"></sa-icon>
-        </button>
-      </div>
+          <sa-icon name="chevron_right" size="s" weight="200"></sa-icon>
+        </button>        
+      </sa-box>
     `;
     
     // Properties
@@ -70,7 +62,8 @@ export default class StogieFavoriteItem extends HTMLElement {
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
 
     // Elements
-    this.$label = this.shadowRoot.querySelector( 'p' );
+    this.$flavors = this.shadowRoot.querySelector( 'sa-label[part=flavors]' );
+    this.$label = this.shadowRoot.querySelector( 'sa-label[part=name]' );
     this.$remove = this.shadowRoot.querySelector( 'button' );
   }
 
@@ -79,6 +72,7 @@ export default class StogieFavoriteItem extends HTMLElement {
     if( this._data === null ) return;
 
     this.$label.textContent = this._data.name;    
+    this.$flavors.hidden = !this._data.hasOwnProperty( 'flavors' );
   }
 
   // Promote properties

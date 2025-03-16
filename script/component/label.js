@@ -47,6 +47,10 @@ export default class StogieLabel extends HTMLElement {
           font-weight: 600;
         }
 
+        :host( [truncate] ) {
+          overflow: hidden;
+        }
+
         :host( [truncate] ) p {
           overflow: hidden;
           text-overflow: ellipsis;

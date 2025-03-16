@@ -8,9 +8,26 @@ sa-favorites {
   position: relative;
 }
 
+sa-favorites sa-catalog {
+  display: flex;
+  flex-basis: 0;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 0 0 16px 0;
+}
+
 sa-favorites sa-list {
   flex-basis: 0;
   flex-grow: 1;
+  padding: 0 16px 0 16px;
+}
+
+sa-favorites sa-list::part( list ) {
+  border-radius: 4px;
+}
+
+sa-favorites sa-catalog sa-multi-select {
+  padding: 0 16px 0 16px;
 }
 
 /*

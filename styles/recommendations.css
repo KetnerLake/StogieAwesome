@@ -4,7 +4,6 @@ sa-recommendations {
   flex-basis: 0;
   flex-direction: column;
   flex-grow: 1;
-  gap: 16px;
   position: relative;
 }
 
@@ -18,6 +17,66 @@ sa-recommendations aside {
   margin: 0; 
   min-height: 48px;
   padding: 0 16px 0 16px;       
+}
+
+sa-recommendations h1 {
+  padding: 0 0 16px 16px;
+}
+
+sa-recommendations img[slot=empty] {
+  width: 48px;
+  height: 48px;
+}
+
+sa-recommendations > sa-box {
+  margin: 0 16px 16px 16px;
+}
+
+sa-recommendations > sa-box p {
+  padding: 0 16px 16px 16px;
+}
+
+sa-recommendations > sa-box sa-button {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+sa-recommendations sa-label[slot=empty] {
+  --label-text-align: center;
+}
+
+sa-recommendations sa-list {
+  flex-basis: 0;
+  flex-grow: 1;
+  overflow: auto;
+  padding: 0 16px 16px 16px;
+}
+
+sa-recommendations sa-list::part( list ) {
+  gap: 16px;
+}
+
+sa-recommendations sa-status-indicator {
+  gap: 8px;
+}
+
+sa-recommendations sa-status-indicator::part( spinner ) {
+  --spinner-indicator-color: #0f62fe;
+}
+
+sa-recommendations sa-status-indicator::part( label ) {
+  --label-color: #161616;
+}
+
+/*
+sa-recommendations {
+  box-sizing: border-box;
+  display: flex;
+  flex-basis: 0;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 16px;
+  position: relative;
 }
 
 sa-recommendations sa-box[carded] {
@@ -38,6 +97,7 @@ sa-recommendations sa-list {
   flex-grow: 1;
   padding: 0 16px 0 16px;
 }
+*/
 
 /*
 sa-recommendations article {

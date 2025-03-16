@@ -39,6 +39,30 @@ export default class StogieTag extends HTMLElement {
           padding: 0 2px 0 8px;
           --label-color: var( --tag-color, #ffffff );
         }
+
+        :host( [kind=blue] ) {
+          background-color: #d0e2ff;
+        }
+
+        :host( [kind=blue] ) sa-icon {
+          --icon-color: #0043ce;
+        }        
+
+        :host( [kind=blue] ) sa-label {
+          --label-color: #0043ce;
+        }        
+
+        :host( :not( [dismissable] ) ) {
+          height: 24px;
+        }
+
+        :host( :not( [dismissable] ) ) button {
+          display: none;          
+        }
+
+        :host( :not( [dismissable] ) ) sa-label {        
+          padding: 0 8px 0 8px;
+        }
       </style>
       <slot name="prefix"></slot>
       <sa-label size="s">
@@ -78,14 +102,18 @@ export default class StogieTag extends HTMLElement {
 
   // Setup
   connectedCallback() {
+    this._upgrade( 'dismissable' );   
     this._upgrade( 'hidden' );  
+    this._upgrade( 'kind' );  
     this._render();
   }
 
   // Watched attributes
   static get observedAttributes() {
     return [
-      'hidden'
+      'dismissable',
+      'hidden',
+      'kind'
     ];
   }
 
@@ -98,6 +126,26 @@ export default class StogieTag extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Number, String, null
+  get dismissable() {
+    return this.hasAttribute( 'dismissable' );
+  }
+
+  set dismissable( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'dismissable' );
+      } else {
+        this.setAttribute( 'dismissable', '' );
+      }
+    } else {
+      this.removeAttribute( 'dismissable' );
+    }
+  }   
+
   get hidden() {
     return this.hasAttribute( 'hidden' );
   }
@@ -115,6 +163,22 @@ export default class StogieTag extends HTMLElement {
       }
     } else {
       this.removeAttribute( 'hidden' );
+    }
+  }   
+
+  get kind() {
+    if( this.hasAttribute( 'kind' ) ) {
+      return this.getAttribute( 'kind' );
+    }
+
+    return null;
+  }
+
+  set kind( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'kind', value );
+    } else {
+      this.removeAttribute( 'kind' );
     }
   }   
 }

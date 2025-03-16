@@ -19,6 +19,17 @@
   src: url( '/fonts/Material Symbols/MaterialSymbolsOutlined-VariableFont_FILL,GRAD,opsz,wght.ttf' );
 }
 
+@keyframes open {
+  from {
+    transform: translateY( 16px );
+    opacity: 0;
+  }
+  to {
+    transform: translateY( 0 );
+    opacity: 1;
+  }
+}
+
 html {
   height: 100%;
 }
@@ -30,6 +41,29 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+dialog {
+  background: none;
+  border: none; 
+  border-radius: 4px;
+  box-shadow: 
+    0 0 6px rgba( 0, 0, 0, 0.20 ), 
+    0 0 24px rgba( 0, 0, 0, 0.05 );              
+  box-sizing: border-box;   
+  outline: none;
+  padding: 0;
+  -webkit-backdrop-filter: blur( 10px );  
+}
+
+dialog::backdrop {
+  backdrop-filter: blur( 10px ); 
+  background-color: rgba( 8, 8, 8, 0.30 );
+  -webkit-backdrop-filter: blur( 10px );  
+}
+
+dialog[open] {
+  animation: open 0.25s forwards;  
 }
 
 footer {

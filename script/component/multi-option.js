@@ -36,10 +36,14 @@ export default class StogieMultiOption extends HTMLElement {
         sa-icon {
           --icon-cursor: pointer;
         }
+
+        sa-label {
+          --label-cursor: pointer;
+        }
       </style>
       <button part="button" type="button">
         <sa-icon></sa-icon>
-        <sa-label></sa-label>
+        <sa-label truncate></sa-label>
       </button>
     `;
     
@@ -61,7 +65,6 @@ export default class StogieMultiOption extends HTMLElement {
       this.dispatchEvent( new CustomEvent( 'sa-change', {
         detail: {
           checked: this.checked,
-          label: this.label,
           value: this.value
         }
       } ) );
@@ -75,7 +78,7 @@ export default class StogieMultiOption extends HTMLElement {
     this.$icon.name = this.checked ? 'check_box' : 'check_box_outline_blank';
     this.$icon.filled = this.checked ? true : false;
     this.$icon.weight = this.checked ? 400 : 200;
-    this.$label.text = this.label;    
+    this.$label.text = this.value;    
   }
 
   // Promote properties
@@ -91,7 +94,6 @@ export default class StogieMultiOption extends HTMLElement {
   // Set up
   connectedCallback() {
     this._upgrade( 'checked' );              
-    this._upgrade( 'label' );              
     this._upgrade( 'value' );                      
     this._render();
   }
@@ -103,7 +105,6 @@ export default class StogieMultiOption extends HTMLElement {
   static get observedAttributes() {
     return [
       'checked',
-      'label',
       'value'
     ];
   }
@@ -136,22 +137,6 @@ export default class StogieMultiOption extends HTMLElement {
       this.removeAttribute( 'checked' );
     }
   }   
-
-  get label() {
-    if( this.hasAttribute( 'label' ) ) {
-      return this.getAttribute( 'label' );
-    }
-
-    return null;
-  }
-
-  set label( value ) {
-    if( value !== null ) {
-      this.setAttribute( 'label', value );
-    } else {
-      this.removeAttribute( 'label' );
-    }
-  } 
 
   get value() {
     if( this.hasAttribute( 'value' ) ) {
