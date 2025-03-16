@@ -98,9 +98,6 @@ export default class StogieSpinner extends HTMLElement {
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
   }
 
-  // When things change
-  _render() {;}
-
   // Promote properties
   // Values may be set before module load
   _upgrade( property ) {
@@ -117,7 +114,6 @@ export default class StogieSpinner extends HTMLElement {
     this._upgrade( 'hidden' );                    
     this._upgrade( 'inverted' );                    
     this._upgrade( 'size' );                
-    this._render();
   }
 
   // Watched attributes
@@ -128,12 +124,6 @@ export default class StogieSpinner extends HTMLElement {
       'inverted',
       'size'
     ];
-  }
-
-  // Observed tag attribute has changed
-  // Update render
-  attributeChangedCallback( name, old, value ) {
-    this._render();
   }
 
   // Attributes

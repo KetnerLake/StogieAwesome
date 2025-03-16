@@ -93,9 +93,6 @@ export default class StogieCatalogItem extends HTMLElement {
     this._upgrade( 'data' );              
     this._render();
   }
-  
-  // Set down
-  diconnectedCallback() {;}
 
   // Watched attributes
   static get observedAttributes() {

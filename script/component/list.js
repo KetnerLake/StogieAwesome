@@ -81,9 +81,6 @@ export default class StogieList extends HTMLElement {
     this.$list = this.shadowRoot.querySelector( 'ul' );
   }
 
-  // When attributes change
-  _render() {;}
-
   // Promote properties
   // Values may be set before module load
   _upgrade( property ) {
@@ -101,7 +98,6 @@ export default class StogieList extends HTMLElement {
     this._upgrade( 'items' );        
     this._upgrade( 'itemRenderer' );            
     this._upgrade( 'labelField' );                
-    this._render();
   }
 
   // Watched attributes
@@ -113,12 +109,6 @@ export default class StogieList extends HTMLElement {
       'label-field'
     ];
   }
-
-  // Observed attribute has changed
-  // Update render
-  attributeChangedCallback( name, old, value ) {
-    this._render();
-  } 
 
   // Properties
   // Not reflected

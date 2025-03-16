@@ -2,9 +2,11 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
   constructor() {
     super();
 
+    // Properties
     this._items = [];
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';
 
+    // Elements
     this.$favorites_going = this.querySelector( '#favorites_going' );
     this.$favorites_going.addEventListener( this._touch, () => {
       this.dispatchEvent( new CustomEvent( 'sa-favorites' ) );
@@ -25,6 +27,8 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
     this.$going.hidden = first === null ? false : true;
   }  
 
+  // Promote properties
+  // Values may be set before module load  
   _upgrade( property ) {
     if( this.hasOwnProperty( property ) ) {
       const value = this[property];
@@ -33,12 +37,14 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
     }
   }
 
+  // Set up
   connectedCallback() {
     this._upgrade( 'items' );
   }
 
-  disconnectedCallback() {;}  
-
+  // Properties
+  // Not reflected
+  // Array, Date, Object, null  
   get items() {
     return this.$list.items;
   }

@@ -92,9 +92,6 @@ export default class StogieLink extends HTMLElement {
     this._upgrade( 'href' );          
     this._render();
   }
-  
-  // Set down
-  diconnectedCallback() {;}
 
   // Watched attributes
   static get observedAttributes() {

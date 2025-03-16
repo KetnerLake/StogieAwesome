@@ -1,7 +1,3 @@
-import StogieButton from "../component/button.js";
-import StogieIcon from "../component/icon.js";
-import StogieLabel from "../component/label.js";
-
 export default class StogieRecommendedItem extends HTMLElement {
   constructor() {
     super();
@@ -13,6 +9,10 @@ export default class StogieRecommendedItem extends HTMLElement {
           box-sizing: border-box;
           display: block;
           position: relative;
+        }
+
+        :host( [hidden] ) {
+          display: none;
         }
 
         div[part=detail] {
@@ -136,16 +136,15 @@ export default class StogieRecommendedItem extends HTMLElement {
   connectedCallback() {
     this._upgrade( 'data' );   
     this._upgrade( 'favorite' );   
+    this._upgrade( 'hidden' );   
     this._render();
   }
-  
-  // Set down
-  diconnectedCallback() {;}
 
   // Watched attributes
   static get observedAttributes() {
     return [
-      'favorite'
+      'favorite',
+      'hidden'
     ];
   }
 
@@ -189,6 +188,26 @@ export default class StogieRecommendedItem extends HTMLElement {
       this.removeAttribute( 'favorite' );
     }
   }
+
+  get hidden() {
+    return this.hasAttribute( 'hidden' );
+  }
+
+  set hidden( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'hidden' );
+      } else {
+        this.setAttribute( 'hidden', '' );
+      }
+    } else {
+      this.removeAttribute( 'hidden' );
+    }
+  }  
 }
 
 window.customElements.define( 'sa-recommended-item', StogieRecommendedItem );

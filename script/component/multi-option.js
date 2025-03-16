@@ -1,6 +1,3 @@
-import StogieIcon from "./icon.js";
-import StogieLabel from "./label.js";
-
 export default class StogieMultiOption extends HTMLElement {
   constructor() {
     super();
@@ -98,9 +95,6 @@ export default class StogieMultiOption extends HTMLElement {
     this._render();
   }
   
-  // Set down
-  diconnectedCallback() {;}
-
   // Watched attributes
   static get observedAttributes() {
     return [

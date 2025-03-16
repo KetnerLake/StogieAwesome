@@ -1,8 +1,3 @@
-import StogieIcon from "./icon.js";
-import StogieLabel from "./label.js";
-import StogieMultiOption from "./multi-option.js";
-import StogieTag from "./tag.js";
-
 export default class StogieMultiSelect extends HTMLElement {
   constructor() {
     super();
@@ -15,10 +10,6 @@ export default class StogieMultiSelect extends HTMLElement {
           display: flex;
           flex-direction: column;
           position: inline-block;
-        }
-
-        :host( [concealed] ) {
-          visibility: hidden;
         }
 
         :host( [hidden] ) {
@@ -300,7 +291,6 @@ export default class StogieMultiSelect extends HTMLElement {
 
   // Setup
   connectedCallback() {
-    this._upgrade( 'concealed' );  
     this._upgrade( 'count' );  
     this._upgrade( 'hidden' );  
     this._upgrade( 'items' );          
@@ -316,7 +306,6 @@ export default class StogieMultiSelect extends HTMLElement {
   // Watched attributes
   static get observedAttributes() {
     return [
-      'concealed',
       'count',
       'hidden',
       'label',
@@ -362,26 +351,6 @@ export default class StogieMultiSelect extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Number, String, null
-  get concealed() {
-    return this.hasAttribute( 'concealed' );
-  }
-
-  set concealed( value ) {
-    if( value !== null ) {
-      if( typeof value === 'boolean' ) {
-        value = value.toString();
-      }
-
-      if( value === 'false' ) {
-        this.removeAttribute( 'concealed' );
-      } else {
-        this.setAttribute( 'concealed', '' );
-      }
-    } else {
-      this.removeAttribute( 'concealed' );
-    }
-  }   
-
   get count() {
     if( this.hasAttribute( 'count' ) ) {
       return parseInt( this.getAttribute( 'count' ) );

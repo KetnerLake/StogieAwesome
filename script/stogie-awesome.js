@@ -1,3 +1,4 @@
+// Components
 import StogieAlert from "./component/alert.js";
 import StogieBox from "./component/box.js";
 import StogieButton from "./component/button.js";
@@ -11,10 +12,11 @@ import StogieSpinner from "./component/spinner.js";
 import StogieStatusIndicator from "./component/status-indicator.js";
 import StogieTag from "./component/tag.js";
 
+// Renderers
 import StogieCatalogItem from "./renderer/catalog-item.js";
-import StogieFavoriteItem from "./renderer/favorite-item.js";
 import StogieRecommendedItem from "./renderer/recommended-item.js";
 
+// Views (light)
 import "./view/catalog.js";
 import "./view/favorites.js";
 import "./view/landing.js";

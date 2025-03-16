@@ -87,9 +87,6 @@ export default class StogieTag extends HTMLElement {
     } );
   }
 
-  // When attributes change
-  _render() {;}
-
   // Promote properties
   // Values may be set before module load
   _upgrade( property ) {
@@ -105,7 +102,6 @@ export default class StogieTag extends HTMLElement {
     this._upgrade( 'dismissable' );   
     this._upgrade( 'hidden' );  
     this._upgrade( 'kind' );  
-    this._render();
   }
 
   // Watched attributes
@@ -116,12 +112,6 @@ export default class StogieTag extends HTMLElement {
       'kind'
     ];
   }
-
-  // Observed attribute has changed
-  // Update render
-  attributeChangedCallback( name, old, value ) {
-    this._render();
-  } 
 
   // Attributes
   // Reflected

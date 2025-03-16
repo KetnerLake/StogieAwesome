@@ -2,8 +2,10 @@ customElements.define( 'sa-landing', class extends HTMLElement {
   constructor() {
     super();
 
+    // Properties
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';
 
+    // Elements
     this.$catalog = this.querySelector( 'sa-catalog' );
     this.$catalog.addEventListener( 'sa-change', ( evt ) => {
       if( evt.detail.count === null ) {
@@ -26,6 +28,8 @@ customElements.define( 'sa-landing', class extends HTMLElement {
     } );
   }
 
+  // Promote properties
+  // Values may be set before module load  
   _upgrade( property ) {
     if( this.hasOwnProperty( property ) ) {
       const value = this[property];
@@ -34,11 +38,16 @@ customElements.define( 'sa-landing', class extends HTMLElement {
     }
   }
 
+  // Set up
   connectedCallback() {
     this._upgrade( 'catalog' );
     this._upgrade( 'favorites' );    
   }
 
+
+  // Properties
+  // Not reflected
+  // Array, Date, Object, null  
   get catalog() {
     return this.$catalog.items;
   }

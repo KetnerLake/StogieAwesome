@@ -75,9 +75,6 @@ export default class StogieBox extends HTMLElement {
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
   }
 
-  // When attributes change
-  _render() {;}
-
   // Promote properties
   // Values may be set before module load
   _upgrade( property ) {
@@ -96,8 +93,7 @@ export default class StogieBox extends HTMLElement {
     this._upgrade( 'direction' );      
     this._upgrade( 'gap' );        
     this._upgrade( 'hidden' );  
-    this._upgrade( 'justified' );        
-    this._render();
+    this._upgrade( 'justified' );   
   }
 
   // Watched attributes
@@ -112,12 +108,6 @@ export default class StogieBox extends HTMLElement {
       'justified'
     ];
   }
-
-  // Observed attribute has changed
-  // Update render
-  attributeChangedCallback( name, old, value ) {
-    this._render();
-  } 
 
   // Attributes
   // Reflected

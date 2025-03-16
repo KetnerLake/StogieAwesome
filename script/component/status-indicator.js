@@ -1,6 +1,3 @@
-import StogieLabel from "./label.js";
-import StogieSpinner from "./spinner.js";
-
 export default class StogieStatusIndicator extends HTMLElement {
   constructor() {
     super();
