@@ -56,12 +56,18 @@ const recommendations = document.querySelector( 'sa-recommendations' );
 recommendations.addEventListener( 'sa-about', () => {
   about.hidden = false;
 } );
+recommendations.addEventListener( 'sa-action', () => {
+  console.log( 'ACTION' );
+} );
 recommendations.addEventListener( 'sa-favorite', ( evt ) => {
 
 } );
 recommendations.addEventListener( 'sa-favorites', ( evt ) => {
   recommendations.hidden = true;
   favorites.hidden = false;
+} );
+recommendations.addEventListener( 'sa-refresh', () => {
+  console.log( 'REFRESH' );
 } );
 
 const db = new Dexie( 'StogieAwesome' );

@@ -31,6 +31,7 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
     } ); 
     this.$notification = this.querySelector( 'sa-notification' );
     this.$notification.addEventListener( 'sa-close', () => this.$notification.hidden = true );
+    this.$notification.addEventListener( 'sa-action', () => this.$notification.hidden = true );
     this.$refresh = this.querySelector( '#refresh' );
     this.$refresh.addEventListener( this._touch, () => {
       this.$refresh.hidden = true;

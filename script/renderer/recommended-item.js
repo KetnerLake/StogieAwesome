@@ -32,12 +32,14 @@ export default class StogieRecommendedItem extends HTMLElement {
           font-weight: 600;
         }
 
+        /*
         sa-button {
           min-width: 50%;
-        }        
+        } 
+        */       
 
         sa-button::part( button ) {        
-          border-bottom-right-radius: 4px;
+          border-top-right-radius: 4px;
         }
 
         sa-box[part=options] {
@@ -45,7 +47,9 @@ export default class StogieRecommendedItem extends HTMLElement {
         }        
 
         sa-label[part=name] {
-          padding: 16px;
+          flex-basis: 0;
+          flex-grow: 1;
+          padding: 12px 16px 16px 16px;
         }
 
         sa-label[part=description] {
@@ -54,7 +58,12 @@ export default class StogieRecommendedItem extends HTMLElement {
         }        
       </style>
       <sa-box direction="column" part="item">
-        <sa-label part="name" size="l" weight="bold">Padron 1964 Anniversary Series Maduro</sa-label>
+        <sa-box>
+          <sa-label part="name" size="l" weight="bold">Padron 1964 Anniversary Series Maduro</sa-label>
+          <sa-button>
+            <sa-icon name="favorite" weight="200"></sa-icon>
+          </sa-button>
+        </sa-box>
         <div part="detail">
           <sa-box direction="column">
             <sa-label part="body" size="s"><span>Body:</span> <span>Medium</span></sa-label>
@@ -68,11 +77,6 @@ export default class StogieRecommendedItem extends HTMLElement {
           </sa-box>
         </div>      
         <sa-label part="description">Considered one of the best cigars in the world, the Padron 1964 Anniversary Series Maduro offers a complex and rich flavor profile. Expect notes of dark chocolate, espresso, and cedar, with a smooth and creamy finish. The maduro wrapper adds a touch of sweetness and depth.</sa-label>
-        <sa-box part="options">
-          <sa-button label="Add favorite" part="more">
-            <sa-icon name="favorite" weight="200">
-          </sa-button>
-        </sa-box>
       </sa-box>
     `;
     
@@ -111,7 +115,7 @@ export default class StogieRecommendedItem extends HTMLElement {
   // When attributes change
   _render() {
     this.$heart.filled = this.favorite;
-    this.$favorite.label = this.favorite ? 'Remove favorite' : 'Add favorite';
+    // this.$favorite.label = this.favorite ? 'Remove favorite' : 'Add favorite';
 
     if( this._data === null ) return;
 

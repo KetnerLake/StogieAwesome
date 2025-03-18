@@ -88,7 +88,11 @@ export default class StogieNotification extends HTMLElement {
     // Elements
     this.$action = this.shadowRoot.querySelector( 'sa-button' );
     this.$action.addEventListener( this._touch, () => {
-      this.dispatchEvent( new CustomEvent( 'sa-action' ) );
+      this.dispatchEvent( new CustomEvent( 'sa-action', {
+        bubbles: true,
+        cancelable: false,
+        composed: true
+      } ) );
     } );
     this.$close = this.shadowRoot.querySelector( 'button' );
     this.$close.addEventListener( this._touch, () => {
