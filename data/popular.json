@@ -1,0 +1,19 @@
+[{
+  "name": "My Father The Judge Grand Robusto", 
+  "description": "The Grand Robusto's thick ring gauge allows for a thorough exploration of Nicaragua's tobacco appellations, making for a cigar that is rich and complex.", 
+  "body": "Medium-Full", 
+  "length": 5, 
+  "gauge": 60, 
+  "price": 13.30, 
+  "country": "Nicaragua", 
+  "wrapper": "Ecuador"
+}, {
+  "name": "Montecristo 1935 Anniversary Nicaragua Espeso", 
+  "description": "Extremely strong cigar with complex flavor profile and unique Pennsylvania broadleaf wrapper", 
+  "body": "Medium-Full", 
+  "length": 5.5, 
+  "gauge": 60, 
+  "price": 18.00, 
+  "country": "Nicaragua", 
+  "wrapper": "Nicaragua"
+}]

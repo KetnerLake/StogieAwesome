@@ -15,9 +15,18 @@ customElements.define( 'sa-landing', class extends HTMLElement {
       }
     } );
 
-    this.$recommend = this.querySelector( 'sa-button' );
+    this.$pick = this.querySelector( '#go' );
+    this.$pick.addEventListener( this._touch, () => {
+      fetch( 'https://cigardojo.com/category/cigars/feed/' )
+      .then( ( response ) => response.text() ) 
+      .then( ( data ) => {
+        console.log( data );
+      } );
+    } );
+
+    this.$recommend = this.querySelector( '#recommend' );
     this.$recommend.addEventListener( this._touch, () => {
-      // this.$select.open = false;      
+      this.$catalog.clear( false );
       this.$recommend.disabled = true;
 
       this.dispatchEvent( new CustomEvent( 'sa-recommend', {
@@ -42,8 +51,15 @@ customElements.define( 'sa-landing', class extends HTMLElement {
   connectedCallback() {
     this._upgrade( 'catalog' );
     this._upgrade( 'favorites' );    
+    this._upgrade( 'hidden' );        
   }
 
+  // Watched attributes
+  static get observedAttributes() {
+    return [
+      'hidden'
+    ];
+  } 
 
   // Properties
   // Not reflected
@@ -63,4 +79,27 @@ customElements.define( 'sa-landing', class extends HTMLElement {
   set favorites( value ) {
     this.$catalog.favorites = value;
   }    
+
+  // Attributes
+  // Reflected
+  // Boolean, Float, Integer, String, null
+  get hidden() {
+    return this.hasAttribute( 'hidden' );
+  }
+
+  set hidden( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'hidden' );
+      } else {
+        this.setAttribute( 'hidden', '' );
+      }
+    } else {
+      this.removeAttribute( 'hidden' );
+    }
+  }         
 } );

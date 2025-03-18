@@ -14,7 +14,7 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
     this.$field = this.querySelector( 'sa-text-field' );
     this.$field.addEventListener( 'sa-change', ( evt ) => {
       if( evt.detail.value === null ) {
-        this.$menu.hidePopover();
+        this.open = false;
         return;
       }
 
@@ -63,7 +63,8 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
 
       this.dispatchEvent( new CustomEvent( 'sa-change', {
         detail: {
-          count: favorites === null ? null : favorites.length
+          count: this._favorites.length === 0 ? null : this._favorites.length,
+          favorites: this._favorites.length === 0 ? null : this._favorites
         }
       } ) );      
     } );
@@ -77,6 +78,13 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       this.$list.items = this._favorites;
       this.open = false;
       this.clear( false );
+
+      this.dispatchEvent( new CustomEvent( 'sa-change', {
+        detail: {
+          count: this._favorites.length === 0 ? null : this._favorites.length,
+          favorites: this._favorites.length === 0 ? null : this._favorites
+        }
+      } ) );            
     } );
   }
 
@@ -100,6 +108,13 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
 
     this.$tag.textContent = this._favorites.length;
     this.clear();
+
+    this.dispatchEvent( new CustomEvent( 'sa-change', {
+      detail: {
+        count: this._favorites.length === 0 ? null : this._favorites.length,
+        favorites: this._favorites.length === 0 ? null : this._favorites
+      }
+    } ) );
   }
 
   // Promote properties
@@ -137,6 +152,9 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
 
   set favorites( value ) {
     this._favorites = value === null ? [] : [... value];
+    this.$list.items = this._favorites;
+    this.$tag.hidden = this._favorites.length === 0 ? true : false;
+    this.$tag.textContent = this._favorites.length === 0 ? '' : this._favorites.length;
   }    
 
   get items() {

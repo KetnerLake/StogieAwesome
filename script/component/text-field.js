@@ -33,6 +33,7 @@ export default class StogieTextField extends HTMLElement {
         input {
           background: none;
           border: none;
+          border-radius: 0;
           box-sizing: border-box;
           color: #161616;
           flex-basis: 0;
@@ -45,6 +46,7 @@ export default class StogieTextField extends HTMLElement {
           outline: none;
           padding: 0;
           text-rendering: optimizeLegibility;
+          -webkit-tap-highlight-color: transparent;                
         }
 
         input::placeholder {
@@ -64,6 +66,7 @@ export default class StogieTextField extends HTMLElement {
           outline-style: solid;
           outline-width: 2px;            
           padding: 0 6px 0 16px;
+          -webkit-tap-highlight-color: transparent;                          
         }
 
         label:focus-within {
@@ -83,7 +86,11 @@ export default class StogieTextField extends HTMLElement {
           padding: 0 0 0 16px;
         }
 
-        :host( :not( [label] ) ) sa-part[part=label] {
+        :host( :not( [clearable] ) ) button[part=clear] {
+          display: none;
+        }
+
+        :host( :not( [label] ) ) sa-label[part=label] {
           display: none;
         }
       </style>
@@ -166,6 +173,7 @@ export default class StogieTextField extends HTMLElement {
 
   // When attributes change
   _render() {
+    this.$input.type = this.type === null ? 'text' : this.type;
     this.$input.placeholder = this.placeholder === null ? '' : this.placeholder;
     this.$input.value = this.value === null ? '' : this.value;
     this.$label.textContent = this.label === null ? '' : this.label;
@@ -183,9 +191,11 @@ export default class StogieTextField extends HTMLElement {
 
   // Setup
   connectedCallback() {
+    this._upgrade( 'clearable' );      
     this._upgrade( 'hidden' );  
     this._upgrade( 'label' );           
     this._upgrade( 'placeholder' );   
+    this._upgrade( 'type' );       
     this._upgrade( 'value' );          
     this._render();
   }
@@ -193,9 +203,11 @@ export default class StogieTextField extends HTMLElement {
   // Watched attributes
   static get observedAttributes() {
     return [
+      'clearable',
       'hidden',
       'label',
       'placeholder',
+      'type',
       'value'
     ];
   }
@@ -209,6 +221,26 @@ export default class StogieTextField extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Number, String, null
+  get clearable() {
+    return this.hasAttribute( 'clearable' );
+  }
+
+  set clearable( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'clearable' );
+      } else {
+        this.setAttribute( 'clearable', '' );
+      }
+    } else {
+      this.removeAttribute( 'clearable' );
+    }
+  }
+
   get hidden() {
     return this.hasAttribute( 'hidden' );
   }
@@ -260,6 +292,22 @@ export default class StogieTextField extends HTMLElement {
       this.removeAttribute( 'placeholder' );
     }
   }  
+
+  get type() {
+    if( this.hasAttribute( 'type' ) ) {
+      return this.getAttribute( 'type' );
+    }
+
+    return null;
+  }
+
+  set type( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'type', value );
+    } else {
+      this.removeAttribute( 'type' );
+    }
+  }    
 
   get value() {
     if( this.hasAttribute( 'value' ) ) {

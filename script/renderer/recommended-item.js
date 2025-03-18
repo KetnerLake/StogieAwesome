@@ -69,7 +69,7 @@ export default class StogieRecommendedItem extends HTMLElement {
         </div>      
         <sa-label part="description">Considered one of the best cigars in the world, the Padron 1964 Anniversary Series Maduro offers a complex and rich flavor profile. Expect notes of dark chocolate, espresso, and cedar, with a smooth and creamy finish. The maduro wrapper adds a touch of sweetness and depth.</sa-label>
         <sa-box part="options">
-          <sa-button label="Add to favorites" part="more">
+          <sa-button label="Add favorite" part="more">
             <sa-icon name="favorite" weight="200">
           </sa-button>
         </sa-box>
@@ -96,6 +96,7 @@ export default class StogieRecommendedItem extends HTMLElement {
         cancelable: false,
         composed: true,
         detail: {
+          data: this.data,
           favorite: this.favorite
         }
       } ) );
@@ -110,6 +111,7 @@ export default class StogieRecommendedItem extends HTMLElement {
   // When attributes change
   _render() {
     this.$heart.filled = this.favorite;
+    this.$favorite.label = this.favorite ? 'Remove favorite' : 'Add favorite';
 
     if( this._data === null ) return;
 

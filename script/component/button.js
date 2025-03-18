@@ -130,7 +130,7 @@ export default class StogieButton extends HTMLElement {
         :host( [kind=ghost] ) button:active,
         :host( [kind=ghost] ) button:focus,        
         :host( [kind=ghost] ) button:hover {
-          background-color: #8d8d8d1f;
+          /* background-color: #8d8d8d1f; */
           border: solid 1px transparent;
           --icon-color: #0f62fe;
           --label-color: #0f62fe;          

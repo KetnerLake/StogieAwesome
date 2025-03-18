@@ -41,6 +41,11 @@ sa-recommendations > sa-box sa-button {
   flex-grow: 1;
 }
 
+sa-recommendations header sa-button:last-of-type {
+  margin-left: auto;
+  margin-right: 4px;
+}
+
 sa-recommendations sa-label[slot=empty] {
   --label-text-align: center;
 }
