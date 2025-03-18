@@ -43,6 +43,14 @@ sa-about sa-box.splash img {
   width: 56px;
 }
 
+sa-about sa-box.splash sa-label {
+  left: 16px;
+  opacity: 0.60;
+  position: absolute;
+  top: 16px;
+  --label-color: #ffffff;
+}
+
 sa-about sa-stack {
   display: flex;
   flex-basis: 0;
