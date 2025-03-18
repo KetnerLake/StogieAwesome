@@ -72,7 +72,9 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
     this.$menu = this.querySelector( 'ul' );
 
     this.$tag = this.querySelector( 'sa-tag' );
-    this.$tag.addEventListener( 'sa-remove', () => {
+    this.$tag.addEventListener( 'sa-remove', ( evt ) => {
+      evt.preventDefault();
+      
       this.$tag.textContent = '';
       this._favorites = [];
       this.$list.items = this._favorites;
