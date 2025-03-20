@@ -5,6 +5,7 @@ sa-about {
   flex-direction: column;
   height: 100%;
   position: absolute;
+  top: 100vh;
   width: 100vw;
   z-index: 100;
 }

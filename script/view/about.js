@@ -39,10 +39,36 @@ customElements.define( 'sa-about', class extends HTMLElement {
     this.$send.disabled = true;
   }
 
+  hide() {
+    return this.animate(
+      [
+        {top: 0},
+        {top: '100vh'}        
+      ], {
+        duration: 600,
+        easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
+        fill: 'forwards'
+      }
+    ).finished;
+  }  
+
   reset() {
     this.$tabs.selectedIndex = 0;    
     this.$stack.selectedIndex = 0;
     this.clear();    
+  }
+
+  show() {
+    this.animate(
+      [
+        {top: '100vh'}, 
+        {top: 0}
+      ], {
+        duration: 600,
+        easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
+        fill: 'forwards'
+      }
+    );
   }
 
   validate() {

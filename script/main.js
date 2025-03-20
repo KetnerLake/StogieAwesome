@@ -1,7 +1,6 @@
 const about = document.querySelector( 'sa-about' );
 about.addEventListener( 'sa-close', () => {
-  about.hidden = true;
-  about.reset();
+  about.hide().then( () => about.reset() );
 } );
 
 const alert = document.querySelector( 'sa-alert' );
@@ -18,8 +17,22 @@ favorites.addEventListener( 'sa-minimum', ( evt ) => {
   dialog.showModal();
 } );
 favorites.addEventListener( 'sa-recommendations', () => {
-  favorites.hidden = true;
-  recommendations.hidden = false;
+  favorites.animate( [
+    {left: '0'},
+    {left: '-100vw'}        
+  ], {
+    duration: 600,
+    easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
+    fill: 'forwards'
+  } );    
+  recommendations.animate( [
+    {left: '100vw'},
+    {left: '0'}        
+  ], {
+    duration: 600,
+    easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
+    fill: 'forwards'
+  } ); 
 } );
 
 const landing = document.querySelector( 'sa-landing' );
@@ -54,17 +67,31 @@ landing.addEventListener( 'sa-recommend', ( evt ) => {
 
 const recommendations = document.querySelector( 'sa-recommendations' );
 recommendations.addEventListener( 'sa-about', () => {
-  about.hidden = false;
+  about.show();
 } );
 recommendations.addEventListener( 'sa-action', () => {
   console.log( 'ACTION' );
 } );
 recommendations.addEventListener( 'sa-favorite', ( evt ) => {
-
+  
 } );
-recommendations.addEventListener( 'sa-favorites', ( evt ) => {
-  recommendations.hidden = true;
-  favorites.hidden = false;
+recommendations.addEventListener( 'sa-favorites', () => {
+  recommendations.animate( [
+    {left: 0},
+    {left: '100vw'}        
+  ], {
+    duration: 600,
+    easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
+    fill: 'forwards'
+  } ); 
+  favorites.animate( [
+    {left: '-100vw'},
+    {left: '0'}        
+  ], {
+    duration: 600,
+    easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
+    fill: 'forwards'
+  } );   
 } );
 recommendations.addEventListener( 'sa-refresh', () => {
   console.log( 'REFRESH' );
@@ -78,9 +105,10 @@ db.version( 1 ).stores( {
 db.recommendations.toArray()
 .then( ( data ) => { 
   if( data.length > 0 ) {
-    recommendations.items = data;
     landing.hidden = true;
-    recommendations.hidden = false;
+    favorites.style.left = 'calc( 0 - 100vw )';
+    recommendations.items = data;    
+    recommendations.style.left = '0';
   }
   return db.favorites.toArray();
 } )
