@@ -37,8 +37,15 @@ favorites.addEventListener( 'sa-recommendations', () => {
 
 const landing = document.querySelector( 'sa-landing' );
 landing.addEventListener( 'sa-recommend', ( evt ) => {
-  landing.hidden = true;
-  recommendations.hidden = false;
+  recommendations.animate( [
+    {left: '100vw'},
+    {left: '0'}        
+  ], {
+    duration: 600,
+    easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
+    fill: 'forwards'
+  } ).finished.then( () => landing.hidden = true );
+
   favorites.items = evt.detail.favorites;
 
   evt.detail.favorites = evt.detail.favorites.map( ( value ) => {
@@ -59,6 +66,11 @@ landing.addEventListener( 'sa-recommend', ( evt ) => {
       value.createdAt = now;
       value.updatedAt = now;
       return value
+    } );
+    data.sort( ( a, b ) => {
+      if( a.name > b.name ) return 1;
+      if( a.name < b.name ) return -1;
+      return 0;
     } );
     recommendations.items = data;
     return db.recommendations.bulkPut( data );
@@ -105,6 +117,12 @@ db.version( 1 ).stores( {
 db.recommendations.toArray()
 .then( ( data ) => { 
   if( data.length > 0 ) {
+    data.sort( ( a, b ) => {
+      if( a.name > b.name ) return 1;
+      if( a.name < b.name ) return -1;
+      return 0;
+    } );
+
     landing.hidden = true;
     favorites.style.left = 'calc( 0 - 100vw )';
     recommendations.items = data;    
