@@ -19,9 +19,9 @@ favorites.addEventListener( 'sa-minimum', ( evt ) => {
 favorites.addEventListener( 'sa-recommendations', () => {
   favorites.animate( [
     {left: '0'},
-    {left: '-100vw'}        
+    {left: '-50vw'}        
   ], {
-    duration: 600,
+    duration: 350,
     easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
     fill: 'forwards'
   } );    
@@ -29,7 +29,7 @@ favorites.addEventListener( 'sa-recommendations', () => {
     {left: '100vw'},
     {left: '0'}        
   ], {
-    duration: 600,
+    duration: 350,
     easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
     fill: 'forwards'
   } ); 
@@ -41,7 +41,7 @@ landing.addEventListener( 'sa-recommend', ( evt ) => {
     {left: '100vw'},
     {left: '0'}        
   ], {
-    duration: 600,
+    duration: 350,
     easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
     fill: 'forwards'
   } ).finished.then( () => landing.hidden = true );
@@ -92,15 +92,15 @@ recommendations.addEventListener( 'sa-favorites', () => {
     {left: 0},
     {left: '100vw'}        
   ], {
-    duration: 600,
+    duration: 350,
     easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
     fill: 'forwards'
   } ); 
   favorites.animate( [
-    {left: '-100vw'},
+    {left: '-50vw'},
     {left: '0'}        
   ], {
-    duration: 600,
+    duration: 350,
     easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
     fill: 'forwards'
   } );   

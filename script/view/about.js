@@ -45,7 +45,7 @@ customElements.define( 'sa-about', class extends HTMLElement {
         {top: 0},
         {top: '100vh'}        
       ], {
-        duration: 600,
+        duration: 350,
         easing: 'cubic-bezier( 0.42, 0, 0.58, 1 )',        
         fill: 'forwards'
       }
