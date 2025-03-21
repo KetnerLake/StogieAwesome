@@ -6,6 +6,9 @@ customElements.define( 'sa-about', class extends HTMLElement {
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';
 
     // Elements
+    this.$buy = this.querySelector( '#buy' );
+    this.$buy.addEventListener( this._touch, () => window.open( 'https://kevinhoyt.com', '_blank' ) );
+
     this.$close = this.querySelector( '#close' );
     this.$close.addEventListener( this._touch, () => {
       this.dispatchEvent( new CustomEvent( 'sa-close' ) );
@@ -14,8 +17,34 @@ customElements.define( 'sa-about', class extends HTMLElement {
     this.$email = this.querySelector( '#email' );
     this.$email.addEventListener( 'sa-change', () => this.validate() );
 
+    this.$flavor = this.querySelector( '#flavor' );
+    this.$flavor.addEventListener( 'sa-change', () => {
+      if( this.$flavor.value === null ) {
+        this.$notify.disabled = true;
+        return;
+      }
+  
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if( !regex.test( this.$flavor.value ) ) {
+        this.$notify.disabled = true;
+        return;
+      }      
+
+      this.$notify.disabled = false;
+    } );    
+
     this.$message = this.querySelector( '#message' );
     this.$message.addEventListener( 'sa-change', () => this.validate() );    
+
+    this.$notify = this.querySelector( '#notify' );
+    this.$notify.addEventListener( this._touch, () => {
+      this.dispatchEvent( new CustomEvent( 'sa-notify', {
+        detail: {
+          email: this.$email.value,
+          message: 'NOTIFY ME'
+        }
+      } ) );
+    } );
 
     this.$send = this.querySelector( '#send' );
     this.$send.addEventListener( this._touch, () => {

@@ -113,7 +113,7 @@
   <sa-about>
     <sa-box class="splash" centered direction="column" gap="l" justified>
       <img src="/img/krhoyt.jpg">
-      <sa-label size="s">18.03.2025</sa-label>
+      <sa-label size="s">21.03.2025</sa-label>
       <button id="close" type="button">
         <sa-icon name="close" size="s" weight="200"></sa-icon>
       </button>
@@ -123,13 +123,38 @@
       <sa-tab label="Contact"></sa-tab>
     </sa-tab-group>
     <sa-stack>
-      <sa-box direction="column">
+      <sa-box direction="column" style="overflow: auto;">
         <sa-label style="padding: 16px;">Just like cigars, AI is not free. You can help keep this full body blend burning with the purchase of another smoke.</sa-label>
-        <sa-button label="Buy me a cigar" style="margin: 0 16px 0 16px;">
+        <sa-button id="buy" label="Buy me a cigar" style="margin: 0 16px 0 16px;">
           <sa-icon name="celebration" weight="200"></sa-icon>
         </sa-button>
-        <h3>Flavor Awesome</h3>
-        <sa-label>Track tasting notes, photos, and get AI-powered recommendations across cigars, whiskey, chocolate, hot sauce, and more - all in one app.</sa-label>
+        <h3>Flavor Awesome (Coming Soon!)</h3>
+        <sa-label style="padding: 0 16px 16px 16px;">
+          Remember that cigar you had..? At that one place..? Was it when you were on vacation..? No, it was that work trip, right?
+        </sa-label>
+        <sa-label style="padding: 0 16px 16px 16px;">
+          Flavor Awesome is the ultimate connoisseur journal, helping you remember every detail of your tasting experience. Never forget where or when you had that amazing cigar, or why you liked it. Includes these amazing flavors and more...
+        </sa-label>        
+        <ul>
+          <li>Beer 🍺</li>
+          <li>Burgers 🍔</li>          
+          <li>Cannabis 🍃</li>
+          <li>Cheese 🧀</li>
+          <li>Chocolate 🍫</li>
+          <li>Coffee ☕</li>
+          <li>Hot Sauce 🌡️</li>
+          <li>Oysters 🦪</li>
+          <li>Pizza 🍕</li>
+          <li>Scotch 🏴󠁧󠁢󠁳󠁣󠁴󠁿</li>
+          <li>Taco 🌮</li>
+          <li>Tea 🫖</li>
+          <li>Whiskey 🇺🇸</li>
+          <li>Wine 🍷</li>
+        </ul>
+        <sa-text-field disabled id="flavor" label="Email address" placeholder="Email address" type="email"></sa-text-field>
+        <sa-button disabled id="notify" label="Sign up to be notified">
+          <sa-icon name="notifications" weight="200"></sa-icon>
+        </sa-button>
       </sa-box>
       <sa-box direction="column" flex gap="l" style="padding: 16px;">
         <sa-label>Am I missing your favorite cigar? Have an idea for a feature? Did something break? Just want to say &quot;Hello&quot;?</sa-label>

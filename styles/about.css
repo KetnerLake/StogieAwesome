@@ -57,9 +57,33 @@ sa-about sa-stack {
   flex-basis: 0;
   flex-direction: column;
   flex-grow: 1;
+  overflow: auto;
 }
 
 sa-about sa-text-area {
   flex-basis: 0;
   flex-grow: 1;
+}
+
+sa-about ul {
+  margin: 0 16px 0 16px;
+  padding: 0 16px 16px 32px;
+}
+
+sa-about li {
+  box-sizing: border-box;
+  color: #161616;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+sa-about sa-text-field {
+  padding: 0 16px 16px 16px;
+}
+
+sa-about sa-text-field ~ sa-button {
+  padding: 0 16px 16px 16px;
 }
