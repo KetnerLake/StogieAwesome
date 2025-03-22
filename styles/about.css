@@ -66,8 +66,13 @@ sa-about sa-text-area {
 }
 
 sa-about ul {
+  display: grid;
+  grid-template-columns: repeat( 2, 1fr );
+  grid-column-gap: 0px;
+  grid-row-gap: 0px; 
+  list-style: none;
   margin: 0 16px 0 16px;
-  padding: 0 16px 16px 32px;
+  padding: 0 16px 0 32px;
 }
 
 sa-about li {
@@ -80,6 +85,7 @@ sa-about li {
   padding: 0;
 }
 
+/*
 sa-about sa-text-field {
   padding: 0 16px 16px 16px;
 }
@@ -87,3 +93,4 @@ sa-about sa-text-field {
 sa-about sa-text-field ~ sa-button {
   padding: 0 16px 16px 16px;
 }
+*/

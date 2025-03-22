@@ -3,10 +3,12 @@ customElements.define( 'sa-favorites', class extends HTMLElement {
     super();
 
     // Properties
+    this._changed = false;
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';
 
     // Elements
     this.$catalog = this.querySelector( 'sa-catalog' );
+    this.$catalog.addEventListener( 'sa-change', () => this._changed = true );
     
     this.$recommendations = this.querySelector( 'sa-button' );
     this.$recommendations.addEventListener( this._touch, () => {
@@ -20,13 +22,21 @@ customElements.define( 'sa-favorites', class extends HTMLElement {
         return;
       }
 
-      this.dispatchEvent( new CustomEvent( 'sa-recommendations' ) );
+      this.dispatchEvent( new CustomEvent( 'sa-recommendations', {
+        detail: {
+          changed: this._changed
+        }
+      } ) );
     } );
   }
 
   focus() {
     this.$catalog.focus();
   }
+
+  reset() {
+    this._changed = false;
+  }  
 
   // Promote properties
   // Values may be set before module load

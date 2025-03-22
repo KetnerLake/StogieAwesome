@@ -18,7 +18,7 @@ export default class StogieTab extends HTMLElement {
         button {
           align-items: center;
           background: none;
-          background-color: #000000;
+          background-color: transparent;
           border: none;
           border-top: solid 3px transparent;
           box-sizing: border-box;

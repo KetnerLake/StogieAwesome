@@ -7,7 +7,7 @@ sa-favorites {
   flex-grow: 1;
   gap: 16px;
   height: 100%;
-  left: -50vw;
+  left: -100vw;
   position: absolute;
   width: 100%;
 }

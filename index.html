@@ -113,43 +113,44 @@
   <sa-about>
     <sa-box class="splash" centered direction="column" gap="l" justified>
       <img src="/img/krhoyt.jpg">
-      <sa-label size="s">21.03.2025</sa-label>
+      <sa-label size="s">22.03.2025</sa-label>
       <button id="close" type="button">
         <sa-icon name="close" size="s" weight="200"></sa-icon>
       </button>
     </sa-box>
     <sa-tab-group>
-      <sa-tab label="Sponsor" selected></sa-tab>
+      <sa-tab label="Pricing" selected></sa-tab>
       <sa-tab label="Contact"></sa-tab>
+      <sa-tab label="FAQ" selected></sa-tab>      
     </sa-tab-group>
     <sa-stack>
-      <sa-box direction="column" style="overflow: auto;">
-        <sa-label style="padding: 16px;">Just like cigars, AI is not free. You can help keep this full body blend burning with the purchase of another smoke.</sa-label>
-        <sa-button id="buy" label="Buy me a cigar" style="margin: 0 16px 0 16px;">
+      <sa-box direction="column" gap="l" style="overflow: auto; padding: 16px;">
+        <sa-label>Just like cigars, AI is not free. You can help keep this full body blend burning with the purchase of another smoke.</sa-label>
+        <sa-button id="buy" label="Buy me a cigar">
           <sa-icon name="celebration" weight="200"></sa-icon>
         </sa-button>
-        <h3>Flavor Awesome (Coming Soon!)</h3>
-        <sa-label style="padding: 0 16px 16px 16px;">
+        <h3 style="padding: 0;">Flavor Awesome (Coming Soon!)</h3>
+        <sa-label>
           Remember that cigar you had..? At that one place..? Was it when you were on vacation..? No, it was that work trip, right?
         </sa-label>
-        <sa-label style="padding: 0 16px 16px 16px;">
+        <sa-label>
           Flavor Awesome is the ultimate connoisseur journal, helping you remember every detail of your tasting experience. Never forget where or when you had that amazing cigar, or why you liked it. Includes these amazing flavors and more...
         </sa-label>        
         <ul>
-          <li>Beer 🍺</li>
-          <li>Burgers 🍔</li>          
-          <li>Cannabis 🍃</li>
-          <li>Cheese 🧀</li>
-          <li>Chocolate 🍫</li>
-          <li>Coffee ☕</li>
-          <li>Hot Sauce 🌡️</li>
-          <li>Oysters 🦪</li>
-          <li>Pizza 🍕</li>
-          <li>Scotch 🏴󠁧󠁢󠁳󠁣󠁴󠁿</li>
-          <li>Taco 🌮</li>
-          <li>Tea 🫖</li>
-          <li>Whiskey 🇺🇸</li>
-          <li>Wine 🍷</li>
+          <li>🍺 Beer</li>
+          <li>🍔 Burgers</li>          
+          <li>🍃 Cannabis</li>
+          <li>🧀 Cheese</li>
+          <li>🍫 Chocolate</li>
+          <li>☕ Coffee</li>
+          <li>🌡️ Hot Sauce</li>
+          <li>🦪 Oysters</li>
+          <li>🍕 Pizza</li>
+          <li>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotch</li>
+          <li>🌮 Taco</li>
+          <li>🫖 Tea</li>
+          <li>🇺🇸 Whiskey</li>
+          <li>🍷 Wine</li>
         </ul>
         <sa-text-field disabled id="flavor" label="Email address" placeholder="Email address" type="email"></sa-text-field>
         <sa-button disabled id="notify" label="Sign up to be notified">
@@ -164,6 +165,20 @@
           <sa-icon name="send" weight="200"></sa-icon>
         </sa-button>
       </sa-box>
+      <sa-box direction="column" flex gap="l" style="padding: 16px;">
+        <sa-box direction="column" gap="m">
+          <sa-label weight="bold">Who are you?</sa-label>
+          <sa-label>My name is Kevin. 👋 I am a software developer with 25 years of experience across Adobe, Amazon, and IBM. Building applications is my creative outlet. 🤓 Oh, and I also like cigars.</sa-label>
+        </sa-box>
+        <sa-box direction="column" gap="m">
+          <sa-label weight="bold">How did you build this?</sa-label>
+          <sa-label>The UI is built using web standards (no React, etc.). The server consists of a collection of Amazon Web Services Lambda functions, exposed through API Gateway. The AI is Anthropic Claude 3.5 Haiku. Your favorites and recommendations are kept in your browser on your machine using IndexedDB.</sa-label>
+        </sa-box>
+        <sa-box direction="column" gap="m">
+          <sa-label weight="bold">What do you do with my data?</sa-label>
+          <sa-label>Other than pass it off to the AI for recommendations, Stogie Awesome does not store or sell your data. Even the AI is instructed not to use your data for future learning (it does not store your data either).</sa-label>
+        </sa-box>                
+      </sa-box>      
     </sa-stack>  
   </sa-about>
 

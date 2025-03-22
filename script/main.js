@@ -12,11 +12,58 @@ alert.addEventListener( 'sa-dismiss', () => {
 const dialog = document.querySelector( 'dialog' ); 
 
 const favorites = document.querySelector( 'sa-favorites' );
-favorites.addEventListener( 'sa-minimum', ( evt ) => {
+favorites.addEventListener( 'sa-minimum', () => {
   alert.message = 'You must have at least three favorites.';
   dialog.showModal();
 } );
-favorites.addEventListener( 'sa-recommendations', () => {
+favorites.addEventListener( 'sa-recommendations', ( evt ) => {
+  if( evt.detail.changed ) {
+    const objects = favorites.items.map( ( value ) => {
+      const name = value;
+      const now = Date.now();
+      value = {
+        id: self.crypto.randomUUID(),
+        createdAt: now,
+        updatedAt: now,
+        name: name
+      };
+      return value;
+    } );
+
+    recommendations.items = null;
+
+    db.favorites.toArray()
+    .then( ( data ) => {
+      data = data.map( ( value ) => value.id );
+      return db.favorites.bulkDelete( data );
+    } )
+    .then( () => {
+      return db.favorites.bulkPut( objects );
+    } )
+    .then( () => db.recommendations.toArray() )
+    .then( ( data ) => {
+      data = data.map( ( value ) => value.id );
+      return db.recommendations.bulkDelete( data );
+    } )    
+    .then( () => makeRecommendation( objects ) )
+    .then( ( data ) => {
+      data = data.recommendations.map( ( value ) => {
+        const now = Date.now();
+        value.id = self.crypto.randomUUID();
+        value.createdAt = now;
+        value.updatedAt = now;
+        return value;
+      } );
+      data.sort( ( a, b ) => {
+        if( a.name > b.name ) return 1;
+        if( a.name < b.name ) return -1;
+        return 0;
+      } );
+      recommendations.items = data;
+      return db.recommendations.bulkPut( data );
+    } );
+  }
+
   favorites.animate( [
     {left: '0'},
     {left: '-50vw'}        
@@ -82,12 +129,79 @@ recommendations.addEventListener( 'sa-about', () => {
   about.show();
 } );
 recommendations.addEventListener( 'sa-action', () => {
-  console.log( 'ACTION' );
+  const now = Date.now();
+  const objects = favorites.items.map( ( value ) => {
+    return {
+      id: self.crypto.randomUUID(),
+      createdAt: now,
+      updatedAt: now,
+      name: value
+    };
+  } );
+
+  recommendations.items = null;
+
+  db.recommendations.toArray()
+  .then( ( data ) => {
+    data = data.map( ( value ) => value.id );
+    return db.recommendations.bulkDelete( data ); 
+  } )
+  .then( () => makeRecommendation( objects ) )
+  .then( ( data ) => {
+    data = data.recommendations.map( ( value ) => {
+      const now = Date.now();
+      value.id = self.crypto.randomUUID();
+      value.createdAt = now;
+      value.updatedAt = now;      
+      return value;
+    } );
+    data.sort( ( a, b ) => {
+      if( a.name > b.name ) return 1;
+      if( a.name < b.name ) return -1;
+      return 0;
+    } );
+    recommendations.items = data;
+    return db.recommendations.bulkPut( data );
+  } );
 } );
 recommendations.addEventListener( 'sa-favorite', ( evt ) => {
-  
+  const now = Date.now();
+  const value = {
+    id: self.crypto.randomUUID(),
+    createdAt: now,
+    updatedAt: now,
+    name: evt.detail.data.name
+  };
+
+  if( evt.detail.favorite ) {
+    db.favorites.put( value )
+    .then( () => db.favorites.toArray() )
+    .then( ( data ) => {
+      data = data.map( ( value ) => value.name );
+      data.sort( ( a, b ) => {
+        if( a > b ) return 1;
+        if( a < b ) return -1;
+        return 0;
+      } );
+      favorites.items = data;
+    } );
+  } else {
+    db.favorites.where( {name: evt.detail.data.name} ).first()
+    .then( ( data ) => db.favorites.delete( data.id ) )
+    .then( () => db.favorites.toArray() )
+    .then( ( data ) => {
+      data = data.map( ( value ) => value.name );
+      data.sort( ( a, b ) => {
+        if( a > b ) return 1;
+        if( a < b ) return -1;
+        return 0;
+      } );
+      favorites.items = data;
+    } );
+  }
 } );
 recommendations.addEventListener( 'sa-favorites', () => {
+  favorites.reset();
   recommendations.animate( [
     {left: 0},
     {left: '100vw'}        
@@ -124,7 +238,7 @@ db.recommendations.toArray()
     } );
 
     landing.hidden = true;
-    favorites.style.left = 'calc( 0 - 100vw )';
+    favorites.style.left = '-100vw';
     recommendations.items = data;    
     recommendations.style.left = '0';
   }
