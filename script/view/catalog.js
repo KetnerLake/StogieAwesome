@@ -15,6 +15,9 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
 
     this.$field = this.querySelector( 'sa-search-field' );
     this.$field.addEventListener( 'focus', () => {
+      const theme = document.querySelector( 'meta[name=theme-color]' );
+      theme.setAttribute( 'content', '#eaf3ff' );
+
       document.body.style.backgroundColor = '#eaf3ff';
       this.$done.hidden = false;
       this.$favorites.hidden = true;
@@ -58,6 +61,9 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   }
 
   reset() {
+    const theme = document.querySelector( 'meta[name=theme-color]' );
+    theme.setAttribute( 'content', '#f4f4f4' );
+
     document.body.style.backgroundColor = '#f4f4f4';      
     this.$field.value = null;
     this.$field.blur();

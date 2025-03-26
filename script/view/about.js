@@ -89,6 +89,9 @@ customElements.define( 'sa-about', class extends HTMLElement {
   }
 
   hide() {
+    const theme = document.querySelector( 'meta[name=theme-color]' );
+    theme.setAttribute( 'content', '#f4f4f4' );
+
     return this.animate(
       [
         {top: 0},
@@ -108,6 +111,9 @@ customElements.define( 'sa-about', class extends HTMLElement {
   }
 
   show() {
+    const theme = document.querySelector( 'meta[name=theme-color]' );
+    theme.setAttribute( 'content', '#161616' );
+
     this.animate(
       [
         {top: '100vh'}, 
