@@ -54,15 +54,6 @@ export default class StogieList extends HTMLElement {
         li:last-of-type {
           border-bottom: solid 1px transparent;
         }
-
-        :host( [carded] ) ul {
-          gap: 16px;
-        }
-
-        :host( [carded] ) li {
-          border: solid 1px #e0e0e0;
-          border-radius: 4px;
-        }
       </style>
       <ul part="list"></ul>
       <div part="empty">
@@ -93,7 +84,6 @@ export default class StogieList extends HTMLElement {
 
   // Setup
   connectedCallback() {
-    this._upgrade( 'carded' );    
     this._upgrade( 'hidden' );    
     this._upgrade( 'items' );        
     this._upgrade( 'itemRenderer' );            
@@ -103,7 +93,6 @@ export default class StogieList extends HTMLElement {
   // Watched attributes
   static get observedAttributes() {
     return [
-      'carded',
       'hidden',
       'item-renderer',
       'label-field'
@@ -149,26 +138,6 @@ export default class StogieList extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Number, String, null
-  get carded() {
-    return this.hasAttribute( 'carded' );
-  }
-
-  set carded( value ) {
-    if( value !== null ) {
-      if( typeof value === 'boolean' ) {
-        value = value.toString();
-      }
-
-      if( value === 'false' ) {
-        this.removeAttribute( 'carded' );
-      } else {
-        this.setAttribute( 'carded', '' );
-      }
-    } else {
-      this.removeAttribute( 'carded' );
-    }
-  }
-
   get hidden() {
     return this.hasAttribute( 'hidden' );
   }

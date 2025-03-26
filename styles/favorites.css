@@ -1,5 +1,4 @@
 sa-favorites {
-  background-color: #f4f4f4;
   box-sizing: border-box;
   display: flex;
   flex-basis: 0;
@@ -12,6 +11,11 @@ sa-favorites {
   width: 100%;
 }
 
+sa-favorites sa-catalog {
+  padding: 0 0 16px 0;
+}
+
+/*
 sa-favorites sa-catalog {
   display: flex;
   flex-basis: 0;
@@ -33,3 +37,4 @@ sa-favorites sa-list::part( list ) {
 sa-favorites sa-catalog sa-multi-select {
   padding: 0 16px 0 16px;
 }
+*/

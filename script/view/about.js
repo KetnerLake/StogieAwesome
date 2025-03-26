@@ -3,6 +3,7 @@ customElements.define( 'sa-about', class extends HTMLElement {
     super();
 
     // Properties
+    this._timeout = null;
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';
 
     // Elements
@@ -16,6 +17,20 @@ customElements.define( 'sa-about', class extends HTMLElement {
 
     this.$email = this.querySelector( '#email' );
     this.$email.addEventListener( 'sa-change', () => this.validate() );
+
+    this.$face = this.querySelector( '#face' );
+    this.$face.addEventListener( ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'mousedown', () => {
+      this._timeout = setTimeout( () => {
+        this._timeout = null;
+        this.dispatchEvent( new CustomEvent( 'sa-reset' ) );
+      }, 5000 );
+    } );
+    this.$face.addEventListener( ( 'ontouchstart' in document.documentElement ) ? 'touchend' : 'mouseup', () => {
+      if( this._timeout !== null ) {
+        clearTimeout( this._timeout );
+        this._timeout = null;
+      }
+    } );
 
     this.$flavor = this.querySelector( '#flavor' );
     this.$flavor.addEventListener( 'sa-change', () => {
@@ -63,6 +78,9 @@ customElements.define( 'sa-about', class extends HTMLElement {
   }
 
   clear() {
+    this.$flavor.value = null;
+    this.$notify.disabled = true;
+
     this.$email.value = null;
     this.$message.value = null;
     this.$send.disabled = true;

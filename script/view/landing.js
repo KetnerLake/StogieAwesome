@@ -7,33 +7,12 @@ customElements.define( 'sa-landing', class extends HTMLElement {
 
     // Elements
     this.$catalog = this.querySelector( 'sa-catalog' );
-    this.$catalog.addEventListener( 'sa-change', ( evt ) => {
-      if( evt.detail.count === null ) {
-        this.$recommend.disabled = true;        
-      } else {
-        this.$recommend.disabled = evt.detail.count >= 3 ? false : true;
-      }
-    } );
-
-    this.$pick = this.querySelector( '#go' );
-    this.$pick.addEventListener( this._touch, () => {
-      fetch( 'https://cigardojo.com/category/cigars/feed/' )
-      .then( ( response ) => response.text() ) 
-      .then( ( data ) => {
-        console.log( data );
-      } );
-    } );
 
     this.$recommend = this.querySelector( '#recommend' );
     this.$recommend.addEventListener( this._touch, () => {
-      this.$catalog.clear( false );
+      this.$catalog.reset();
       this.$recommend.disabled = true;
-
-      this.dispatchEvent( new CustomEvent( 'sa-recommend', {
-        detail: {
-          favorites: this.$catalog.favorites
-        }
-      } ) );      
+      this.dispatchEvent( new CustomEvent( 'sa-recommend' ) );      
     } );
   }
 
@@ -78,6 +57,7 @@ customElements.define( 'sa-landing', class extends HTMLElement {
 
   set favorites( value ) {
     this.$catalog.favorites = value;
+    this.$recommend.disabled = this.$catalog.favorites.length >= 3 ? false : true;
   }    
 
   // Attributes

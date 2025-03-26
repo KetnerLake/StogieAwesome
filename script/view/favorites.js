@@ -3,12 +3,11 @@ customElements.define( 'sa-favorites', class extends HTMLElement {
     super();
 
     // Properties
-    this._changed = false;
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';
 
     // Elements
     this.$catalog = this.querySelector( 'sa-catalog' );
-    this.$catalog.addEventListener( 'sa-change', () => this._changed = true );
+    // this.$catalog.addEventListener( 'sa-change', () => this.changed = true );
     
     this.$recommendations = this.querySelector( 'sa-button' );
     this.$recommendations.addEventListener( this._touch, () => {
@@ -22,21 +21,9 @@ customElements.define( 'sa-favorites', class extends HTMLElement {
         return;
       }
 
-      this.dispatchEvent( new CustomEvent( 'sa-recommendations', {
-        detail: {
-          changed: this._changed
-        }
-      } ) );
+      this.dispatchEvent( new CustomEvent( 'sa-recommendations' ) );
     } );
   }
-
-  focus() {
-    this.$catalog.focus();
-  }
-
-  reset() {
-    this._changed = false;
-  }  
 
   // Promote properties
   // Values may be set before module load
@@ -51,6 +38,7 @@ customElements.define( 'sa-favorites', class extends HTMLElement {
   // Set up
   connectedCallback() {
     this._upgrade( 'catalog' );
+    this._upgrade( 'changed' );    
     this._upgrade( 'hidden' );    
     this._upgrade( 'items' );
   }
@@ -58,6 +46,7 @@ customElements.define( 'sa-favorites', class extends HTMLElement {
   // Watched attributes
   static get observedAttributes() {
     return [
+      'changed',
       'hidden'
     ];
   }   
@@ -84,6 +73,26 @@ customElements.define( 'sa-favorites', class extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Float, Integer, String, null
+  get changed() {
+    return this.hasAttribute( 'changed' );
+  }
+
+  set changed( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'changed' );
+      } else {
+        this.setAttribute( 'changed', '' );
+      }
+    } else {
+      this.removeAttribute( 'changed' );
+    }
+  } 
+
   get hidden() {
     return this.hasAttribute( 'hidden' );
   }

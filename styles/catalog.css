@@ -18,19 +18,30 @@ sa-catalog sa-list {
   padding: 0 16px 0 16px;
 }
 
-sa-catalog sa-list::part( list ) {
-  border-radius: 4px;
-}
-
-sa-catalog sa-list::part( empty ) {
-  margin-top: -16px;
+sa-catalog sa-list[item-renderer=sa-favorite-item]::part( empty ) {
+  /* margin-top: -16px; */
   padding: 0 10% 0 10%;
 }
 
-sa-catalog sa-text-field {
-  padding: 0 16px 0 16px;
+sa-catalog sa-search-field {
+  flex-basis: 0;
+  flex-grow: 1;
+  width: 100%;
 }
 
+sa-catalog sa-list::part( list ) {
+  background-color: #ffffff;
+  border-radius: 4px;
+  margin: 16px 0 0 0;
+}
+
+/*
+sa-catalog sa-search-field {
+  padding: 0 16px 0 16px;
+}
+*/
+
+/*
 sa-catalog sa-text-field sa-tag {
   margin-right: 8px;
 }
@@ -39,6 +50,7 @@ sa-catalog sa-text-field sa-tag:empty {
   display: none;
 }
 
+/*
 sa-catalog ul {
   background: #ffffff;
   bottom: 56px;
@@ -83,3 +95,4 @@ sa-catalog ul li:hover {
 sa-catalog ul li:last-of-type {
   border-bottom: solid 1px transparent;
 }
+*/

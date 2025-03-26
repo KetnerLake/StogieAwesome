@@ -22,16 +22,22 @@
       </sa-box>
       <h1>Favorites</h1>      
     </header>
-    <sa-catalog minimum="3">
-      <sa-list item-renderer="sa-catalog-item"></sa-list>
-      <sa-text-field clearable label="Cigar catalog" placeholder="Search">
-        <sa-tag dismissable slot="prefix"></sa-tag>
-      </sa-text-field>      
-      <ul></ul>
+    <sa-catalog>
+      <sa-box gap="m" style="padding: 0 16px 0 16px;">
+        <sa-search-field clearable placeholder="Search cigars"></sa-search-field>
+        <sa-button hidden kind="ghost" label="Done" size="m"></sa-button>
+      </sa-box>
+      <sa-list hidden item-renderer="sa-catalog-item"></sa-list>
+      <sa-list item-renderer="sa-favorite-item">
+        <img slot="empty" src="/img/cigar.svg">
+        <sa-label slot="empty">
+          Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
+        </sa-label>
+      </sa-list>
     </sa-catalog>
   </sa-favorites>
 
-  <sa-landing>
+  <sa-landing hidden>
     <header>
       <h1>Welcome to<br>Stogie Awesome</h1>
       <sa-label size="l">
@@ -39,20 +45,17 @@
       </sa-label>
     </header>
     <sa-catalog>
-      <sa-list item-renderer="sa-catalog-item">
+      <sa-box gap="m" style="padding: 0 16px 0 16px;">
+        <sa-search-field clearable placeholder="Search cigars"></sa-search-field>
+        <sa-button hidden kind="ghost" label="Done" size="m"></sa-button>
+      </sa-box>
+      <sa-list hidden item-renderer="sa-catalog-item"></sa-list>
+      <sa-list item-renderer="sa-favorite-item">
         <img slot="empty" src="/img/cigar.svg">
         <sa-label slot="empty">
           Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
         </sa-label>
-        <sa-label slot="empty">
-          No favorites? New to cigars?
-        </sa-label>
-        <sa-button id="go" kind="tertiary" label="Pick from popular cigars" slot="empty"></sa-button>
       </sa-list>
-      <sa-text-field clearable label="Cigar catalog" placeholder="Search">
-        <sa-tag dismissable slot="prefix"></sa-tag>
-      </sa-text-field>      
-      <ul></ul>
     </sa-catalog>
     <footer>
       <sa-button id="recommend" disabled label="Recommend cigars">
@@ -67,7 +70,9 @@
         <sa-button id="favorites_nav" kind="ghost" label="Favorites" size="m">
           <sa-icon name="chevron_backward" slot="prefix" weight="200"></sa-icon>          
         </sa-button>
-        <sa-button id="refresh" hidden kind="ghost" label="Refresh" size="m"></sa-button>
+        <sa-button disabled id="refresh" kind="ghost" size="m">
+          <sa-icon name="refresh" slot="prefix" weight="200"></sa-icon>                    
+        </sa-button>
       </sa-box>
       <h1>Recommendations</h1>
     </header>
@@ -83,7 +88,7 @@
         </sa-button>
       </sa-box>
     </sa-box>
-    <sa-list carded item-renderer="sa-recommended-item">
+    <sa-list item-renderer="sa-recommended-item">
       <!--
       <sa-label slot="empty">&quot;I'll be back.&quot;</sa-label>
       <sa-label slot="empty">&quot;I am C-3PO. Human-cyborg relations.&quot;</sa-label>
@@ -107,12 +112,11 @@
     <aside>
       <sa-label>Made with 🔥 by <sa-link>Kevin Hoyt</sa-link>.</sa-label>
     </aside>
-    <sa-notification action="Refresh" hidden label="Updated favorites" message="Refresh recommendations?"></sa-notification>
   </sa-recommendations>  
 
   <sa-about>
     <sa-box class="splash" centered direction="column" gap="l" justified>
-      <img src="/img/krhoyt.jpg">
+      <img id="face" src="/img/krhoyt.jpg">
       <sa-label size="s">22.03.2025</sa-label>
       <button id="close" type="button">
         <sa-icon name="close" size="s" weight="200"></sa-icon>
@@ -152,15 +156,15 @@
           <li>🇺🇸 Whiskey</li>
           <li>🍷 Wine</li>
         </ul>
-        <sa-text-field disabled id="flavor" label="Email address" placeholder="Email address" type="email"></sa-text-field>
+        <sa-text-field disabled id="flavor" label="Email address" placeholder="Email address not shared or sold" type="email"></sa-text-field>
         <sa-button disabled id="notify" label="Sign up to be notified">
           <sa-icon name="notifications" weight="200"></sa-icon>
         </sa-button>
       </sa-box>
       <sa-box direction="column" flex gap="l" style="padding: 16px;">
         <sa-label>Am I missing your favorite cigar? Have an idea for a feature? Did something break? Just want to say &quot;Hello&quot;?</sa-label>
-        <sa-text-field id="email" label="Email address" placeholder="Email address" type="email"></sa-text-field>
-        <sa-text-area id="message" label="Message" placeholder="Message"></sa-text-area>
+        <sa-text-field id="email" label="Email address" placeholder="Email address not shared or sold" type="email"></sa-text-field>
+        <sa-text-area id="message" label="Message" placeholder="A message to get the conversation started."></sa-text-area>
         <sa-button disabled id="send" label="Send message">
           <sa-icon name="send" weight="200"></sa-icon>
         </sa-button>
@@ -172,7 +176,7 @@
         </sa-box>
         <sa-box direction="column" gap="m">
           <sa-label weight="bold">How did you build this?</sa-label>
-          <sa-label>The UI is built using web standards (no React, etc.). The server consists of a collection of Amazon Web Services Lambda functions, exposed through API Gateway. The AI is Anthropic Claude 3.5 Haiku. Your favorites and recommendations are kept in your browser on your machine using IndexedDB.</sa-label>
+          <sa-label>The UI is built using web standards (no React, etc.). The server consists of a collection of Amazon Web Services Lambda functions, exposed through API Gateway. The AI is Anthropic Claude 3.5 Haiku. Your favorites and recommendations are kept in your browser on your device using IndexedDB.</sa-label>
         </sa-box>
         <sa-box direction="column" gap="m">
           <sa-label weight="bold">What do you do with my data?</sa-label>

@@ -1,4 +1,4 @@
-export default class StogieCatalogItem extends HTMLElement {
+export default class StogieFavoriteItem extends HTMLElement {
   constructor() {
     super();
 
@@ -8,29 +8,45 @@ export default class StogieCatalogItem extends HTMLElement {
         :host {
           align-items: center;
           box-sizing: border-box;
+          display: flex;
+          position: relative;
+        }
+
+        button {
+          align-items: center;
+          background: none;
+          border: none;
+          box-sizing: border-box;
           cursor: pointer;
           display: flex;
-          flex-direction: row;
           height: 39px;
-          min-height: 39px;
-          overflow: hidden;
-          position: relative;
+          justify-content: center;
+          margin: 0;
+          padding: 0;
+          width: 40px;
+        }
+
+        sa-box {
+          width: 100%;
         }
 
         sa-label {
           flex-basis: 0;
           flex-grow: 1;
-          --label-cursor: pointer;
+          padding: 0 0 0 12px;
         }    
 
         sa-icon {
-          padding: 0 10px 0 10px;
-          --icon-color: #0f62fe;
+          --icon-color: #161616;
           --icon-cursor: pointer;
         }
       </style>
-      <sa-icon name="circle" weight="200"></sa-icon>
-      <sa-label truncate></sa-label>
+      <sa-box centered>
+        <sa-label></sa-label>
+        <button type="button">
+          <sa-icon name="close" size="s" weight="200"></sa-icon>
+        </button>
+      </sa-box>
     `;
     
     // Properties
@@ -42,11 +58,10 @@ export default class StogieCatalogItem extends HTMLElement {
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
 
     // Elements
-    this.$icon = this.shadowRoot.querySelector( 'sa-icon' );
     this.$label = this.shadowRoot.querySelector( 'sa-label' );
-
-    this.addEventListener( this._touch, () => {
-      this.dispatchEvent( new CustomEvent( 'sa-favorite', {
+    this.$remove = this.shadowRoot.querySelector( 'button' );
+    this.$remove.addEventListener( this._touch, () => {
+      this.dispatchEvent( new CustomEvent( 'sa-remove', {
         bubbles: true,
         cancelable: false,
         composed: true,
@@ -54,7 +69,7 @@ export default class StogieCatalogItem extends HTMLElement {
           value: this._data
         }
       } ) );
-    } );    
+    } );
   }
 
   // Promote properties
@@ -81,14 +96,8 @@ export default class StogieCatalogItem extends HTMLElement {
   
   set data( value ) {
     this._data = value === null ? null : structuredClone( value );
-
-    if( this._data === null ) return;
-
-    this.$icon.filled = this._data.checked;
-    this.$icon.name = this._data.checked ? 'check_circle' : 'circle';
-    this.$icon.weight = this._data.checked ? 400 : 200;
     this.$label.textContent = this._data === null ? '' : this._data.name;
   }
 }
 
-window.customElements.define( 'sa-catalog-item', StogieCatalogItem );
+window.customElements.define( 'sa-favorite-item', StogieFavoriteItem );

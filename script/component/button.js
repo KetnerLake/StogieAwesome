@@ -136,6 +136,13 @@ export default class StogieButton extends HTMLElement {
           --icon-color: #0f62fe;
           --label-color: #0f62fe;          
         }        
+        :host( [disabled][kind=ghost] ) button {
+          cursor: not-allowed;
+          --icon-color: #8d8d8d;
+          --icon-cursor: not-allowed;
+          --label-color: #8d8d8d;
+          --label-cursor: not-allowed;
+        }
 
         :host( [kind=secondary] ) button {
           background-color: #393939;
@@ -177,6 +184,16 @@ export default class StogieButton extends HTMLElement {
         }        
         :host( [size=m] ) button {
           height: 40px;
+        }
+
+        :host( :not( [label] ) ) button {
+          align-items: center;
+          justify-content: center;
+          min-width: 40px;
+        }
+
+        :host( :not( [label] ) ) sa-label {
+          display: none;
         }
       </style>
       <button part="button" type="button">

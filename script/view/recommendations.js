@@ -3,6 +3,7 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
     super();
 
     // Properties
+    this._favorites = 0;
     this._items = [];
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';
 
@@ -19,28 +20,22 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
     this.$got = this.querySelector( '#got' );
     this.$got.addEventListener( this._touch, () => {
       this.$going.hidden = true;
-      window.localStorage.setItem( 'stogie_got', '1' );
+      window.localStorage.setItem( 'awesome_got_it', '1' );
     } );
     this.$link = this.querySelector( 'sa-link' );
     this.$link.addEventListener( this._touch, () => {
       this.dispatchEvent( new CustomEvent( 'sa-about' ) );
     } );
     this.$list = this.querySelector( 'sa-list' );
-    this.$list.addEventListener( 'sa-favorite', ( evt ) => {
-      this.$notification.hidden = false;
-    } ); 
-    this.$notification = this.querySelector( 'sa-notification' );
-    this.$notification.addEventListener( 'sa-close', () => this.$notification.hidden = true );
-    this.$notification.addEventListener( 'sa-action', () => this.$notification.hidden = true );
     this.$refresh = this.querySelector( '#refresh' );
     this.$refresh.addEventListener( this._touch, () => {
-      this.$refresh.hidden = true;
+      this.$refresh.disabled = true;
       this.dispatchEvent( new CustomEvent( 'sa-refresh' ) );
     } );
 
-    const first = window.localStorage.getItem( 'stogie_got' );
+    const first = window.localStorage.getItem( 'awesome_got_it' );
     this.$going.hidden = first === null ? false : true;
-  }  
+  }
 
   // Promote properties
   // Values may be set before module load  
@@ -54,6 +49,7 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
 
   // Set up
   connectedCallback() {
+    this._upgrade( 'changed' );    
     this._upgrade( 'hidden' );
     this._upgrade( 'items' );
   }
@@ -61,10 +57,11 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
   // Watched attributes
   static get observedAttributes() {
     return [
+      'changed',
       'hidden'
     ];
   } 
-
+  
   // Properties
   // Not reflected
   // Array, Date, Object, null  
@@ -73,12 +70,45 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
   }
 
   set items( value ) {
-    this.$list.items = value === null ? [] : [... value];
+    if( value !== null ) {
+      this._favorites = value.reduce( ( prev, curr ) => {
+        if( curr.favorite ) {
+          prev = prev + 1;
+        }
+        return prev;
+      }, 0 );
+      this.changed = this._favorites > 0 ? true : false;
+    } else {
+      this.changed = false;
+    }
+
+    this.$refresh.disabled = !this.changed;
+    this.$list.items = value;
   }  
 
   // Attributes
   // Reflected
   // Boolean, Float, Integer, String, null
+  get changed() {
+    return this.hasAttribute( 'changed' );
+  }
+
+  set changed( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'changed' );
+      } else {
+        this.setAttribute( 'changed', '' );
+      }
+    } else {
+      this.removeAttribute( 'changed' );
+    }
+  }   
+
   get hidden() {
     return this.hasAttribute( 'hidden' );
   }

@@ -7,6 +7,7 @@ import StogieLabel from "./component/label.js";
 import StogieLink from "./component/link.js";
 import StogieList from "./component/list.js";
 import StogieNotification from "./component/notification.js";
+import StogieSearchField from "./component/search-field.js";
 import StogieSpinner from "./component/spinner.js";
 import StogieStack from "./component/stack.js";
 import StogieStatusIndicator from "./component/status-indicator.js";
@@ -18,6 +19,7 @@ import StogieTextField from "./component/text-field.js";
 
 // Renderers
 import StogieCatalogItem from "./renderer/catalog-item.js";
+import StogieFavoriteItem from "./renderer/favorite-item.js";
 import StogieRecommendedItem from "./renderer/recommended-item.js";
 
 // Views (light)

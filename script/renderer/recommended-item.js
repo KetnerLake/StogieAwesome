@@ -11,10 +11,6 @@ export default class StogieRecommendedItem extends HTMLElement {
           position: relative;
         }
 
-        :host( [hidden] ) {
-          display: none;
-        }
-
         div[part=detail] {
           display: grid;
           grid-template-columns: auto 120px;
@@ -32,14 +28,9 @@ export default class StogieRecommendedItem extends HTMLElement {
           font-weight: 600;
         }
 
-        /*
-        sa-button {
-          min-width: 50%;
-        } 
-        */       
-
         sa-button::part( button ) {        
           border-top-right-radius: 4px;
+          border-bottom-left-radius: 4px;          
         }
 
         sa-box[part=options] {
@@ -49,7 +40,7 @@ export default class StogieRecommendedItem extends HTMLElement {
         sa-label[part=name] {
           flex-basis: 0;
           flex-grow: 1;
-          padding: 12px 16px 16px 16px;
+          padding: 12px 16px 14px 16px;
         }
 
         sa-label[part=description] {
@@ -59,24 +50,24 @@ export default class StogieRecommendedItem extends HTMLElement {
       </style>
       <sa-box direction="column" part="item">
         <sa-box>
-          <sa-label part="name" size="l" weight="bold">Padron 1964 Anniversary Series Maduro</sa-label>
+          <sa-label part="name" size="l" weight="bold"></sa-label>
           <sa-button>
             <sa-icon name="favorite" weight="200"></sa-icon>
           </sa-button>
         </sa-box>
         <div part="detail">
           <sa-box direction="column">
-            <sa-label part="body" size="s"><span>Body:</span> <span>Medium</span></sa-label>
-            <sa-label part="wrapper" size="s"><span>Wrapper:</span> <span>Connecticut Broadleaf<span></sa-label>
-            <sa-label part="size" size="s"><span>Size:</span> <span>6 x 60</span></sa-label>
-            <sa-label part="country" size="s"><span>Country:</span> <span>Nicaragua</span></sa-label>        
+            <sa-label part="body" size="s"><span>Body:</span> <span></span></sa-label>
+            <sa-label part="wrapper" size="s"><span>Wrapper:</span> <span><span></sa-label>
+            <sa-label part="size" size="s"><span>Size:</span> <span></span></sa-label>
+            <sa-label part="country" size="s"><span>Country:</span> <span></span></sa-label>        
           </sa-box>
           <sa-box centered direction="column" justified>
-            <sa-label part="price" size="l">$27</sa-label>
+            <sa-label part="price" size="l"></sa-label>
             <sa-label size="s" weight="bold">Est. price</sa-label>
           </sa-box>
         </div>      
-        <sa-label part="description">Considered one of the best cigars in the world, the Padron 1964 Anniversary Series Maduro offers a complex and rich flavor profile. Expect notes of dark chocolate, espresso, and cedar, with a smooth and creamy finish. The maduro wrapper adds a touch of sweetness and depth.</sa-label>
+        <sa-label part="description"></sa-label>
       </sa-box>
     `;
     
@@ -94,14 +85,14 @@ export default class StogieRecommendedItem extends HTMLElement {
     this.$description = this.shadowRoot.querySelector( 'sa-label[part=description]' );
     this.$favorite = this.shadowRoot.querySelector( 'sa-button' );
     this.$favorite.addEventListener( this._touch, () => {
-      this.favorite = !this.favorite;
+      // this._data.favorite = !this._data.favorite;
+      // this.$heart.filled = this._data.favorite;
       this.dispatchEvent( new CustomEvent( 'sa-favorite', {
         bubbles: true,
         cancelable: false,
         composed: true,
         detail: {
-          data: this.data,
-          favorite: this.favorite
+          value: this._data
         }
       } ) );
     } );
@@ -110,22 +101,6 @@ export default class StogieRecommendedItem extends HTMLElement {
     this.$price = this.shadowRoot.querySelector( 'sa-label[part=price]' );        
     this.$size = this.shadowRoot.querySelector( 'sa-label[part=size] span:last-of-type' );    
     this.$wrapper = this.shadowRoot.querySelector( 'sa-label[part=wrapper] span:last-of-type' );
-  }
-
-  // When attributes change
-  _render() {
-    this.$heart.filled = this.favorite;
-    // this.$favorite.label = this.favorite ? 'Remove favorite' : 'Add favorite';
-
-    if( this._data === null ) return;
-
-    this.$label.textContent = this._data.name;    
-    this.$body.textContent = this._data.body;
-    this.$wrapper.textContent = this._data.wrapper;
-    this.$size.textContent = `${this._data.length.toFixed( 2 )} x ${this._data.gauge}`;
-    this.$country.textContent = this._data.country;
-    this.$description.textContent = this._data.description + '.';
-    this.$price.textContent = `$${this._data.price.toFixed( 2 )}`;
   }
 
   // Promote properties
@@ -140,25 +115,8 @@ export default class StogieRecommendedItem extends HTMLElement {
 
   // Set up
   connectedCallback() {
-    this._upgrade( 'data' );   
-    this._upgrade( 'favorite' );   
-    this._upgrade( 'hidden' );   
-    this._render();
+    this._upgrade( 'data' ); 
   }
-
-  // Watched attributes
-  static get observedAttributes() {
-    return [
-      'favorite',
-      'hidden'
-    ];
-  }
-
-  // Observed attribute has changed
-  // Update render
-  attributeChangedCallback( name, old, value ) {
-    this._render();
-  } 
   
   // Properties
   // Not reflected
@@ -169,51 +127,18 @@ export default class StogieRecommendedItem extends HTMLElement {
   
   set data( value ) {
     this._data = value === null ? null : structuredClone( value );
-    this._render();
+
+    if( this._data === null ) return;
+
+    this.$label.textContent = this._data.name;    
+    this.$heart.filled = this._data.favorite;    
+    this.$body.textContent = this._data.body;
+    this.$wrapper.textContent = this._data.wrapper;
+    this.$size.textContent = `${this._data.length.toFixed( 2 )} x ${this._data.gauge}`;
+    this.$country.textContent = this._data.country;
+    this.$description.textContent = this._data.description + '.';
+    this.$price.textContent = `$${this._data.price.toFixed( 2 )}`;
   }
-
-  // Attributes
-  // Reflected
-  // Boolean, Number, String, null  
-  get favorite() {
-    return this.hasAttribute( 'favorite' );
-  }
-
-  set favorite( value ) {
-    if( value !== null ) {
-      if( typeof value === 'boolean' ) {
-        value = value.toString();
-      }
-
-      if( value === 'false' ) {
-        this.removeAttribute( 'favorite' );
-      } else {
-        this.setAttribute( 'favorite', '' );
-      }
-    } else {
-      this.removeAttribute( 'favorite' );
-    }
-  }
-
-  get hidden() {
-    return this.hasAttribute( 'hidden' );
-  }
-
-  set hidden( value ) {
-    if( value !== null ) {
-      if( typeof value === 'boolean' ) {
-        value = value.toString();
-      }
-
-      if( value === 'false' ) {
-        this.removeAttribute( 'hidden' );
-      } else {
-        this.setAttribute( 'hidden', '' );
-      }
-    } else {
-      this.removeAttribute( 'hidden' );
-    }
-  }  
 }
 
 window.customElements.define( 'sa-recommended-item', StogieRecommendedItem );
