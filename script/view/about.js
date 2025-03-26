@@ -53,20 +53,22 @@ customElements.define( 'sa-about', class extends HTMLElement {
 
     this.$notify = this.querySelector( '#notify' );
     this.$notify.addEventListener( this._touch, () => {
+      this.$notify.disabled = true;
       this.dispatchEvent( new CustomEvent( 'sa-notify', {
         detail: {
-          email: this.$email.value,
-          message: 'NOTIFY ME'
+          subject: '[Stogie Awesome] Add to Notifications',
+          message: `Add ${this.$flavor.value} to the Flavor Awesome notification email list.`
         }
       } ) );
     } );
 
     this.$send = this.querySelector( '#send' );
     this.$send.addEventListener( this._touch, () => {
+      this.$send.disabled = true;
       this.dispatchEvent( new CustomEvent( 'sa-message', {
         detail: {
-          email: this.$email.value,
-          message: this.$message.value
+          subject: '[Stogie Awesome] Message',
+          message: `${this.$email.value} says:<br>${this.$message.value}`
         }
       } ) );
     } );

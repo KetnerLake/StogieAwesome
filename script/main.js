@@ -2,6 +2,38 @@ const about = document.querySelector( 'sa-about' );
 about.addEventListener( 'sa-close', () => {
   about.hide().then( () => about.reset() );
 } );
+about.addEventListener( 'sa-message', ( evt ) => {
+  alert.message = 'Thanks for reaching out! I will be in touch.';
+  dialog.showModal();
+    
+  fetch( 'https://1zs3y8uevh.execute-api.us-west-2.amazonaws.com/Production/message', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( evt.detail )
+  } )
+  .then( ( response ) => response.json() )
+  .then( () => {
+    about.clear();
+  } );
+} );
+about.addEventListener( 'sa-notify', ( evt ) => {
+  alert.message = 'Thanks for reaching out! I will be in touch.';
+  dialog.showModal();
+
+  fetch( 'https://1zs3y8uevh.execute-api.us-west-2.amazonaws.com/Production/message', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify( evt.detail )
+  } )
+  .then( ( response ) => response.json() )
+  .then( () => {
+    about.clear();
+  } );
+} );
 about.addEventListener( 'sa-reset', () => {
   const response = window.confirm( 'Reset all data?' );
   if( response ) {
