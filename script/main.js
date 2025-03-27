@@ -66,6 +66,38 @@ alert.addEventListener( 'sa-dismiss', () => {
 const dialog = document.querySelector( 'dialog' ); 
 
 const favorites = document.querySelector( 'sa-favorites' );
+favorites.addEventListener( 'sa-favorite', ( evt ) => {
+  db.favorites.where( {catalog_id: evt.detail.value.id} ).toArray()
+  .then( ( data ) => {
+    if( data.length === 0 ) {
+      db.favorites.put( {
+        id: self.crypto.randomUUID(),
+        catalog_id: evt.detail.value.id,
+        name: evt.detail.value.name
+      } )
+      .then( () => db.favorites.toArray() )
+      .then( ( data ) => {
+        data.sort( ( a, b ) => {
+          if( a.name > b.name ) return 1;
+          if( a.name < b.name ) return -1;
+          return;
+        } );        
+        favorites.items = data.length === 0 ? null : data;
+      } );
+    } else {
+      db.favorites.delete( data[0].id )
+      .then( () => db.favorites.toArray() )
+      .then( ( data ) => {
+        data.sort( ( a, b ) => {
+          if( a.name > b.name ) return 1;
+          if( a.name < b.name ) return -1;
+          return;
+        } );
+        favorites.items = data.length === 0 ? null : data;
+      } );
+    }
+  } );
+} );
 favorites.addEventListener( 'sa-minimum', () => {
   alert.message = 'You must have at least three favorites.';
   dialog.showModal();
@@ -125,7 +157,7 @@ favorites.addEventListener( 'sa-remove', ( evt ) => {
       if( a.name < b.name ) return -1;
       return 0;
     } );
-    favorites.items = data;
+    favorites.items = data.length === 0 ? null : data;
   } );
 } );
 
@@ -146,7 +178,7 @@ landing.addEventListener( 'sa-favorite', ( evt ) => {
           if( a.name < b.name ) return -1;
           return;
         } );        
-        landing.favorites = data;
+        landing.favorites = data.length === 0 ? null : data;
       } );
     } else {
       db.favorites.delete( data[0].id )
@@ -157,8 +189,8 @@ landing.addEventListener( 'sa-favorite', ( evt ) => {
           if( a.name < b.name ) return -1;
           return;
         } );
-        favorites.items = data;
-        landing.favorites = data;
+        favorites.items = data.length === 0 ? null : data;
+        landing.favorites = data.length === 0 ? null : data;
       } );
     }
   } );
@@ -199,8 +231,8 @@ landing.addEventListener( 'sa-remove', ( evt ) => {
       if( a.name < b.name ) return -1;
       return 0;
     } );
-    favorites.items = data;
-    landing.favorites = data;
+    favorites.items = data.length === 0 ? null : data;
+    landing.favorites = data.length === 0 ? null : data;
   } );
 } );
 
@@ -248,7 +280,7 @@ recommendations.addEventListener( 'sa-favorite', async ( evt ) => {
     if( a.name < b.name ) return -1;
     return 0;
   } );
-  favorites.items = faves;
+  favorites.items = faves.length === 0 ? null : faves;
 
   await db.recommendations.put( evt.detail.value );
   const recommends = await db.recommendations.toArray();
@@ -258,71 +290,6 @@ recommendations.addEventListener( 'sa-favorite', async ( evt ) => {
     return 0;
   } );
   recommendations.items = recommends;
-
-  /*
-  db.recommendations.where( {id: evt.detail.value.id} ).first()
-  .then( ( data ) => {
-    data.favorite = evt.detail.value.favorite;
-    return db.recommendations.put( data );
-  } )
-  .then( () => db.recommendations.toArray() )
-  .then( ( data ) => {
-    data = data.sort( ( a, b ) => {
-      if( a.name > b.name ) return 1;
-      if( a.name < b.name ) return -1;
-      return 0;
-    } );
-    recommendations.items = data;
-  } );
-
-  if( evt.detail.favorite ) {
-    db.catalog.where( {name: evt.detail.data.name} ).toArray()
-    .then( async ( data ) => {
-      if( data.length === 0 ) {
-        evt.detail.data.id = self.crypto.randomUUID();
-        await db.catalog.put( {
-          id: evt.detail.data.id,
-          name: evt.detail.data.name
-        } );
-
-        const catalog = await db.catalog.toArray();
-        catalog.sort( ( a, b ) => {
-          if( a.name > b.name ) return 1;
-          if( a.name < b.name ) return -1;
-          return 0;
-        } );
-        favorites.catalog = catalog;
-      } else {
-        evt.detail.data.id = data[0].id;
-      }
-
-      await db.favorites.put( {
-        id: self.crypto.randomUUID(),
-        catalog_id: evt.detail.data.id,
-        name: evt.detail.data.name
-      } );      
-      const faves = await db.favorites.toArray();
-      faves.sort( ( a, b ) => {
-        if( a.name > b.name ) return 1;
-        if( a.name < b.name ) return -1;
-        return 0;
-      } );
-      favorites.items = faves;      
-    } );
-  } else {
-    db.favorites.where( {name: evt.detail.data.name} ).toArray()
-    .then( ( data ) => db.favorites.delete( data[0].id ) )
-    .then( () => db.favorites.toArray() )
-    .then( ( data ) => {
-      data.sort( ( a, b ) => {
-        if( a.name > b.name ) return 1;
-        if( a.name < b.name ) return -1;
-        return 0;
-      } );
-      favorites.items = data;
-    } );
-  }
-  */
 } );
 recommendations.addEventListener( 'sa-favorites', () => {
   favorites.changed = recommendations.changed;
@@ -405,8 +372,9 @@ loadCatalog()
     if( a.name < b.name ) return -1;
     return 0;
   } );
-  landing.favorites = data;
-  favorites.items = data;
+
+  landing.favorites = data.length === 0 ? null : data;
+  favorites.items = data.length === 0 ? null : data;
 } );
 
 async function loadCatalog( url = '/data/catalog.json' ) {

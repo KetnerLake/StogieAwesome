@@ -17,8 +17,8 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
     this.$field.addEventListener( 'focus', () => {
       const theme = document.querySelector( 'meta[name=theme-color]' );
       theme.setAttribute( 'content', '#eaf3ff' );
-
       document.body.style.backgroundColor = '#eaf3ff';
+      
       this.$done.hidden = false;
       this.$favorites.hidden = true;
     } );
@@ -40,13 +40,9 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   }
 
   match( query ) {
-    let matches = this._items.filter( ( value ) => value.name.toLowerCase().indexOf( query.toLowerCase() ) >= 0 ? true : false );
+    let matches = this._items.filter( ( value ) => value.name.toLowerCase().indexOf( query.toLowerCase() ) >= 0 ? true : false ).splice( 0, 50 );
 
-    if( query.length < 3 ) {
-      matches = matches.splice( 0, 5 );
-    }
-
-    matches.map( ( value ) => {
+    matches = matches.map( ( value ) => {
       if( this.$favorites.items === null ) {
         value.checked = false;
       } else {
@@ -63,8 +59,8 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   reset() {
     const theme = document.querySelector( 'meta[name=theme-color]' );
     theme.setAttribute( 'content', '#f4f4f4' );
-
     document.body.style.backgroundColor = '#f4f4f4';      
+
     this.$field.value = null;
     this.$field.blur();
     this.$done.hidden = true;

@@ -20,6 +20,7 @@ export default class StogieCatalogItem extends HTMLElement {
         sa-label {
           flex-basis: 0;
           flex-grow: 1;
+          padding: 0 16px 0 0;
           --label-cursor: pointer;
         }    
 

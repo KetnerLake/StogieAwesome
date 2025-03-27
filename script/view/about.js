@@ -19,7 +19,8 @@ customElements.define( 'sa-about', class extends HTMLElement {
     this.$email.addEventListener( 'sa-change', () => this.validate() );
 
     this.$face = this.querySelector( '#face' );
-    this.$face.addEventListener( ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'mousedown', () => {
+    this.$face.addEventListener( ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'mousedown', ( evt ) => {
+      evt.preventDefault();
       this._timeout = setTimeout( () => {
         this._timeout = null;
         this.dispatchEvent( new CustomEvent( 'sa-reset' ) );

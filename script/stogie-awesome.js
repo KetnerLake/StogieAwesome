@@ -27,4 +27,5 @@ import "./view/about.js";
 import "./view/catalog.js";
 import "./view/favorites.js";
 import "./view/landing.js";
+import "./view/random-quote.js";
 import "./view/recommendations.js";

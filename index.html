@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
   
+  <meta charset="UTF-8" />  
   <meta name="viewport" content="width=device-width, initial-scale=1" />  
-  <meta charset="UTF-8" />
   <meta name="theme-color" content="#f4f4f4" />
 
   <title>Stogie Awesome</title>
 
   <link href="/img/fire.svg" rel="icon" type="image/svg+xml" />
-  <link href="/styles/stogie-awesome.css" rel="stylesheet">
+  <link href="/styles/stogie-awesome.css" rel="stylesheet" />
 
 </head>
 <body>
 
+  <!-- Favorites -->
   <sa-favorites>
     <header>
       <sa-box style="justify-content: flex-end;">
@@ -38,6 +39,7 @@
     </sa-catalog>
   </sa-favorites>
 
+  <!-- Landing -->
   <sa-landing hidden>
     <header>
       <h1>Welcome to<br>Stogie Awesome</h1>
@@ -65,6 +67,7 @@
     </footer>
   </sa-landing>
 
+  <!-- Recommendations -->
   <sa-recommendations>
     <header>
       <sa-box>
@@ -90,24 +93,23 @@
       </sa-box>
     </sa-box>
     <sa-list item-renderer="sa-recommended-item">
-      <!--
-      <sa-label slot="empty">&quot;I'll be back.&quot;</sa-label>
-      <sa-label slot="empty">&quot;I am C-3PO. Human-cyborg relations.&quot;</sa-label>
-      <sa-label slot="empty">&quot;Technically I was never alive,<br>but I appreciate your concern.&quot;</sa-label>
-      <sa-label slot="empty">&quot;When you become a real boy,<br>remember me to the ladies when you grow up.&quot;</sa-label>
-      <sa-label slot="empty">&quot;Dead or alive,<br>you're coming with me.&quot;</sa-label>
-      <sa-label slot="empty">&quot;Hey, laser lips,<br>your mama was a snow blower.&quot;</sa-label>      
-      <sa-label slot="empty">&quot;Danger, Will Robinson, danger.&quot;</sa-label>            
-      <sa-label slot="empty">&quot;A thing isn't beautiful because it lasts.&quot;</sa-label>            
-      <sa-label slot="empty">&quot;Autobots, roll out.&quot;</sa-label>      
-      <sa-label slot="empty">&quot;Honesty, new setting: ninety-five percent.&quot;</sa-label>      
-      <sa-label slot="empty">&quot;Resistance is futile.&quot;</sa-label>    
-      <sa-label slot="empty">&quot;I am attempting to fill a silent moment<br>with non-relevant conversation.&quot;</sa-label>                    
-      <sa-label slot="empty">&quot;I may be synthetic, but I'm not stupid.&quot;</sa-label>
-      -->      
-
-      <img slot="empty" src="/img/cigar.svg">      
-      <sa-label slot="empty">&quot;I am attempting to fill a silent moment<br>with non-relevant conversation.&quot;</sa-label>                                      
+      <img slot="empty" src="/img/cigar.svg">            
+      <sa-random-quote slot="empty">
+        <sa-label>&quot;I'll be back.&quot;</sa-label>
+        <sa-label>&quot;I am C-3PO. Human-cyborg relations.&quot;</sa-label>
+        <sa-label>&quot;Technically I was never alive,<br>but I appreciate your concern.&quot;</sa-label>
+        <sa-label>&quot;When you become a real boy,<br>remember me to the ladies when you grow up.&quot;</sa-label>
+        <sa-label>&quot;Dead or alive,<br>you're coming with me.&quot;</sa-label>
+        <sa-label>&quot;Hey, laser lips,<br>your mama was a snow blower.&quot;</sa-label>      
+        <sa-label>&quot;Danger, Will Robinson, danger.&quot;</sa-label>            
+        <sa-label>&quot;A thing isn't beautiful because it lasts.&quot;</sa-label>            
+        <sa-label>&quot;Autobots, roll out.&quot;</sa-label>      
+        <sa-label>&quot;Honesty, new setting: ninety-five percent.&quot;</sa-label>      
+        <sa-label>&quot;Resistance is futile.&quot;</sa-label>    
+        <sa-label>&quot;I am attempting to fill a silent moment<br>with non-relevant conversation.&quot;</sa-label>                    
+        <sa-label>&quot;I may be synthetic, but I'm not stupid.&quot;</sa-label>
+        <sa-label>&quot;I am attempting to fill a silent moment<br>with non-relevant conversation.&quot;</sa-label>                                              
+      </sa-random-quote>
       <sa-status-indicator slot="empty" type="loading">Updating recommendations</sa-status-indicator>
     </sa-list>
     <aside>
@@ -115,6 +117,7 @@
     </aside>
   </sa-recommendations>  
 
+  <!-- About -->
   <sa-about>
     <sa-box class="splash" centered direction="column" gap="l" justified>
       <img id="face" src="/img/krhoyt.jpg">
@@ -187,6 +190,7 @@
     </sa-stack>  
   </sa-about>
 
+  <!-- Alert -->
   <dialog>
     <sa-alert label="Alert" title="Stogie Awesome"></sa-alert>
   </dialog>

@@ -57,7 +57,10 @@ customElements.define( 'sa-landing', class extends HTMLElement {
 
   set favorites( value ) {
     this.$catalog.favorites = value;
-    this.$recommend.disabled = this.$catalog.favorites.length >= 3 ? false : true;
+
+    if( this.$catalog.favorites !== null ) {
+      this.$recommend.disabled = this.$catalog.favorites.length >= 3 ? false : true;
+    }
   }    
 
   // Attributes

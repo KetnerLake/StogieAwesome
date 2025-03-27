@@ -47,6 +47,7 @@ export default class StogieList extends HTMLElement {
           background-color: #ffffff;
           border-bottom: solid 1px #e0e0e0;
           box-sizing: border-box;
+          cursor: pointer;
           margin: 0;
           padding: 0;
         }
