@@ -120,7 +120,7 @@ export default class StogieSearchField extends HTMLElement {
     } );
 
     this.$input = this.shadowRoot.querySelector( 'input' );
-    this.$input.addEventListener( 'input', () => {
+    this.$input.addEventListener( 'input', ( evt ) => {
       this.value = this.$input.value.trim().length === 0 ? null : this.$input.value;
       this.dispatchEvent( new CustomEvent( 'sa-change', {
         detail: {

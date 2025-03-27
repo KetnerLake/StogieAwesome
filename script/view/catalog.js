@@ -18,7 +18,7 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       const theme = document.querySelector( 'meta[name=theme-color]' );
       theme.setAttribute( 'content', '#eaf3ff' );
       document.body.style.backgroundColor = '#eaf3ff';
-      
+
       this.$done.hidden = false;
       this.$favorites.hidden = true;
     } );

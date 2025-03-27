@@ -36,7 +36,6 @@ export default class StogieCatalogItem extends HTMLElement {
     
     // Properties
     this._data = null;
-    this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';    
 
     // Root
     this.attachShadow( {mode: 'open'} );
@@ -46,7 +45,7 @@ export default class StogieCatalogItem extends HTMLElement {
     this.$icon = this.shadowRoot.querySelector( 'sa-icon' );
     this.$label = this.shadowRoot.querySelector( 'sa-label' );
 
-    this.addEventListener( this._touch, () => {
+    this.addEventListener( 'click', () => {
       this.dispatchEvent( new CustomEvent( 'sa-favorite', {
         bubbles: true,
         cancelable: false,
