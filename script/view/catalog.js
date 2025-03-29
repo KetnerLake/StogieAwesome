@@ -10,7 +10,43 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
     this.$done = this.querySelector( 'sa-box sa-button' );
     this.$done.addEventListener( this._touch, ( evt ) => {
       evt.preventDefault();
-      this.reset();
+
+      const theme = document.querySelector( 'meta[name=theme-color]' );
+      theme.setAttribute( 'content', '#f4f4f4' );
+      document.body.style.backgroundColor = '#f4f4f4';      
+  
+      this.search = false;
+
+      this.$field.value = null;
+      this.$field.blur();
+      this.$done.hidden = !this.search;
+      this.$inline.hidden = !this.search;
+      this.$search_label.hidden = !this.search;
+      this.$search.hidden = !this.search;
+      this.$search.items = null;
+      this.$favorites.hidden = this.search;
+
+      this.dispatchEvent( new CustomEvent( 'sa-change' ) );
+    } );
+
+    this.$favorites = this.querySelector( 'sa-list[item-renderer=sa-favorite-item]' );    
+    this.$favorites.addEventListener( 'sa-change', ( evt ) => {
+      const favorites = this.$favorites.items === null ? [] : [... this.$favorites.items];
+      const index = favorites.findIndex( ( value ) => value.name === evt.detail.value.name ? true : false );
+      favorites.splice( index, 1 );
+
+      this.$favorites.items = favorites; 
+      this.$inline.items = favorites;      
+      this.$inline_label.hidden = favorites.length === 0 ? true : false;
+
+      this.dispatchEvent( new CustomEvent( 'sa-delete', {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: {
+          value: evt.detail.value
+        } 
+      } ) );      
     } );
 
     this.$field = this.querySelector( 'sa-search-field' );
@@ -19,54 +55,94 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       theme.setAttribute( 'content', '#eaf3ff' );
       document.body.style.backgroundColor = '#eaf3ff';
 
-      this.$done.hidden = false;
-      this.$favorites.hidden = true;
+      this.search = true;
+
+      this.$done.hidden = !this.search;
+      this.$inline.hidden = this.$inline.items === null ? true : false;
+      this.$inline_label.hidden = this.$inline.items === null ? true : false;
+      this.$favorites.hidden = this.search;
     } );
     this.$field.addEventListener( 'sa-change', ( evt ) => {
-      if( evt.detail.value === null ) {
-        this.$search.hidden = true;
-        this.$favorites.hidden = this.$favorites.items === null ? false : true;        
-        return;
-      } else {
-        this.$search.hidden = false;
-        this.$favorites.hidden = true;
-      }
+      this.$inline_label.hidden = this.$inline.items === null ? true : false;
+      this.$inline.hidden = this.$inline.items === null ? true : false;       
 
-      this.match( evt.detail.value );
+      this.$search_label.hidden = evt.detail.value === null ? true : false;        
+      this.$search.hidden = evt.detail.value === null ? true : false;                
+
+      if( evt.detail.value !== null ) {
+        this.match( evt.detail.value );
+      }
     } );
 
-    this.$search = this.querySelector( 'sa-list[item-renderer=sa-catalog-item]' );
-    this.$favorites = this.querySelector( 'sa-list[item-renderer=sa-favorite-item]' );    
+    this.$inline = this.querySelector( 'sa-list[item-renderer=sa-catalog-item]:nth-of-type( 1 )' );
+    this.$inline.addEventListener( 'sa-change', ( evt ) => {
+      const favorites = this.$inline.items === null ? [] : [... this.$inline.items];
+      const index = favorites.findIndex( ( value ) => value.name === evt.detail.value.name ? true : false );
+      favorites.splice( index, 1 );
+
+      this.$inline.items = favorites;      
+      this.$inline_label.hidden = favorites.length === 0 ? true : false;
+      this.$inline.hidden = favorites.length === 0 ? true : false;
+      this.$favorites.items = favorites;      
+
+      if( this.$field.value !== null ) {
+        this.match( this.$field.value );
+      }
+
+      this.dispatchEvent( new CustomEvent( 'sa-delete', {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: {
+          value: evt.detail.value
+        } 
+      } ) );
+    } );
+
+    this.$inline_label = this.querySelector( 'sa-label[size=s]:nth-of-type( 1 )' );    
+    
+    this.$search = this.querySelector( 'sa-list[item-renderer=sa-catalog-item]:nth-of-type( 2 )' );
+    this.$search.addEventListener( 'sa-change', ( evt ) => {
+      const favorites = this.$inline.items === null ? [] : [... this.$inline.items];
+      favorites.push( evt.detail.value );
+      favorites.sort( ( a, b ) => {
+        if( a.name > b.name ) return 1;
+        if( a.name < b.name ) return -1;
+        return 0;
+      } );
+
+      this.$inline.items = favorites;
+      this.$inline_label.hidden = false;
+      this.$inline.hidden = false;
+      this.$favorites.items = favorites;
+
+      if( this.$field.value !== null ) {
+        this.match( this.$field.value );
+      }
+
+      this.dispatchEvent( new CustomEvent( 'sa-add', {
+        bubbles: true,
+        cancelable: false,
+        composed: true,
+        detail: {
+          value: evt.detail.value
+        } 
+      } ) );
+    } );
+
+    this.$search_label = this.querySelector( 'sa-label[size=s]:nth-of-type( 2 )' );    
   }
 
   match( query ) {
-    let matches = this._items.filter( ( value ) => value.name.toLowerCase().indexOf( query.toLowerCase() ) >= 0 ? true : false ).splice( 0, 50 );
+    const matches = this._items.filter( ( value ) => value.name.toLowerCase().indexOf( query.toLowerCase() ) >= 0 ? true : false );
 
-    matches = matches.map( ( value ) => {
-      if( this.$favorites.items === null ) {
-        value.checked = false;
-      } else {
-        const index = this.$favorites.items.findIndex( ( item ) => item.name === value.name  );
-        value.checked = index >= 0 ? true : false;
-      }
-
-      return value;
-    } );
-    
-    this.$search.items = matches;
-  }
-
-  reset() {
-    const theme = document.querySelector( 'meta[name=theme-color]' );
-    theme.setAttribute( 'content', '#f4f4f4' );
-    document.body.style.backgroundColor = '#f4f4f4';      
-
-    this.$field.value = null;
-    this.$field.blur();
-    this.$done.hidden = true;
-    this.$search.hidden = true;
-    this.$search.items = null;
-    this.$favorites.hidden = false;
+    if( this.$inline.items === null ) {
+      this.$search.items = matches.slice( 0, 50 );
+    } else {
+      this.$search.items = matches.filter( ( item ) => {
+        return !this.$inline.items.some( ( value ) => item.name === value.name ? true : false );
+      } ).slice( 0, 50 );
+    }
   }
 
   // Promote properties
@@ -83,6 +159,14 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   connectedCallback() {
     this._upgrade( 'favorites' );
     this._upgrade( 'items' );
+    this._upgrade( 'search' );
+  }
+
+  // Watched attributes
+  static get observedAttributes() {
+    return [
+      'search'
+    ];
   }
 
   // Properties
@@ -93,10 +177,9 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   }
 
   set favorites( value ) {
+    this.$inline.items = value === null ? [] : [... value];
+    this.$inline_label.hidden = value === null ? true : false;
     this.$favorites.items = value === null ? [] : [... value];
-    if( this.$field.value !== null ) {
-      this.match( this.$field.value );
-    }
   }    
 
   get items() {
@@ -105,5 +188,39 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
 
   set items( value ) {
     this._items = value === null ? [] : [... value];
+
+    if( this._items !== null ) {
+      this._items = this._items.map( ( value ) => {
+        value.checked = false;
+        return value;
+      } );
+    }
+  }  
+
+  // Attributes
+  // Reflected
+  // Boolean, Number, String, null
+  get search() {
+    return this.hasAttribute( 'search' );
+  }
+
+  set search( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'search' );
+      } else {
+        this.setAttribute( 'search', '' );
+      }
+    } else {
+      this.removeAttribute( 'search' );
+    }
+  }
+
+  get search() {
+    return this.hasAttribute( 'search' );
   }  
 } );

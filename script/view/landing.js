@@ -7,10 +7,18 @@ customElements.define( 'sa-landing', class extends HTMLElement {
 
     // Elements
     this.$catalog = this.querySelector( 'sa-catalog' );
+    this.$catalog.addEventListener( 'sa-change', () => {
+      if( this.$catalog.favorites === null ) {
+        this.$recommend.disabled = true;
+      } else {
+        this.$recommend.disabled = this.$catalog.favorites.length >= 3 ? false : true;
+      }
+    } );
+
+    this.$footer = this.querySelector( 'footer' );
 
     this.$recommend = this.querySelector( '#recommend' );
     this.$recommend.addEventListener( this._touch, () => {
-      this.$catalog.reset();
       this.$recommend.disabled = true;
       this.dispatchEvent( new CustomEvent( 'sa-recommend' ) );      
     } );
@@ -56,6 +64,12 @@ customElements.define( 'sa-landing', class extends HTMLElement {
   }
 
   set favorites( value ) {
+    if( value !== null ) {
+      for( let f = 0; f < value.length; f++ ) {
+        value[f].checked = true;
+      }
+    }
+
     this.$catalog.favorites = value;
 
     if( this.$catalog.favorites !== null ) {

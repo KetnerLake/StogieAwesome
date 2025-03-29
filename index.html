@@ -25,10 +25,13 @@
       <h1>Favorites</h1>      
     </header>
     <sa-catalog>
-      <sa-box gap="m" style="padding: 0 16px 0 16px;">
+      <sa-box gap="m">
         <sa-search-field clearable placeholder="Search cigars"></sa-search-field>
         <sa-button hidden kind="ghost" label="Done" size="m"></sa-button>
       </sa-box>
+      <sa-label hidden size="s">My Favorites</sa-label>
+      <sa-list hidden item-renderer="sa-catalog-item"></sa-list>
+      <sa-label hidden size="s">Cigar Catalog</sa-label>      
       <sa-list hidden item-renderer="sa-catalog-item"></sa-list>
       <sa-list item-renderer="sa-favorite-item">
         <img slot="empty" src="/img/cigar.svg">
@@ -48,10 +51,13 @@
       </sa-label>
     </header>
     <sa-catalog>
-      <sa-box gap="m" style="padding: 0 16px 0 16px;">
+      <sa-box gap="m">
         <sa-search-field clearable placeholder="Search cigars"></sa-search-field>
         <sa-button hidden kind="ghost" label="Done" size="m"></sa-button>
       </sa-box>
+      <sa-label hidden size="s">My Favorites</sa-label>
+      <sa-list hidden item-renderer="sa-catalog-item"></sa-list>
+      <sa-label hidden size="s">Cigar Catalog</sa-label>      
       <sa-list hidden item-renderer="sa-catalog-item"></sa-list>
       <sa-list item-renderer="sa-favorite-item">
         <img slot="empty" src="/img/cigar.svg">

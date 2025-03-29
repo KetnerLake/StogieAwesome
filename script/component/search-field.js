@@ -79,7 +79,7 @@ export default class StogieSearchField extends HTMLElement {
         }
 
         sa-icon {
-          padding: 0 10px 0 10px;
+          padding: 0 10px 0 14px;
           --icon-color: #8d8d8d;
         }
 
@@ -120,7 +120,7 @@ export default class StogieSearchField extends HTMLElement {
     } );
 
     this.$input = this.shadowRoot.querySelector( 'input' );
-    this.$input.addEventListener( 'input', ( evt ) => {
+    this.$input.addEventListener( 'input', () => {
       this.value = this.$input.value.trim().length === 0 ? null : this.$input.value;
       this.dispatchEvent( new CustomEvent( 'sa-change', {
         detail: {

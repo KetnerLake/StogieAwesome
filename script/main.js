@@ -162,37 +162,11 @@ favorites.addEventListener( 'sa-remove', ( evt ) => {
 } );
 
 const landing = document.querySelector( 'sa-landing' );
-landing.addEventListener( 'sa-favorite', ( evt ) => {
-  db.favorites.where( {catalog_id: evt.detail.value.id} ).toArray()
-  .then( ( data ) => {
-    if( data.length === 0 ) {
-      db.favorites.put( {
-        id: self.crypto.randomUUID(),
-        catalog_id: evt.detail.value.id,
-        name: evt.detail.value.name
-      } )
-      .then( () => db.favorites.toArray() )
-      .then( ( data ) => {
-        data.sort( ( a, b ) => {
-          if( a.name > b.name ) return 1;
-          if( a.name < b.name ) return -1;
-          return;
-        } );        
-        landing.favorites = data.length === 0 ? null : data;
-      } );
-    } else {
-      db.favorites.delete( data[0].id )
-      .then( () => db.favorites.toArray() )
-      .then( ( data ) => {
-        data.sort( ( a, b ) => {
-          if( a.name > b.name ) return 1;
-          if( a.name < b.name ) return -1;
-          return;
-        } );
-        favorites.items = data.length === 0 ? null : data;
-        landing.favorites = data.length === 0 ? null : data;
-      } );
-    }
+landing.addEventListener( 'sa-add', ( evt ) => {
+  db.favorites.put( {
+    id: self.crypto.randomUUID(),
+    catalog_id: evt.detail.value.id,
+    name: evt.detail.value.name
   } );
 } );
 landing.addEventListener( 'sa-recommend', ( evt ) => {
@@ -222,18 +196,9 @@ landing.addEventListener( 'sa-recommend', ( evt ) => {
     return db.recommendations.bulkPut( data.recommendations );
   } );
 } );
-landing.addEventListener( 'sa-remove', ( evt ) => {
-  db.favorites.delete( evt.detail.value.id )
-  .then( () => db.favorites.toArray() )
-  .then( ( data ) => {
-    data.sort( ( a, b ) => {
-      if( a.name > b.name ) return 1;
-      if( a.name < b.name ) return -1;
-      return 0;
-    } );
-    favorites.items = data.length === 0 ? null : data;
-    landing.favorites = data.length === 0 ? null : data;
-  } );
+landing.addEventListener( 'sa-delete', ( evt ) => {
+  db.favorites.where( {name: evt.detail.value.name} ).first()
+  .then( ( data ) => db.favorites.delete( data.id ) );
 } );
 
 const recommendations = document.querySelector( 'sa-recommendations' );

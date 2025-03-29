@@ -33,7 +33,7 @@ export default class StogieFavoriteItem extends HTMLElement {
         sa-label {
           flex-basis: 0;
           flex-grow: 1;
-          padding: 0 0 0 12px;
+          padding: 0 0 0 16px;
         }    
 
         sa-icon {
@@ -61,7 +61,8 @@ export default class StogieFavoriteItem extends HTMLElement {
     this.$label = this.shadowRoot.querySelector( 'sa-label' );
     this.$remove = this.shadowRoot.querySelector( 'button' );
     this.$remove.addEventListener( this._touch, () => {
-      this.dispatchEvent( new CustomEvent( 'sa-remove', {
+      this._data.checked = false;
+      this.dispatchEvent( new CustomEvent( 'sa-change', {
         bubbles: true,
         cancelable: false,
         composed: true,

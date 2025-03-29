@@ -7,3 +7,11 @@ sa-landing {
   position: relative;
   width: 100%;
 }
+
+sa-landing:has( sa-catalog[search] ) footer {
+  display: none;
+}
+
+sa-landing footer {
+  padding: 16px;
+}

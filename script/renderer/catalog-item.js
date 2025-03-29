@@ -25,7 +25,7 @@ export default class StogieCatalogItem extends HTMLElement {
         }    
 
         sa-icon {
-          padding: 0 10px 0 10px;
+          padding: 0 10px 0 14px;
           --icon-color: #0f62fe;
           --icon-cursor: pointer;
         }
@@ -46,7 +46,12 @@ export default class StogieCatalogItem extends HTMLElement {
     this.$label = this.shadowRoot.querySelector( 'sa-label' );
 
     this.addEventListener( 'click', () => {
-      this.dispatchEvent( new CustomEvent( 'sa-favorite', {
+      this._data.checked = !this._data.checked;
+      this.$icon.filled = this._data.checked;
+      this.$icon.name = this._data.checked ? 'check_circle' : 'circle';
+      this.$icon.weight = this._data.checked ? 400 : 200;  
+
+      this.dispatchEvent( new CustomEvent( 'sa-change', {
         bubbles: true,
         cancelable: false,
         composed: true,
