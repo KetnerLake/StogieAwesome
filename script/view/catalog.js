@@ -39,6 +39,14 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       this.$inline.items = favorites;      
       this.$inline_label.hidden = favorites.length === 0 ? true : false;
 
+      if( favorites.length > this.$stack.children.length ) {
+        this.$stack.selectedIndex = 0;
+        this.$stack.hidden = true;
+      } else {
+        this.$stack.selectedIndex = favorites.length;
+        this.$stack.hidden = false;
+      }
+
       this.dispatchEvent( new CustomEvent( 'sa-delete', {
         bubbles: true,
         cancelable: false,
@@ -74,7 +82,7 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       }
     } );
 
-    this.$inline = this.querySelector( 'sa-list[item-renderer=sa-catalog-item]:nth-of-type( 1 )' );
+    this.$inline = this.querySelector( '.stuff1' );
     this.$inline.addEventListener( 'sa-change', ( evt ) => {
       const favorites = this.$inline.items === null ? [] : [... this.$inline.items];
       const index = favorites.findIndex( ( value ) => value.name === evt.detail.value.name ? true : false );
@@ -84,6 +92,14 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       this.$inline_label.hidden = favorites.length === 0 ? true : false;
       this.$inline.hidden = favorites.length === 0 ? true : false;
       this.$favorites.items = favorites;      
+
+      if( favorites.length > this.$stack.children.length ) {
+        this.$stack.selectedIndex = 0;
+        this.$stack.hidden = true;
+      } else {
+        this.$stack.selectedIndex = favorites.length;
+        this.$stack.hidden = false;
+      }
 
       if( this.$field.value !== null ) {
         this.match( this.$field.value );
@@ -100,8 +116,8 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
     } );
 
     this.$inline_label = this.querySelector( 'sa-label[size=s]:nth-of-type( 1 )' );    
-    
-    this.$search = this.querySelector( 'sa-list[item-renderer=sa-catalog-item]:nth-of-type( 2 )' );
+
+    this.$search = this.querySelector( '.stuff2' );
     this.$search.addEventListener( 'sa-change', ( evt ) => {
       const favorites = this.$inline.items === null ? [] : [... this.$inline.items];
       favorites.push( evt.detail.value );
@@ -115,6 +131,14 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       this.$inline_label.hidden = false;
       this.$inline.hidden = false;
       this.$favorites.items = favorites;
+
+      if( favorites.length > this.$stack.children.length ) {
+        this.$stack.selectedIndex = 0;
+        this.$stack.hidden = true;
+      } else {
+        this.$stack.selectedIndex = favorites.length;
+        this.$stack.hidden = false;
+      }
 
       if( this.$field.value !== null ) {
         this.match( this.$field.value );
@@ -131,6 +155,8 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
     } );
 
     this.$search_label = this.querySelector( 'sa-label[size=s]:nth-of-type( 2 )' );    
+
+    this.$stack = this.querySelector( 'sa-stack' );
   }
 
   match( query ) {
@@ -177,9 +203,18 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   }
 
   set favorites( value ) {
+    this.$inline_label.hidden = value === null ? true : false;          
     this.$inline.items = value === null ? [] : [... value];
-    this.$inline_label.hidden = value === null ? true : false;
     this.$favorites.items = value === null ? [] : [... value];
+    this.$stack.selectedIndex = value === null ? 0 : value.length;
+
+    if( this.search ) {
+      this.$favorites.hidden = true;
+      this.$inline.hidden = value === null ? true : false;      
+    } else {
+      this.$favorites.hidden = value === null ? true : false;
+      this.$inline.hidden = true;            
+    }
   }    
 
   get items() {
