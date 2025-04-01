@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1" />  
-  <meta name="theme-color" content="#f4f4f4" />
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  <meta name="theme-color" content="#f4f4f4">
 
   <title>Stogie Awesome</title>
 
-  <link href="/img/fire.svg" rel="icon" type="image/svg+xml" />
-  <link href="/styles/stogie-awesome.css" rel="stylesheet" />
+  <link href="/img/fire.svg" rel="icon" type="image/svg+xml">
+  <link href="/styles/stogie-awesome.css" rel="stylesheet">
 
 </head>
 <body>
@@ -29,28 +29,28 @@
         <sa-search-field clearable placeholder="Search cigars"></sa-search-field>
         <sa-button hidden kind="ghost" label="Done" size="m"></sa-button>
       </sa-box>
-      <sa-label hidden size="s">My Favorites</sa-label>
-      <sa-list hidden item-renderer="sa-favorite-item"></sa-list>      
-      <sa-list class="stuff1" hidden item-renderer="sa-catalog-item"></sa-list>      
-      <sa-label hidden size="s">Cigar Catalog</sa-label>      
-      <sa-list class="stuff2" hidden item-renderer="sa-catalog-item"></sa-list>
+      <sa-label hidden size="s">Selected Cigars</sa-label>
+      <sa-list hidden item-renderer="sa-favorite-item"></sa-list> 
+      <sa-list class="stuff1" hidden item-renderer="sa-catalog-item"></sa-list>           
       <sa-stack>
         <sa-box centered direction="column" gap="l">
-          <img src="/img/cigar.svg" />
+          <img alt="Illustrated smoking cigar" src="/img/cigar.svg">
           <sa-label>
             Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
           </sa-label>        
-        </sa-box>      
-        <sa-label>
-          <strong>Two more</strong> of your favorite cigars will do the trick.
+        </sa-box>        
+        <sa-label size="s">
+          <strong>Two more</strong> cigars will do the trick.
         </sa-label>
-        <sa-label>
-          Almost there! Only <strong>one more</strong> cigar to go.        
+        <sa-label size="s">
+          Only <strong>one more</strong> cigar to go.        
         </sa-label>
-        <sa-label>
+        <sa-label size="s">
           Let's go! 🎉    
         </sa-label>
       </sa-stack>
+      <sa-label hidden size="s">Cigar Catalog</sa-label>      
+      <sa-list class="stuff2" hidden item-renderer="sa-catalog-item"></sa-list>
     </sa-catalog>
   </sa-favorites>
 
@@ -67,28 +67,28 @@
         <sa-search-field clearable placeholder="Search cigars"></sa-search-field>
         <sa-button hidden kind="ghost" label="Done" size="m"></sa-button>
       </sa-box>
-      <sa-label hidden size="s">My Favorites</sa-label>
-      <sa-list hidden item-renderer="sa-favorite-item"></sa-list>      
-      <sa-list class="stuff1" hidden item-renderer="sa-catalog-item"></sa-list>      
-      <sa-label hidden size="s">Cigar Catalog</sa-label>      
-      <sa-list class="stuff2" hidden item-renderer="sa-catalog-item"></sa-list>
+      <sa-label class="group" hidden size="s">Selected Cigars</sa-label>
+      <sa-list hidden item-renderer="sa-favorite-item"></sa-list> 
+      <sa-list class="stuff1" hidden item-renderer="sa-catalog-item"></sa-list>           
       <sa-stack>
         <sa-box centered direction="column" gap="l">
-          <img src="/img/cigar.svg" />
+          <img  alt="Illustrated smoking cigar" src="/img/cigar.svg">
           <sa-label>
             Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
           </sa-label>        
-        </sa-box>      
-        <sa-label>
-          <strong>Two more</strong> of your favorite cigars will do the trick.
+        </sa-box>        
+        <sa-label size="s">
+          <strong>Two more</strong> cigars will do the trick.
         </sa-label>
-        <sa-label>
-          Almost there! Only <strong>one more</strong> cigar to go.        
+        <sa-label size="s">
+          Only <strong>one more</strong> cigar to go.        
         </sa-label>
-        <sa-label>
+        <sa-label size="s">
           Let's go! 🎉    
         </sa-label>
       </sa-stack>
+      <sa-label class="group" hidden size="s">Cigar Catalog</sa-label>      
+      <sa-list class="stuff2" hidden item-renderer="sa-catalog-item"></sa-list>
     </sa-catalog>
     <footer>
       <sa-button id="recommend" disabled label="Recommend cigars">
@@ -123,7 +123,7 @@
       </sa-box>
     </sa-box>
     <sa-list item-renderer="sa-recommended-item">
-      <img slot="empty" src="/img/cigar.svg">            
+      <img  alt="Illustrated smoking cigar" slot="empty" src="/img/cigar.svg">            
       <sa-random-quote slot="empty">
         <sa-label>&quot;I'll be back.&quot;</sa-label>
         <sa-label>&quot;I am C-3PO. Human-cyborg relations.&quot;</sa-label>
@@ -150,7 +150,7 @@
   <!-- About -->
   <sa-about>
     <sa-box class="splash" centered direction="column" gap="l" justified>
-      <img id="face" src="/img/krhoyt.jpg">
+      <img alt="Photo of Kevin Hoyt" id="face" src="/img/krhoyt.jpg">
       <sa-label size="s">22.03.2025</sa-label>
       <button id="close" type="button">
         <sa-icon name="close" size="s" weight="200"></sa-icon>

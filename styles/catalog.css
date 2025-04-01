@@ -6,6 +6,10 @@ sa-catalog {
   position: relative;
 }
 
+sa-catalog[search] sa-stack[selected-index="0"] {
+  display: none;
+}
+
 sa-catalog img {
   width: 48px;
   height: 48px;
@@ -19,20 +23,17 @@ sa-catalog[search] sa-box sa-button {
   display: flex;
 }
 
-sa-catalog sa-label[size=s] {
+sa-catalog > sa-label {
   padding: 0 16px 4px 32px;
-}
-
-sa-catalog sa-label[size=s] {
   --label-color: #8d8d8d;
 }
 
-sa-catalog sa-label[size=s]::part( composed ) {
+sa-catalog > sa-label::part( composed ) {
   text-transform: uppercase;
 }
 
 sa-catalog sa-list {
-  padding: 0 16px 16px 16px;
+  padding: 0 16px 0 16px;
 }
 
 sa-catalog sa-list::part( list ) {
@@ -47,12 +48,22 @@ sa-catalog sa-search-field {
 }
 
 sa-catalog sa-stack {
-  align-items: center;
   display: flex;
+  flex-direction: row;
+  padding: 4px 0 0 0;
+}
+
+sa-catalog sa-stack:not( [selected-index="0"] ) sa-label {
+  padding: 0 16px 16px 32px;
+  --label-color: #8d8d8d;
+}
+
+sa-catalog sa-stack[selected-index="0"] {
+  align-items: center;
   flex-basis: 0;
   flex-grow: 1;
+  padding: 0 calc( 16px + 10% ) 0 calc( 16px + 10% );
   justify-content: center;
-  padding: 0 calc( 16px + 10vw ) 0 calc( 16px + 10vw );
 }
 
 /*

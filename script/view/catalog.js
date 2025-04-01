@@ -115,7 +115,7 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       } ) );
     } );
 
-    this.$inline_label = this.querySelector( 'sa-label[size=s]:nth-of-type( 1 )' );    
+    this.$inline_label = this.querySelector( 'sa-label.group:nth-of-type( 1 )' );    
 
     this.$search = this.querySelector( '.stuff2' );
     this.$search.addEventListener( 'sa-change', ( evt ) => {
@@ -154,7 +154,7 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       } ) );
     } );
 
-    this.$search_label = this.querySelector( 'sa-label[size=s]:nth-of-type( 2 )' );    
+    this.$search_label = this.querySelector( 'sa-label.group:nth-of-type( 2 )' );    
 
     this.$stack = this.querySelector( 'sa-stack' );
   }
