@@ -29,47 +29,9 @@
         <sa-search-field clearable placeholder="Search cigars"></sa-search-field>
         <sa-button hidden kind="ghost" label="Done" size="m"></sa-button>
       </sa-box>
-      <sa-label hidden size="s">Selected Cigars</sa-label>
-      <sa-list hidden item-renderer="sa-favorite-item"></sa-list> 
-      <sa-list class="stuff1" hidden item-renderer="sa-catalog-item"></sa-list>           
-      <sa-stack>
-        <sa-box centered direction="column" gap="l">
-          <img alt="Illustrated smoking cigar" src="/img/cigar.svg">
-          <sa-label>
-            Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
-          </sa-label>        
-        </sa-box>        
-        <sa-label size="s">
-          <strong>Two more</strong> cigars will do the trick.
-        </sa-label>
-        <sa-label size="s">
-          Only <strong>one more</strong> cigar to go.        
-        </sa-label>
-        <sa-label size="s">
-          Let's go! 🎉    
-        </sa-label>
-      </sa-stack>
-      <sa-label hidden size="s">Cigar Catalog</sa-label>      
-      <sa-list class="stuff2" hidden item-renderer="sa-catalog-item"></sa-list>
-    </sa-catalog>
-  </sa-favorites>
-
-  <!-- Landing -->
-  <sa-landing hidden>
-    <header>
-      <h1>Welcome to<br>Stogie Awesome</h1>
-      <sa-label size="l">
-        <span>AI-powered</span> cigar recommendations.
-      </sa-label>
-    </header>
-    <sa-catalog>
-      <sa-box gap="m">
-        <sa-search-field clearable placeholder="Search cigars"></sa-search-field>
-        <sa-button hidden kind="ghost" label="Done" size="m"></sa-button>
-      </sa-box>
-      <sa-label class="group" hidden size="s">Selected Cigars</sa-label>
-      <sa-list hidden item-renderer="sa-favorite-item"></sa-list> 
-      <sa-list class="stuff1" hidden item-renderer="sa-catalog-item"></sa-list>           
+      <sa-label id="favorite_label" class="group" hidden size="s">Selected Cigars</sa-label>
+      <sa-list id="favorite_list" hidden item-renderer="sa-favorite-item"></sa-list> 
+      <sa-list id="selected_list" hidden item-renderer="sa-catalog-item"></sa-list>           
       <sa-stack>
         <sa-box centered direction="column" gap="l">
           <img  alt="Illustrated smoking cigar" src="/img/cigar.svg">
@@ -87,8 +49,46 @@
           Let's go! 🎉    
         </sa-label>
       </sa-stack>
-      <sa-label class="group" hidden size="s">Cigar Catalog</sa-label>      
-      <sa-list class="stuff2" hidden item-renderer="sa-catalog-item"></sa-list>
+      <sa-label id="catalog_label" hidden size="s">Cigar Catalog</sa-label>      
+      <sa-list id="catalog_list" hidden item-renderer="sa-catalog-item"></sa-list>
+    </sa-catalog>
+  </sa-favorites>
+
+  <!-- Landing -->
+  <sa-landing hidden>
+    <header>
+      <h1>Welcome to<br>Stogie Awesome</h1>
+      <sa-label size="l">
+        <span>AI-powered</span> cigar recommendations.
+      </sa-label>
+    </header>
+    <sa-catalog>
+      <sa-box gap="m">
+        <sa-search-field clearable placeholder="Search cigars"></sa-search-field>
+        <sa-button hidden kind="ghost" label="Done" size="m"></sa-button>
+      </sa-box>
+      <sa-label id="favorite_label" class="group" hidden size="s">Selected Cigars</sa-label>
+      <sa-list id="favorite_list" hidden item-renderer="sa-favorite-item"></sa-list> 
+      <sa-list id="selected_list" hidden item-renderer="sa-catalog-item"></sa-list>           
+      <sa-stack>
+        <sa-box centered direction="column" gap="l">
+          <img  alt="Illustrated smoking cigar" src="/img/cigar.svg">
+          <sa-label>
+            Tell me <strong>three or more</strong> of your favorite cigars, and I will tell you <strong>three</strong> cigar recommendations.        
+          </sa-label>        
+        </sa-box>        
+        <sa-label size="s">
+          <strong>Two more</strong> cigars will do the trick.
+        </sa-label>
+        <sa-label size="s">
+          Only <strong>one more</strong> cigar to go.        
+        </sa-label>
+        <sa-label size="s">
+          Let's go! 🎉    
+        </sa-label>
+      </sa-stack>
+      <sa-label id="catalog_label" hidden size="s">Cigar Catalog</sa-label>      
+      <sa-list id="catalog_list" hidden item-renderer="sa-catalog-item"></sa-list>
     </sa-catalog>
     <footer>
       <sa-button id="recommend" disabled label="Recommend cigars">
@@ -122,7 +122,7 @@
         </sa-button>
       </sa-box>
     </sa-box>
-    <sa-list item-renderer="sa-recommended-item">
+    <sa-list carded item-renderer="sa-recommended-item">
       <img  alt="Illustrated smoking cigar" slot="empty" src="/img/cigar.svg">            
       <sa-random-quote slot="empty">
         <sa-label>&quot;I'll be back.&quot;</sa-label>

@@ -20,7 +20,7 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       this.$field.value = null;
       this.$field.blur();
       this.$done.hidden = !this.search;
-      this.$inline.hidden = !this.search;
+      this.$selected.hidden = !this.search;
       this.$search_label.hidden = !this.search;
       this.$search.hidden = !this.search;
       this.$search.items = null;
@@ -29,17 +29,17 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       this.dispatchEvent( new CustomEvent( 'sa-change' ) );
     } );
 
-    this.$favorites = this.querySelector( 'sa-list[item-renderer=sa-favorite-item]' );    
+    this.$favorites = this.querySelector( '#favorite_list' );    
     this.$favorites.addEventListener( 'sa-change', ( evt ) => {
       const favorites = this.$favorites.items === null ? [] : [... this.$favorites.items];
       const index = favorites.findIndex( ( value ) => value.name === evt.detail.value.name ? true : false );
       favorites.splice( index, 1 );
 
       this.$favorites.items = favorites; 
-      this.$inline.items = favorites;      
-      this.$inline_label.hidden = favorites.length === 0 ? true : false;
+      this.$selected.items = favorites;      
+      this.$favorites_label.hidden = favorites.length === 0 ? true : false;
 
-      if( favorites.length > this.$stack.children.length ) {
+      if( favorites.length > ( this.$stack.children.length - 1 ) ) {
         this.$stack.selectedIndex = 0;
         this.$stack.hidden = true;
       } else {
@@ -66,13 +66,13 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       this.search = true;
 
       this.$done.hidden = !this.search;
-      this.$inline.hidden = this.$inline.items === null ? true : false;
-      this.$inline_label.hidden = this.$inline.items === null ? true : false;
+      this.$selected.hidden = this.$selected.items === null ? true : false;
+      this.$favorites_label.hidden = this.$selected.items === null ? true : false;
       this.$favorites.hidden = this.search;
     } );
     this.$field.addEventListener( 'sa-change', ( evt ) => {
-      this.$inline_label.hidden = this.$inline.items === null ? true : false;
-      this.$inline.hidden = this.$inline.items === null ? true : false;       
+      this.$favorites_label.hidden = this.$selected.items === null ? true : false;
+      this.$selected.hidden = this.$selected.items === null ? true : false;       
 
       this.$search_label.hidden = evt.detail.value === null ? true : false;        
       this.$search.hidden = evt.detail.value === null ? true : false;                
@@ -82,18 +82,18 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       }
     } );
 
-    this.$inline = this.querySelector( '.stuff1' );
-    this.$inline.addEventListener( 'sa-change', ( evt ) => {
-      const favorites = this.$inline.items === null ? [] : [... this.$inline.items];
+    this.$selected = this.querySelector( '#selected_list' );
+    this.$selected.addEventListener( 'sa-change', ( evt ) => {
+      const favorites = this.$selected.items === null ? [] : [... this.$selected.items];
       const index = favorites.findIndex( ( value ) => value.name === evt.detail.value.name ? true : false );
       favorites.splice( index, 1 );
 
-      this.$inline.items = favorites;      
-      this.$inline_label.hidden = favorites.length === 0 ? true : false;
-      this.$inline.hidden = favorites.length === 0 ? true : false;
+      this.$selected.items = favorites;      
+      this.$favorites_label.hidden = favorites.length === 0 ? true : false;
+      this.$selected.hidden = favorites.length === 0 ? true : false;
       this.$favorites.items = favorites;      
-
-      if( favorites.length > this.$stack.children.length ) {
+      
+      if( favorites.length > ( this.$stack.children.length - 1 ) ) {
         this.$stack.selectedIndex = 0;
         this.$stack.hidden = true;
       } else {
@@ -115,11 +115,11 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       } ) );
     } );
 
-    this.$inline_label = this.querySelector( 'sa-label.group:nth-of-type( 1 )' );    
+    this.$favorites_label = this.querySelector( '#favorite_label' );    
 
-    this.$search = this.querySelector( '.stuff2' );
+    this.$search = this.querySelector( '#catalog_list' );
     this.$search.addEventListener( 'sa-change', ( evt ) => {
-      const favorites = this.$inline.items === null ? [] : [... this.$inline.items];
+      const favorites = this.$selected.items === null ? [] : [... this.$selected.items];
       favorites.push( evt.detail.value );
       favorites.sort( ( a, b ) => {
         if( a.name > b.name ) return 1;
@@ -127,12 +127,12 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
         return 0;
       } );
 
-      this.$inline.items = favorites;
-      this.$inline_label.hidden = false;
-      this.$inline.hidden = false;
+      this.$selected.items = favorites;
+      this.$favorites_label.hidden = false;
+      this.$selected.hidden = false;
       this.$favorites.items = favorites;
 
-      if( favorites.length > this.$stack.children.length ) {
+      if( favorites.length > ( this.$stack.children.length - 1 ) ) {      
         this.$stack.selectedIndex = 0;
         this.$stack.hidden = true;
       } else {
@@ -154,7 +154,7 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
       } ) );
     } );
 
-    this.$search_label = this.querySelector( 'sa-label.group:nth-of-type( 2 )' );    
+    this.$search_label = this.querySelector( '#catalog_label' );    
 
     this.$stack = this.querySelector( 'sa-stack' );
   }
@@ -162,11 +162,11 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   match( query ) {
     const matches = this._items.filter( ( value ) => value.name.toLowerCase().indexOf( query.toLowerCase() ) >= 0 ? true : false );
 
-    if( this.$inline.items === null ) {
+    if( this.$selected.items === null ) {
       this.$search.items = matches.slice( 0, 50 );
     } else {
       this.$search.items = matches.filter( ( item ) => {
-        return !this.$inline.items.some( ( value ) => item.name === value.name ? true : false );
+        return !this.$selected.items.some( ( value ) => item.name === value.name ? true : false );
       } ).slice( 0, 50 );
     }
   }
@@ -203,17 +203,17 @@ customElements.define( 'sa-catalog', class extends HTMLElement {
   }
 
   set favorites( value ) {
-    this.$inline_label.hidden = value === null ? true : false;          
-    this.$inline.items = value === null ? [] : [... value];
+    this.$favorites_label.hidden = value === null ? true : false;          
+    this.$selected.items = value === null ? [] : [... value];
     this.$favorites.items = value === null ? [] : [... value];
     this.$stack.selectedIndex = value === null ? 0 : value.length;
 
     if( this.search ) {
       this.$favorites.hidden = true;
-      this.$inline.hidden = value === null ? true : false;      
+      this.$selected.hidden = value === null ? true : false;      
     } else {
       this.$favorites.hidden = value === null ? true : false;
-      this.$inline.hidden = true;            
+      this.$selected.hidden = true;            
     }
   }    
 

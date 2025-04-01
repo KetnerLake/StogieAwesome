@@ -6,6 +6,12 @@ sa-catalog {
   position: relative;
 }
 
+/*
+sa-catalog[search]:has( sa-search-field[value] ) sa-stack[selected-index="0"] {
+  display: none;
+}
+*/
+
 sa-catalog[search] sa-stack[selected-index="0"] {
   display: none;
 }
@@ -50,7 +56,11 @@ sa-catalog sa-search-field {
 sa-catalog sa-stack {
   display: flex;
   flex-direction: row;
-  padding: 4px 0 0 0;
+  padding: 6px 0 0 0;
+}
+
+sa-catalog sa-stack[hidden] ~ sa-label {
+  padding-top: 16px;
 }
 
 sa-catalog sa-stack:not( [selected-index="0"] ) sa-label {

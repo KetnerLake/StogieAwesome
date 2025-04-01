@@ -29,8 +29,8 @@ export default class StogieList extends HTMLElement {
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
+          list-style: none;
           margin: 0;
-          overflow: auto;
           padding: 0;
           width: 100%;
         }
@@ -44,7 +44,6 @@ export default class StogieList extends HTMLElement {
         }
 
         li {
-          background-color: #ffffff;
           border-bottom: solid 1px #e0e0e0;
           box-sizing: border-box;
           cursor: pointer;
@@ -55,6 +54,12 @@ export default class StogieList extends HTMLElement {
         li:last-of-type {
           border-bottom: solid 1px transparent;
         }
+
+        :host( [carded] ) li {
+          background: #ffffff;
+          border: solid 1px #e0e0e0;
+          border-radius: 4px;
+        }        
       </style>
       <ul part="list"></ul>
       <div part="empty">
@@ -85,6 +90,7 @@ export default class StogieList extends HTMLElement {
 
   // Setup
   connectedCallback() {
+    this._upgrade( 'carded' );        
     this._upgrade( 'hidden' );    
     this._upgrade( 'items' );        
     this._upgrade( 'itemRenderer' );            
@@ -94,6 +100,7 @@ export default class StogieList extends HTMLElement {
   // Watched attributes
   static get observedAttributes() {
     return [
+      'carded',
       'hidden',
       'item-renderer',
       'label-field'
@@ -139,6 +146,26 @@ export default class StogieList extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Number, String, null
+  get carded() {
+    return this.hasAttribute( 'carded' );
+  }
+
+  set carded( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'carded' );
+      } else {
+        this.setAttribute( 'carded', '' );
+      }
+    } else {
+      this.removeAttribute( 'carded' );
+    }
+  }
+
   get hidden() {
     return this.hasAttribute( 'hidden' );
   }
