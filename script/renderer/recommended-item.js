@@ -85,8 +85,9 @@ export default class StogieRecommendedItem extends HTMLElement {
     this.$description = this.shadowRoot.querySelector( 'sa-label[part=description]' );
     this.$favorite = this.shadowRoot.querySelector( 'sa-button' );
     this.$favorite.addEventListener( this._touch, () => {
-      // this._data.favorite = !this._data.favorite;
-      // this.$heart.filled = this._data.favorite;
+      this._data.favorite = !this._data.favorite;
+      this.$heart.filled = this._data.favorite;
+
       this.dispatchEvent( new CustomEvent( 'sa-favorite', {
         bubbles: true,
         cancelable: false,

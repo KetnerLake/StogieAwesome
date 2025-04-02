@@ -1,3 +1,7 @@
+/*
+ * About
+ */
+
 const about = document.querySelector( 'sa-about' );
 about.addEventListener( 'sa-close', () => {
   about.hide().then( () => about.reset() );
@@ -57,6 +61,10 @@ about.addEventListener( 'sa-reset', () => {
   }
 } );
 
+/*
+ * Alert
+ */
+
 const alert = document.querySelector( 'sa-alert' );
 alert.addEventListener( 'sa-dismiss', () => {
   dialog.close();
@@ -65,7 +73,41 @@ alert.addEventListener( 'sa-dismiss', () => {
 
 const dialog = document.querySelector( 'dialog' ); 
 
+/*
+ * Favorites
+ */
+
 const favorites = document.querySelector( 'sa-favorites' );
+favorites.addEventListener( 'sa-add', ( evt ) => {
+  db.favorites.put( {
+    id: self.crypto.randomUUID(),
+    catalog_id: evt.detail.value.id,
+    name: evt.detail.value.name
+  } )
+  .then( () => db.favorites.toArray() )
+  .then( ( data ) => {
+    data.sort( ( a, b ) => {
+      if( a.name > b.name ) return 1;
+      if( a.name < b.name ) return -1;
+      return 0;
+    } );
+    favorites.items = data;
+  } );
+} );
+favorites.addEventListener( 'sa-delete', ( evt ) => {
+  db.favorites.where( {name: evt.detail.value.name} ).first()
+  .then( ( data ) => db.favorites.delete( data.id ) )
+  .then( () => db.favorites.toArray() )
+  .then( ( data ) => {
+    data.sort( ( a, b ) => {
+      if( a.name > b.name ) return 1;
+      if( a.name < b.name ) return -1;
+      return 0;
+    } );
+    favorites.items = data;
+  } );  
+} );
+/*
 favorites.addEventListener( 'sa-favorite', ( evt ) => {
   db.favorites.where( {catalog_id: evt.detail.value.id} ).toArray()
   .then( ( data ) => {
@@ -98,6 +140,7 @@ favorites.addEventListener( 'sa-favorite', ( evt ) => {
     }
   } );
 } );
+*/
 favorites.addEventListener( 'sa-minimum', () => {
   alert.message = 'You must have at least three favorites.';
   dialog.showModal();
@@ -148,6 +191,7 @@ favorites.addEventListener( 'sa-recommendations', () => {
     fill: 'forwards'
   } ); 
 } );
+/*
 favorites.addEventListener( 'sa-remove', ( evt ) => {
   db.favorites.delete( evt.detail.value.id )
   .then( () => db.favorites.toArray() )
@@ -160,6 +204,11 @@ favorites.addEventListener( 'sa-remove', ( evt ) => {
     favorites.items = data.length === 0 ? null : data;
   } );
 } );
+*/
+
+/*
+ * Landing
+ */
 
 const landing = document.querySelector( 'sa-landing' );
 landing.addEventListener( 'sa-add', ( evt ) => {
@@ -167,6 +216,16 @@ landing.addEventListener( 'sa-add', ( evt ) => {
     id: self.crypto.randomUUID(),
     catalog_id: evt.detail.value.id,
     name: evt.detail.value.name
+  } )
+  .then( () => db.favorites.toArray() )
+  .then( ( data ) => {
+    data.sort( ( a, b ) => {
+      if( a.name > b.name ) return 1;
+      if( a.name < b.name ) return -1;
+      return 0;
+    } );
+    landing.favorites = data;
+    favorites.items = data;
   } );
 } );
 landing.addEventListener( 'sa-recommend', ( evt ) => {
@@ -198,8 +257,22 @@ landing.addEventListener( 'sa-recommend', ( evt ) => {
 } );
 landing.addEventListener( 'sa-delete', ( evt ) => {
   db.favorites.where( {name: evt.detail.value.name} ).first()
-  .then( ( data ) => db.favorites.delete( data.id ) );
+  .then( ( data ) => db.favorites.delete( data.id ) )
+  .then( () => db.favorites.toArray() )
+  .then( ( data ) => {
+    data.sort( ( a, b ) => {
+      if( a.name > b.name ) return 1;
+      if( a.name < b.name ) return -1;
+      return 0;
+    } );
+    landing.favorites = data;
+    favorites.items = data;
+  } );
 } );
+
+/*
+ * Recommendations
+ */
 
 const recommendations = document.querySelector( 'sa-recommendations' );
 recommendations.addEventListener( 'sa-about', () => {
@@ -279,7 +352,7 @@ recommendations.addEventListener( 'sa-favorites', () => {
 recommendations.addEventListener( 'sa-refresh', () => {
   db.recommendations.toArray()
   .then( ( data ) => {
-    data = data.map( ( value ) = value.id );
+    data = data.map( ( value ) => value.id );
     return db.recommendations.bulkDelete( data );
   } )
   .then( () => db.favorites.toArray() )
@@ -290,10 +363,19 @@ recommendations.addEventListener( 'sa-refresh', () => {
       value.favorite = false;
       return value;
     } );
+    data.recommendations.sort( ( a, b ) => {
+      if( a.name > b.name ) return 1;
+      if( a.name < b.name ) return -1;
+      return 0;
+    } );
     recommendations.items = data.recommendations;
     return db.recommendations.bulkPut( data.recommendations );
   } );
 } );
+
+/*
+ * Setup
+ */
 
 const db = new Dexie( 'StogieAwesome' );
 db.version( 3 ).stores( {

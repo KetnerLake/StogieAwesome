@@ -4,37 +4,8 @@ sa-favorites {
   flex-basis: 0;
   flex-direction: column;
   flex-grow: 1;
-  gap: 16px;
   height: 100%;
   left: -100vw;
   position: absolute;
   width: 100%;
 }
-
-sa-favorites sa-catalog {
-  padding: 0 0 16px 0;
-}
-
-/*
-sa-favorites sa-catalog {
-  display: flex;
-  flex-basis: 0;
-  flex-direction: column;
-  flex-grow: 1;
-  padding: 0 0 16px 0;
-}
-
-sa-favorites sa-list {
-  flex-basis: 0;
-  flex-grow: 1;
-  padding: 0 16px 0 16px;
-}
-
-sa-favorites sa-list::part( list ) {
-  border-radius: 4px;
-}
-
-sa-favorites sa-catalog sa-multi-select {
-  padding: 0 16px 0 16px;
-}
-*/

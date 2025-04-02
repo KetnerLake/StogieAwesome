@@ -29,7 +29,9 @@ customElements.define( 'sa-recommendations', class extends HTMLElement {
     this.$list = this.querySelector( 'sa-list' );
     this.$refresh = this.querySelector( '#refresh' );
     this.$refresh.addEventListener( this._touch, () => {
+      this.changed = false;
       this.$refresh.disabled = true;
+      this.$list.items = null;
       this.dispatchEvent( new CustomEvent( 'sa-refresh' ) );
     } );
 

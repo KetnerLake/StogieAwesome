@@ -7,7 +7,7 @@ customElements.define( 'sa-favorites', class extends HTMLElement {
 
     // Elements
     this.$catalog = this.querySelector( 'sa-catalog' );
-    // this.$catalog.addEventListener( 'sa-change', () => this.changed = true );
+    this.$catalog.addEventListener( 'sa-change', () => this.changed = true );
     
     this.$recommendations = this.querySelector( 'sa-button' );
     this.$recommendations.addEventListener( this._touch, () => {
@@ -67,7 +67,14 @@ customElements.define( 'sa-favorites', class extends HTMLElement {
   }
 
   set items( value ) {
+    if( value !== null ) {
+      for( let f = 0; f < value.length; f++ ) {
+        value[f].checked = true;
+      }
+    }
+
     this.$catalog.favorites = value;
+    this.changed = false;
   }  
 
   // Attributes
