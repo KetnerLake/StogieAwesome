@@ -7,9 +7,6 @@ customElements.define( 'sa-about', class extends HTMLElement {
     this._touch = ( 'ontouchstart' in document.documentElement ) ? 'touchstart' : 'click';
 
     // Elements
-    this.$buy = this.querySelector( '#buy' );
-    this.$buy.addEventListener( this._touch, () => window.open( 'https://donate.stripe.com/cN215ddN30n9ev6000', '_blank' ) );
-
     this.$close = this.querySelector( '#close' );
     this.$close.addEventListener( this._touch, () => {
       this.dispatchEvent( new CustomEvent( 'sa-close' ) );

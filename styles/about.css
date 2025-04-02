@@ -10,6 +10,29 @@ sa-about {
   z-index: 100;
 }
 
+sa-about a {
+  align-items: center;
+  background: #0f62fe;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16px;
+  min-height: 48px;
+  margin: 0;
+  padding: 0 16px 0 16px;
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  --icon-color: #ffffff;
+  --icon-cursor: pointer;  
+}
+
+sa-about a span {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
 sa-about button {
   align-items: center;
   background: none;
