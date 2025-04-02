@@ -8,7 +8,7 @@ customElements.define( 'sa-about', class extends HTMLElement {
 
     // Elements
     this.$buy = this.querySelector( '#buy' );
-    this.$buy.addEventListener( this._touch, () => window.open( 'https://kevinhoyt.com', '_blank' ) );
+    this.$buy.addEventListener( this._touch, () => window.open( 'https://donate.stripe.com/cN215ddN30n9ev6000', '_blank' ) );
 
     this.$close = this.querySelector( '#close' );
     this.$close.addEventListener( this._touch, () => {
