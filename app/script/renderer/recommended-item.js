@@ -135,10 +135,10 @@ export default class StogieRecommendedItem extends HTMLElement {
     this.$heart.filled = this._data.favorite;    
     this.$body.textContent = this._data.body;
     this.$wrapper.textContent = this._data.wrapper;
-    this.$size.textContent = `${this._data.length.toFixed( 2 )} x ${this._data.gauge}`;
+    this.$size.textContent = `${this._data.length} x ${this._data.gauge}`;
     this.$country.textContent = this._data.country;
     this.$description.textContent = this._data.description + '.';
-    this.$price.textContent = `$${this._data.price.toFixed( 2 )}`;
+    this.$price.textContent = `${this._data.price}`;
   }
 }
 
