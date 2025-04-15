@@ -10,7 +10,7 @@ about.addEventListener( 'sa-message', ( evt ) => {
   alert.message = 'Thanks for reaching out! I will be in touch.';
   dialog.showModal();
     
-  fetch( 'https://1zs3y8uevh.execute-api.us-west-2.amazonaws.com/Production/message', {
+  fetch( '/api/message', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ about.addEventListener( 'sa-notify', ( evt ) => {
   alert.message = 'Thanks for reaching out! I will be in touch.';
   dialog.showModal();
 
-  fetch( 'https://1zs3y8uevh.execute-api.us-west-2.amazonaws.com/Production/message', {
+  fetch( '/api/subscribe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -452,7 +452,7 @@ async function loadCatalog( url = '/data/catalog.json' ) {
 }
 
 function makeRecommendation( cigars ) {
-  return fetch( 'https://1zs3y8uevh.execute-api.us-west-2.amazonaws.com/Production/recommendations', {
+  return fetch( '/api/expert', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

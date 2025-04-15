@@ -1,0 +1,16 @@
+{
+  "name": "com.stogieawesome.app",
+  "version": "1.0.0",
+  "description": "AI-powered cigar recommendations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "parkerkrhoyt@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "openai": "^4.94.0",
+    "resend": "^4.3.0",
+    "zod": "^3.24.2"
+  }
+}

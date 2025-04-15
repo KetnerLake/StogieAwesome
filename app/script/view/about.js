@@ -54,8 +54,7 @@ customElements.define( 'sa-about', class extends HTMLElement {
       this.$notify.disabled = true;
       this.dispatchEvent( new CustomEvent( 'sa-notify', {
         detail: {
-          subject: '[Stogie Awesome] Add to Notifications',
-          message: `Add ${this.$flavor.value} to the Flavor Awesome notification email list.`
+          email: this.$flavor.value
         }
       } ) );
     } );
@@ -65,7 +64,6 @@ customElements.define( 'sa-about', class extends HTMLElement {
       this.$send.disabled = true;
       this.dispatchEvent( new CustomEvent( 'sa-message', {
         detail: {
-          subject: '[Stogie Awesome] Message',
           message: `${this.$email.value} says:<br>${this.$message.value}`
         }
       } ) );
