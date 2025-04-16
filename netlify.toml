@@ -1,6 +1,6 @@
 [dev]
-port=8000
-functionsPort=9999
+port = 8000
+functionsPort = 9999
 publish = "app"
 autoLaunch = false
 framework = "#static"
