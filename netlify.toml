@@ -1,2 +1,10 @@
+[dev]
+port=8000
+functionsPort=9999
+publish = "app"
+autoLaunch = false
+framework = "#static"
+
 [functions]
+directory = "functions"
 external_node_modules = ["openai", "resend", "zod"]

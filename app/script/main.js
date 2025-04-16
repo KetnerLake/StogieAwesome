@@ -17,7 +17,7 @@ about.addEventListener( 'sa-message', ( evt ) => {
     },
     body: JSON.stringify( evt.detail )
   } )
-  .then( ( response ) => response.json() )
+  .then( ( response ) => response.text() )
   .then( () => {
     about.clear();
   } );
@@ -33,7 +33,7 @@ about.addEventListener( 'sa-notify', ( evt ) => {
     },
     body: JSON.stringify( evt.detail )
   } )
-  .then( ( response ) => response.json() )
+  .then( ( response ) => response.text() )
   .then( () => {
     about.clear();
   } );
